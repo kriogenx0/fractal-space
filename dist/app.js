@@ -52,3 +52,13 @@ function horizon(){
  const c=k%2?color:[80,225,239];for(let [a,b]of shape.edges){const alpha=.35+(2-pts[a][2]-pts[b][2])*.13;ctx.shadowColor=`rgb(${c})`;ctx.shadowBlur=7;path([pts[a],pts[b]],`rgba(${c},${alpha})`,1.1)}ctx.shadowBlur=0;
  }
 }
+
+const workSlugs=['silk-wind','impossible-water','afterimage','electric-horizon'];
+const requestedWork=new URLSearchParams(location.search).get('work');
+const initialWork=Math.max(0,workSlugs.indexOf(requestedWork));
+document.querySelector(`[data-mode="${initialWork}"]`).click();
+document.getElementById('page-title').textContent=['Silk / wind','Impossible water','Afterimage','Electric horizon'][initialWork];
+document.getElementById('page-description').textContent=works[initialWork].detail;
+document.getElementById('detail-number').textContent=`EXPERIMENT 0${initialWork+1} / 04`;
+document.getElementById('next-work').href=`experiment.html?work=${workSlugs[(initialWork+1)%4]}`;
+document.title=`${document.getElementById('page-title').textContent} — Spatial`;
