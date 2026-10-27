@@ -18,7 +18,7 @@ for attempt in {1..30}; do
 done
 if [ "$ready" != true ]; then docker logs "$container"; printf '%s\n' 'Container did not become ready.' >&2; exit 1; fi
 [ "$(curl -fsS "$url/healthz")" = ok ]
-for path in / '/experiment.html?work=electric-horizon' '/fractal.html?work=mandelbulb' /app.js /fractal.js /style.css /fractal.css /thumbnails/mandelbulb.jpg /thumbnails/chaos-loom.jpg; do
+for path in / '/experiment.html?work=electric-horizon' '/fractal.html?work=mandelbulb' '/wild.html?work=hyperspace-bloom' '/wild.html?work=dream-strata' /wild.js /wild-scenes.js /thumbnails/hyperspace-bloom.svg /thumbnails/dream-strata.svg /app.js /fractal.js /style.css /fractal.css /thumbnails/mandelbulb.jpg /thumbnails/chaos-loom.jpg; do
   curl --max-time 5 -fsS -o /dev/null "$url$path"
 done
 headers="$(curl -fsSI "$url/fractal.js")"

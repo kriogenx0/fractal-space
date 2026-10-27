@@ -73,3 +73,9 @@ docker compose -p fractal-space-production -f docker-compose.production.yml down
 - `bin/development`: implementation of the Make tasks.
 
 The existing `.openai/hosting.json` remains available for Sites hosting. Docker/GitHub deployment is independent of that hosting configuration. Google Fonts are fetched by the browser when online; the CSS provides local font fallbacks.
+
+## New explorations
+
+The index now includes 14 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+
+To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.

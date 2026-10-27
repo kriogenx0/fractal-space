@@ -6,3 +6,4 @@
 !dist/**
 !scripts/
 !scripts/check-site.mjs
+!scripts/render-wild.mjs

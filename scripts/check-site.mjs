@@ -38,10 +38,13 @@ assert(cards.length > 0, 'No experiment cards found.');
 assert.equal(new Set(cards).size, cards.length, 'Duplicate experiment cards.');
 const legacy = readFileSync(join(root, 'app.js'), 'utf8').match(/const workSlugs=\[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(s => s.slice(1, -1)) ?? [];
 const fractals = [...readFileSync(join(root, 'fractal.js'), 'utf8').matchAll(/^ '([^']+)':\{n:/gm)].map(match => match[1]);
+const wild = [...readFileSync(join(root, 'wild-scenes.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
 for (const href of cards) {
   const url = new URL(href, 'https://site.invalid/');
   const work = url.searchParams.get('work');
-  const known = url.pathname === '/fractal.html' ? fractals : legacy;
+  const known = url.pathname === '/fractal.html' ? fractals : url.pathname === '/wild.html' ? wild : legacy;
   assert(known.includes(work), `Card points to an unknown experiment: ${href}`);
 }
 console.log(`PASS: ${jsFiles.length} JavaScript files, ${checked} local links/assets, ${cards.length} unique experiment routes.`);
+
+await import('./render-wild.mjs');
