@@ -1,0 +1,64 @@
+# Fractal Space
+
+An index of interactive browser artworks, built with JavaScript, Canvas 2D, and WebGL. Click a thumbnail to open an experiment. Everything under `dist/` is checked-in application source, not disposable build output.
+
+## Local development
+
+Requires Docker Engine or Docker Desktop with Compose, GNU Make, Bash, and curl. Node.js and Nginx run inside Docker; neither needs to be installed locally.
+
+```sh
+make setup
+make dev
+```
+
+The app opens at **http://127.0.0.1:3080** when ready. `make dev` rebuilds and runs attached; Ctrl+C stops and removes its development containers. `make up` does the same without opening a browser. Edit files in `dist/` and refresh the page: Compose mounts the source read-only into Nginx.
+
+```sh
+make dev PORT=3081
+make running
+make logs
+make sh
+make down
+```
+
+Run `make help` (or just `make`) for all tasks. `make install` aliases `setup`, and `make shell` aliases `sh`. Development commands always use project `fractal-space-dev` and `docker-compose.yml`, independently of shell-level Compose file/project overrides.
+
+## Verification
+
+```sh
+make test-fast  # JS syntax, local links/assets, unique and valid experiment routes
+make smoke      # Build and test the actual production image without source mounts
+make test       # Both checks
+```
+
+The smoke test starts a temporary container on a randomly assigned localhost port, checks pages, JavaScript MIME types, thumbnails, health, missing-file responses, and the non-root runtime, then removes that container. It does not disturb the development or production stack. These checks do not replace visual browser testing of Canvas/WebGL rendering.
+
+## Production container
+
+```sh
+make build
+# Optional: start production on the current Docker host.
+make deploy PORT=3080
+```
+
+Production uses `docker-compose.production.yml` and project `fractal-space-production`. It serves the assets copied into the image, with no source bind mount. It listens on container port **8080**, runs as the `nginx` user, and exposes **GET /healthz**. The root filesystem is read-only, with temporary Nginx files in `/tmp`. HTML, JS, CSS, and images revalidate on refresh; missing files return 404 instead of an HTML fallback.
+
+```sh
+# Choose another host port, or explicitly expose to a reverse proxy/network.
+BIND_ADDRESS=0.0.0.0 make deploy PORT=8080
+# Stop production explicitly; make down only stops development.
+docker compose -p fractal-space-production -f docker-compose.production.yml down
+```
+
+`make clean` removes development containers and development/test images only. It preserves `dist/`, the Git checkout, and the production stack.
+
+## Layout
+
+- `dist/index.html`: thumbnail index.
+- `dist/experiment.html` + `dist/app.js`: the original four experiments.
+- `dist/fractal.html` + `dist/fractal.js`: six fractal artworks with individual controls.
+- `dist/thumbnails/`: preview frames and procedural previews.
+- `docker/nginx.conf`: static hosting and health endpoint.
+- `bin/development`: implementation of the Make tasks.
+
+The existing `.openai/hosting.json` remains available for Sites hosting. Docker/GitHub deployment is independent of that hosting configuration. Google Fonts are fetched by the browser when online; the CSS provides local font fallbacks.

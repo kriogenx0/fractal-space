@@ -1,0 +1,8 @@
+*
+!Dockerfile
+!docker/
+!docker/nginx.conf
+!dist/
+!dist/**
+!scripts/
+!scripts/check-site.mjs

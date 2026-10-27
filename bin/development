@@ -1,0 +1,78 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+ROOT="$(cd "$(dirname "$0")/.." && pwd)"
+cd "$ROOT"
+export PORT="${PORT:-3080}"
+export COMPOSE_MENU=false
+URL="http://127.0.0.1:$PORT"
+
+# Explicit files/projects keep local cleanup separate from production.
+compose() { docker compose -p fractal-space-dev -f "$ROOT/docker-compose.yml" "$@"; }
+production() { docker compose -p fractal-space-production -f "$ROOT/docker-compose.production.yml" "$@"; }
+fail() { printf '%s\n' "$*" >&2; exit 1; }
+runtime() {
+  command -v docker >/dev/null || fail 'Install Docker Engine or Docker Desktop, then run make setup.'
+  docker info >/dev/null 2>&1 || fail 'Docker is not ready. Start your Docker runtime and retry.'
+  docker compose version >/dev/null 2>&1 || fail 'Docker Compose is required.'
+}
+wait_ready() {
+  command -v curl >/dev/null || fail 'curl is required for the readiness check.'
+  local attempt
+  for attempt in {1..60}; do
+    if [ -n "$(compose ps --status running -q app)" ] && curl --max-time 2 -fsS "$URL/healthz" >/dev/null 2>&1; then return; fi
+    sleep 1
+  done
+  fail "App did not become ready at $URL. Check make logs."
+}
+open_browser() {
+  wait_ready
+  if command -v open >/dev/null; then open "$URL"
+  elif command -v xdg-open >/dev/null; then xdg-open "$URL"
+  else printf 'Open %s in your browser.\n' "$URL"; fi
+}
+attached() {
+  runtime
+  compose down --remove-orphans
+  compose build app
+  local browser_pid=''
+  finish() {
+    if [ -n "$browser_pid" ]; then
+      kill "$browser_pid" 2>/dev/null || true
+      wait "$browser_pid" 2>/dev/null || true
+    fi
+    compose down --remove-orphans
+  }
+  trap finish EXIT
+  trap 'exit 130' INT
+  trap 'exit 143' TERM
+  if [ "$1" = dev ]; then open_browser & browser_pid=$!; fi
+  printf 'App: %s — Ctrl+C stops the development stack.\n' "$URL"
+  compose up --abort-on-container-exit --exit-code-from app --remove-orphans
+  exit 0
+}
+case "${1:-}" in
+  setup) runtime; compose build app; printf '%s\n' 'Ready. Run make dev or make up.' ;;
+  dev|up) attached "$1" ;;
+  build) runtime; production build app ;;
+  running)
+    runtime
+    id="$(compose ps --status running -q app)"
+    [ -n "$id" ] || fail 'App is not running.'
+    health="$(docker inspect --format '{{.State.Health.Status}}' "$id")"
+    [ "$health" = healthy ] || fail "App is $health. Check make logs."
+    printf 'App is healthy: %s\n' "$URL"
+    ;;
+  down) compose down --remove-orphans ;;
+  restart) runtime; compose restart app; wait_ready ;;
+  clean) compose --profile tools down --remove-orphans --rmi all; printf '%s\n' 'Development containers/images removed. dist/ source and production preserved.' ;;
+  open) runtime; open_browser ;;
+  logs) compose logs -f app ;;
+  ps) compose ps -a ;;
+  sh) compose exec app sh ;;
+  test-fast) runtime; compose --profile tools run --build --rm --no-deps -T test ;;
+  smoke) runtime; production build app; bash scripts/smoke.sh fractal-space:production ;;
+  test) bash "$0" test-fast; bash "$0" smoke ;;
+  deploy) runtime; production up -d --build --wait; printf 'Production ready: http://%s:%s\n' "${BIND_ADDRESS:-127.0.0.1}" "$PORT" ;;
+  *) fail 'Unknown task. Run make help.' ;;
+esac

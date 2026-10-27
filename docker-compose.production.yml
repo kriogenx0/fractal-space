@@ -1,0 +1,16 @@
+services:
+  app:
+    image: fractal-space:production
+    build:
+      context: .
+      target: production
+    restart: unless-stopped
+    ports:
+      - "${BIND_ADDRESS:-127.0.0.1}:${PORT:-3080}:8080"
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true

@@ -1,0 +1,6 @@
+# Local settings and editor files
+.env
+.env.*
+!.env.example
+.DS_Store
+*.log
