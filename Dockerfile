@@ -1,7 +1,7 @@
 FROM node:22-alpine AS test
 WORKDIR /app
 COPY dist/ ./dist/
-COPY scripts/check-site.mjs scripts/render-wild.mjs ./scripts/
+COPY scripts/check-site.mjs scripts/render-wild.mjs scripts/check-parallax.mjs ./scripts/
 CMD ["node", "scripts/check-site.mjs"]
 
 FROM nginx:alpine AS production

@@ -7,3 +7,4 @@
 !scripts/
 !scripts/check-site.mjs
 !scripts/render-wild.mjs
+!scripts/check-parallax.mjs

@@ -41,6 +41,7 @@ const fractals = [...readFileSync(join(root, 'fractal.js'), 'utf8').matchAll(/^ 
 const wild = [...readFileSync(join(root, 'wild-scenes.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
 for (const href of cards) {
   const url = new URL(href, 'https://site.invalid/');
+  if (url.pathname === '/tandava.html') continue;
   const work = url.searchParams.get('work');
   const known = url.pathname === '/fractal.html' ? fractals : url.pathname === '/wild.html' ? wild : legacy;
   assert(known.includes(work), `Card points to an unknown experiment: ${href}`);
@@ -48,3 +49,5 @@ for (const href of cards) {
 console.log(`PASS: ${jsFiles.length} JavaScript files, ${checked} local links/assets, ${cards.length} unique experiment routes.`);
 
 await import('./render-wild.mjs');
+
+await import('./check-parallax.mjs');

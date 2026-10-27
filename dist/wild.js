@@ -10,7 +10,7 @@ const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
 $('#title').textContent = work.name; $('#category').textContent = work.category; $('#description').textContent = work.description;
 $('#edition').textContent = `FRACTAL SPACE / ${work.n}`; $('#material').textContent = 'LIVE CANVAS / EXPLORATIONS'; $('#status').textContent = 'ANOTHER WAY TO SEE THE WORLD.';
 $('#gesture').textContent = work.gesture; $('#help-text').textContent = work.help; $('#special').textContent = work.special;
-$('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'fractal.html?work=mandelbulb' : `wild.html?work=${slugs[slugs.indexOf(slug) + 1]}`;
+$('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'tandava.html' : `wild.html?work=${slugs[slugs.indexOf(slug) + 1]}`;
 document.title = `${work.name} — Fractal Space`; document.documentElement.style.setProperty('--accent', work.accent);
 canvas.setAttribute('aria-label', `${work.name}. ${work.help}`);
 for (const [key, range] of [['a', work.a], ['b', work.b]]) {
