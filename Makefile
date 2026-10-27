@@ -4,7 +4,7 @@
 PORT ?= 3080
 export PORT
 
-.PHONY: all help setup install dev up build running down restart clean open logs ps test test-fast smoke sh shell deploy
+.PHONY: all help setup install dev up build running down restart clean open logs ps test test-fast smoke sh shell deploy coolify-check
 
 all: help
 
@@ -57,6 +57,9 @@ sh: ## Open a shell in the running development app
 
 shell: sh
 
+coolify-check: ## Validate the Coolify deployment file without deploying
+	@bash bin/development coolify-check
+
 deploy: ## Build and run the production stack on this Docker host
 	@bash bin/development deploy
 
@@ -79,6 +82,7 @@ help: ## Show task conventions and overrides (default)
 	  '  make test-fast   JavaScript syntax, links, and thumbnails in Docker' \
 	  '  make smoke       Build and test an isolated production container' \
 	  '  make test        Run test-fast and smoke' \
+	  '  make coolify-check Validate the Coolify Compose definition' \
 	  '' \
 	  'Production and cleanup' \
 	  '  make deploy      Run production on this Docker host (no source mount)' \

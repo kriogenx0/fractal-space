@@ -73,6 +73,7 @@ case "${1:-}" in
   test-fast) runtime; compose --profile tools run --build --rm --no-deps -T test ;;
   smoke) runtime; production build app; bash scripts/smoke.sh fractal-space:production ;;
   test) bash "$0" test-fast; bash "$0" smoke ;;
+  coolify-check) runtime; docker compose -p fractal-space-coolify-check -f "$ROOT/docker-compose.coolify.yml" config --quiet; printf '%s\n' 'Coolify Compose definition is valid (no deployment started).' ;;
   deploy) runtime; production up -d --build --wait; printf 'Production ready: http://%s:%s\n' "${BIND_ADDRESS:-127.0.0.1}" "$PORT" ;;
   *) fail 'Unknown task. Run make help.' ;;
 esac

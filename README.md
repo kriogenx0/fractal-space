@@ -33,6 +33,17 @@ make test       # Both checks
 
 The smoke test starts a temporary container on a randomly assigned localhost port, checks pages, JavaScript MIME types, thumbnails, health, missing-file responses, and the non-root runtime, then removes that container. It does not disturb the development or production stack. These checks do not replace visual browser testing of Canvas/WebGL rendering.
 
+## Coolify
+
+Use [docs/coolify.md](docs/coolify.md) for the resource settings, domain, CI gate, and launch/rollback steps. In Coolify select **Docker Compose**, branch `main`, base directory `/`, and **`/docker-compose.coolify.yml`**. Route the `web` service to internal port **8080**. No runtime secrets, database, or persistent storage are needed.
+
+```sh
+make coolify-check
+make test
+```
+
+GitHub CI validates the deployment and production image. Its optional Coolify deploy job stays off until `COOLIFY_DEPLOY_ENABLED=true` and the production environment secrets are configured. Keep Coolify Auto Deploy off so CI controls deployment. `make deploy` below runs production directly on the current Docker host; it does not deploy to Coolify.
+
 ## Production container
 
 ```sh
