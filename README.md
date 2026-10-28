@@ -76,10 +76,14 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The index now includes 15 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The index now includes 17 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
 ## Tandava parallax
 
 `dist/tandava.html` is the dedicated experiment based on the actual starfield at https://tandavacult.com/ (reference inspected 2026-10-27). It preserves three star densities, scroll factors 0.04/0.12/0.28, cursor factors 4/10/20, white stars, outlined triangles in the near layer, cursor easing, and the scrolling/fading hero triangle. Depth and drift default to the reference values and can be amplified or isolated per layer. Reduced motion disables autonomous drift, twinkling, pointer parallax, and hero motion while preserving scroll-controlled depth. No band text or image assets are copied.
+
+## Levitated ports
+
+Invader Fractal and Iterative IK are source-based Canvas adaptations of Jared Tarbell’s 2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. DLA also has a GPL-noticed archive and is a candidate for a later port; it is not implemented yet. Regenerate previews with `node scripts/check-levitated.mjs --write`.
