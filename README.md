@@ -87,3 +87,7 @@ To regenerate the four Canvas previews after changing their geometry, run `node 
 ## Levitated ports
 
 Invader Fractal and Iterative IK are source-based Canvas adaptations of Jared Tarbell’s 2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. DLA also has a GPL-noticed archive and is a candidate for a later port; it is not implemented yet. Regenerate previews with `node scripts/check-levitated.mjs --write`.
+
+### Tandava reference parity
+
+The standalone experiment now follows the reference’s animation loop on every animation frame, uses its exact 0.05 pointer easing per frame, and keeps the sky unchanged on mobile height-only resizes. Grain uses the reference’s 0.09 overlay opacity. Existing depth/drift controls remain at reference values by default. The Tandava card is pinned first in the index.

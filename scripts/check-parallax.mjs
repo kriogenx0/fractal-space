@@ -33,3 +33,5 @@ if (process.argv.includes('--write')) {
   writeFileSync('dist/thumbnails/tandava-parallax.svg', `<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="625" viewBox="0 0 1000 625">${shapes.join('')}</svg>`);
 }
 console.log('PASS: Tandava parallax densities, near-only triangles, scroll/pointer factors, reduced motion, wrapping, and hero fade.');
+
+await import('./check-tandava-controller.mjs');
