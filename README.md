@@ -91,3 +91,7 @@ Invader Fractal and Iterative IK are source-based Canvas adaptations of Jared Ta
 ### Tandava reference parity
 
 The standalone experiment now follows the reference’s animation loop on every animation frame, uses its exact 0.05 pointer easing per frame, and keeps the sky unchanged on mobile height-only resizes. Grain uses the reference’s 0.09 overlay opacity. Existing depth/drift controls remain at reference values by default. The Tandava card is pinned first in the index.
+
+## License
+
+Original Fractal Space code and documentation are available under the [MIT License](LICENSE), Copyright (c) 2026 Alex Vaos. The Levitated adaptations, their generated previews, and their verification script are excluded from this MIT grant and retain their GPL terms. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the exact scope, source credits, and external-resource notices. The website serves the license and notices at `/licenses.html`.
