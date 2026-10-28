@@ -95,3 +95,7 @@ The standalone experiment now follows the reference’s animation loop on every 
 ## License
 
 Original Fractal Space code and documentation are available under the [MIT License](LICENSE), Copyright (c) 2026 Alex Vaos. The Levitated adaptations, their generated previews, and their verification script are excluded from this MIT grant and retain their GPL terms. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the exact scope, source credits, and external-resource notices. The website serves the license and notices at `/licenses.html`.
+
+## Index appearance
+
+The experiment index follows the system’s light/dark preference. Its Theme menu lets visitors choose System, Light, or Dark. Explicit choices persist in browser storage and synchronize across tabs. A blocked storage API does not prevent switching themes. Artwork thumbnails retain their original colors.
