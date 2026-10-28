@@ -54,3 +54,5 @@ await import('./render-wild.mjs');
 await import('./check-parallax.mjs');
 
 await import('./check-levitated.mjs');
+
+await import('./check-theme.mjs');

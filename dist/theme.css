@@ -1,0 +1,76 @@
+/* MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt. */
+/* Shared interface theme. Canvas colors and exported artwork are independent. */
+:root{color-scheme:light;--ui-bg:#f4f3ed;--ui-ink:#252620;--ui-muted:#565f50;--ui-meta:#58644f;--ui-line:#c7ccbf;--ui-surface:#e7ebdf;--ui-overlay:#f4f3edf5;--ui-accent:#a23919;--ui-backdrop:#10161099}
+@media(prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--ui-bg:#101610;--ui-ink:#e9eee3;--ui-muted:#acb6a6;--ui-meta:#95a28e;--ui-line:#43513f;--ui-surface:#1b251a;--ui-overlay:#101610f5;--ui-accent:#ffae8c;--ui-backdrop:#030703bb}}
+:root[data-theme="dark"]{color-scheme:dark;--ui-bg:#101610;--ui-ink:#e9eee3;--ui-muted:#acb6a6;--ui-meta:#95a28e;--ui-line:#43513f;--ui-surface:#1b251a;--ui-overlay:#101610f5;--ui-accent:#ffae8c;--ui-backdrop:#030703bb}
+:root{--paper:var(--ui-bg);--ink:var(--ui-ink);--line:var(--ui-line);--orange:var(--ui-accent)}
+body{background:var(--ui-bg);color:var(--ui-ink)}
+:focus-visible{outline-color:var(--ui-accent)}
+.theme-control{display:flex;align-items:center;justify-content:flex-start;flex-wrap:nowrap;gap:8px;flex-shrink:0;margin:0;pointer-events:auto;letter-spacing:0;line-height:1.4}
+.theme-control[hidden]{display:none!important}
+.theme-control>span{font:10px/1.4 system-ui,sans-serif;color:var(--ui-muted)}
+.theme-control select{font:11px/1.4 system-ui,sans-serif;background:var(--ui-surface);color:var(--ui-ink);border:1px solid var(--ui-line);border-radius:4px;min-height:40px;max-width:120px;padding:8px 10px;cursor:pointer;pointer-events:auto}
+.theme-tools{display:flex;align-items:center;gap:14px;flex-shrink:0}
+/* Index and document pages. */
+.index-page header,.license-page header{gap:24px}
+.index-page .index-tagline,.index-page .availability,.index-page .card-info p,.index-page footer>span,.license-page .index-tagline,.license-page footer>span{color:var(--ui-muted)}
+.index-page .index-heading>span,.index-page .card-number,.index-page .card-inputs{color:var(--ui-meta)}
+.index-page .open-work{background:var(--ui-bg);color:var(--ui-ink)}
+.index-page footer a:hover,.license-page a:hover{color:var(--ui-accent)}
+.license-page .theme-control{margin-left:auto}
+.license-main p{color:var(--ui-muted)}
+.license-text{background:var(--ui-surface);color:var(--ui-ink);border:1px solid var(--ui-line)}
+/* Legacy experiments: the stage remains a dark artwork surface. */
+.detail-page header{gap:24px}
+.detail-page nav{margin-left:auto;gap:24px}
+.detail-page .availability{display:none}
+.detail-page .back-link,.detail-page .detail-heading p,.detail-page .control-title small,.detail-page .controls output,.detail-page footer>span,.detail-page dialog p{color:var(--ui-muted)}
+.detail-page dialog{max-height:calc(100dvh - 40px);overflow:auto}
+.detail-page dialog::backdrop{background:var(--ui-backdrop)}
+.detail-page footer{gap:20px;flex-wrap:wrap}
+/* Fullscreen Canvas pieces: solid themed surfaces keep controls legible over any palette. */
+.canvas-page{--text:#eee9de}
+.canvas-page .hud{background:none}
+.canvas-page .hud header{background:var(--ui-overlay);color:var(--ui-ink);border-bottom:1px solid var(--ui-line);padding-block:16px}
+.canvas-page .hud select{pointer-events:auto}
+.canvas-page #edition{opacity:1;color:var(--ui-muted)}
+.canvas-page #help{border-color:var(--ui-line)}
+.canvas-page .gesture{background:var(--ui-overlay);color:var(--ui-muted);opacity:1;padding:8px 12px;border:1px solid var(--ui-line);border-radius:3px;top:88px}
+.canvas-page .gesture b{color:var(--ui-accent)}
+.canvas-page .work-title{background:var(--ui-overlay);color:var(--ui-ink);border:1px solid var(--ui-line);border-radius:3px;padding:18px 22px;max-width:calc(90% - 300px);text-shadow:none}
+.canvas-page .work-title>span{color:var(--ui-accent)}
+.canvas-page .work-title p{color:var(--ui-muted);opacity:1}
+.canvas-page .panel,.canvas-page #show,.canvas-page dialog,.canvas-page #error{background:var(--ui-overlay);color:var(--ui-ink);border-color:var(--ui-line)}
+.canvas-page .panel-top,.canvas-page .actions.secondary button,.canvas-page dialog p,.canvas-page dd,.canvas-page #error p{color:var(--ui-muted)}
+.canvas-page output,.canvas-page #special,.canvas-page .help-kicker{color:var(--ui-accent)}
+.canvas-page input[type=range]{accent-color:var(--ui-accent)}
+.canvas-page .actions button,.canvas-page #special-row,.canvas-page dl>div{border-color:var(--ui-line)}
+.canvas-page .actions button:hover{background:var(--ui-surface);border-color:var(--ui-accent)}
+.canvas-page .bottom-line{background:var(--ui-overlay);color:var(--ui-muted);border:1px solid var(--ui-line);padding:10px 12px;border-radius:3px;bottom:15px}
+.canvas-page .bottom-line a{color:var(--ui-ink)}
+.canvas-page dialog{max-height:calc(100dvh - 32px);overflow:auto}
+.canvas-page dialog::backdrop{background:var(--ui-backdrop)}
+/* Levitated retains the original white drawing field; all surrounding UI follows the theme. */
+.levitated-page header{gap:20px}
+.levitated-page header>span{margin-left:auto}
+.levitated-page header>span,.levitated-page .kicker,.levitated-page #description,.levitated-page #hint,.levitated-page #count,.levitated-page output,.levitated-page .credit,.levitated-page .port-note,.levitated-page footer{color:var(--ui-muted)}
+.levitated-page .credit strong{color:var(--ui-ink)}
+.levitated-page input{accent-color:var(--ui-accent)}
+.levitated-page .theme-control select{width:auto;height:auto}
+/* Tandava's stars and typography belong to the artwork; its control surfaces follow the theme. */
+.tandava-page{--ink:#f1f0ec;--dim:#aaa8a4;--line:#ffffff24;color:#f1f0ec}
+.tandava-page .top,.tandava-page .controls,.tandava-page #show,.tandava-page dialog,.tandava-page #error{background:var(--ui-overlay);color:var(--ui-ink);border-color:var(--ui-line)}
+.tandava-page .top{border-bottom:1px solid var(--ui-line);padding-block:16px;gap:16px}
+.tandava-page .top span,.tandava-page .control-heading,.tandava-page output,.tandava-page fieldset label,.tandava-page dialog p{color:var(--ui-muted)}
+.tandava-page .top .theme-control>span{font:10px/1.4 system-ui,sans-serif;letter-spacing:0}
+.tandava-page .controls button,.tandava-page #help{border-color:var(--ui-line)}
+.tandava-page button:hover{border-color:var(--ui-accent)}
+.tandava-page input{accent-color:var(--ui-accent)}
+.tandava-page dialog{max-height:calc(100dvh - 32px);overflow:auto}
+.tandava-page dialog::backdrop{background:var(--ui-backdrop)}
+@media(max-width:900px){.detail-page header{height:auto;min-height:90px;padding-block:16px;flex-wrap:wrap;gap:14px 20px}.detail-page nav{gap:18px}.detail-page .theme-control{margin-left:auto}.levitated-page header>span{display:none}.levitated-page .theme-control{margin-left:auto}}
+@media(max-width:850px){.index-page .theme-control{margin-left:auto}}
+@media(max-width:700px){.canvas-page .work-title{padding:12px 16px;max-width:90%;max-height:calc(100dvh - 370px);overflow:auto}.canvas-page h1{font-size:36px}.canvas-page .hud header{padding-block:12px}.canvas-page .gesture{top:80px;max-width:90%;white-space:normal;text-align:center}.canvas-page .bottom-line{bottom:9px;padding:8px 10px}.canvas-page .panel{bottom:57px}.canvas-page .theme-tools{gap:10px}}
+@media(max-width:600px){.theme-control select{min-height:44px}.index-page header,.license-page header{gap:14px}.index-page .index-tagline,.license-page .index-tagline{display:none}.index-page footer,.license-page footer{align-items:start;gap:18px;flex-wrap:wrap}.index-page footer>span{line-height:1.7}.detail-page header .brand{font-size:23px}.detail-page nav{font-size:10px;gap:12px}.detail-page header .theme-control{width:100%;justify-content:flex-end}.detail-page dialog{padding:32px 24px}.canvas-page .hud header{gap:10px}.canvas-page .back span{font-size:10px}.canvas-page #edition{display:none}.canvas-page .work-title{max-height:calc(100dvh - 370px)}.canvas-page .theme-control>span{display:none}.canvas-page .theme-tools{gap:8px}.tandava-page .top>span{display:none}.tandava-page .theme-tools{gap:10px}.levitated-page header{gap:10px}.levitated-page header>a{font-size:10px}.levitated-page .theme-control>span{display:none}}
+@media(max-height:600px){.canvas-page .gesture{display:none}.canvas-page .work-title{max-height:calc(100dvh - 170px);overflow:auto}.canvas-page h1{font-size:32px}.canvas-page .work-title p{font-size:10px}}
+@media(max-height:500px) and (max-width:700px){.canvas-page .work-title{display:none}.canvas-page .panel{max-height:calc(100dvh - 145px);overflow:auto}}
