@@ -1,6 +1,6 @@
 # Coolify deployment
 
-Repository preparation is complete. Creating a Coolify resource, choosing a public domain, setting secrets, and enabling deployment are separate steps. This repository change does not deploy the application.
+Production uses the existing **general-apps-coolify** GitHub App. Pushes to `main` notify Coolify through the App webhook and deploy to **https://fractalspace.org**. GitHub Actions validates the code independently; deployment does not wait for Actions and needs no Coolify secrets in GitHub.
 
 ## Resource settings
 
@@ -8,8 +8,8 @@ Use the existing instance at **https://coolify.homecloud.one**, and a separate *
 
 | Setting | Value |
 | --- | --- |
-| Source | GitHub App with access to `kriogenx0/fractal-space`, or a repository deploy key |
-| Repository | `git@github.com:kriogenx0/fractal-space.git` |
+| Source | Existing `general-apps-coolify` GitHub App (installation `171489770`) |
+| Repository | `kriogenx0/fractal-space` (repository ID `1435103059`) |
 | Branch | `main` |
 | Build strategy / pack | Docker Compose |
 | Base directory | `/` |
@@ -24,29 +24,22 @@ Use the normal Compose deployment mode, not Raw. Leave build/start commands at t
 
 The runtime is non-root with a read-only filesystem and `/tmp` tmpfs. Nginx listens on every container interface at port 8080. The image contains every HTML, JS, CSS, and thumbnail asset. The browser fetches Google Fonts when online and uses the declared fallbacks otherwise. The fractals run on the visitor's GPU/CPU, not on the deployment server.
 
-## Domain and initial launch
+## GitHub App and automatic deployment
 
-1. Grant the existing Coolify GitHub App access to this repository, or use a read-only repository deploy key. Create the application with the settings above.
-2. Keep **Auto Deploy disabled**. Reload the Compose definition after the preparation commit is available on `main`.
-3. Select the desired public hostname and arrange its DNS to reach the Coolify server. No domain is assumed or hard-coded in this repository.
-4. Assign that HTTPS domain to service `web`, including internal port 8080: `https://YOUR_DOMAIN:8080`. Coolify terminates TLS on normal public port 443; visitors do not connect to public port 8080.
-5. Confirm the GitHub **CI / test** job passes for the intended commit, and deploy that commit manually for the first launch. Do not open ports 3080 or 8080 on the host; the Coolify proxy routes traffic internally.
-6. Verify Docker health and public HTTPS before enabling automatic deployment. Preserve the previously working image/commit for rollback.
+The production application is `fractal-space`, UUID `yxykrbxr17zeyjv80knsm5bx`, in the **Fractal Space** project. Its source is the installed GitHub App, not the Public GitHub source.
 
-## Optional deployment after CI
+- Source: `general-apps-coolify`, App ID `5320962`, installation `171489770`.
+- Repository: `kriogenx0/fractal-space`, ID `1435103059`; branch `main`, commit `HEAD`.
+- Auto Deploy: **enabled** (Deploy on push / webhooks).
+- App webhook: `https://coolify.homecloud.one/webhooks/source/github/events`, subscribed to `push`; HTTPS certificate validation enabled.
+- Public `web` service domain: `https://fractalspace.org:8080`. Coolify terminates TLS on public port 443 and routes internally to port 8080.
+- Preview deployments remain disabled.
 
-The workflow already has a gated `deploy` job, disabled by default. To enable it after the first successful launch:
+The App already has repository access. Use its existing installation and webhook; no separate repository hook, deploy key, or Actions deployment token is required. An empty repository webhooks list does not indicate a missing App webhook: App webhooks are configured on the App itself.
 
-1. Create a GitHub environment named `production`. Add approval rules there if desired.
-2. Add its secrets:
-   - `COOLIFY_WEBHOOK`: the resource-specific deploy URL copied from Coolify, typically `https://coolify.homecloud.one/api/v1/deploy?uuid=RESOURCE_UUID&force=false`.
-   - `COOLIFY_TOKEN`: a Coolify API token allowed to deploy that application.
-3. Set repository Actions variable **`COOLIFY_DEPLOY_ENABLED`** to **`true`**. It is intentionally unset during preparation.
-4. Keep Coolify's own **Auto Deploy disabled**. A successful GitHub `test` job on `main` is the gate; pull requests never deploy. A manual CI workflow run on `main` also supports deployment when enabled.
+Run `make test` before pushing. A push to `main` starts Coolify deployment and GitHub CI independently. A green CI result does not prove deployment completed. Verify the Coolify deployment records the pushed SHA, reaches `finished`, and leaves the service healthy before reporting it live.
 
-The trigger skips a run if its SHA no longer matches the tip of `main`. The webhook asks Coolify to deploy its configured branch; it does not pin a SHA. Verify Coolify's recorded deployment commit matches a passing CI run, especially if another push occurs during deployment. If strict commit pinning is required, use an immutable-image deployment before enabling automation.
-
-A successful webhook response only confirms the request was accepted. Confirm the deployment reaches a healthy terminal state in Coolify before reporting it live. Missing secrets fail the enabled deploy job; they do not silently bypass the CI gate. Disable the variable to pause future CI-triggered deployments.
+If pushes stop deploying, check the application's source and repository ID, Auto Deploy, App installation access, and GitHub App webhook deliveries. A successful webhook request only confirms acceptance; inspect the deployment result separately. Avoid adding a second deployment trigger in Actions.
 
 ## Local readiness check
 
@@ -74,7 +67,7 @@ Expect `/healthz` to return `ok`; JavaScript should have a JavaScript Content-Ty
 
 ## Rollback
 
-Disable `COOLIFY_DEPLOY_ENABLED` and select the previously healthy deployment in Coolify. Restore the prior image/commit and confirm health and public routes. There are no databases, migrations, uploaded files, or persistent volumes to reverse.
+Temporarily disable Auto Deploy on this Coolify application and select the previously healthy deployment in Coolify. Restore the prior image/commit and confirm health and public routes. There are no databases, migrations, uploaded files, or persistent volumes to reverse.
 
 ## References
 

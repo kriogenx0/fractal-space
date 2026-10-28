@@ -19,31 +19,9 @@ jobs:
           persist-credentials: false
       - name: Validate scripts and deployment definitions
         run: |
-          bash -n bin/development scripts/smoke.sh scripts/trigger-coolify.sh
+          bash -n bin/development scripts/smoke.sh
           docker compose -f docker-compose.yml --profile tools config --quiet
           docker compose -f docker-compose.production.yml config --quiet
           make coolify-check
       - name: Test site and production image
         run: make test
-
-  # Preparation only by default. Enable after creating and verifying the
-  # Coolify resource and configuring the production environment secrets.
-  deploy:
-    needs: test
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request' && vars.COOLIFY_DEPLOY_ENABLED == 'true'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 5
-    environment: production
-    concurrency:
-      group: coolify-production
-      cancel-in-progress: false
-    steps:
-      - uses: actions/checkout@v5
-        with:
-          persist-credentials: false
-      - name: Trigger Coolify after successful CI
-        env:
-          COOLIFY_WEBHOOK: ${{ secrets.COOLIFY_WEBHOOK }}
-          COOLIFY_TOKEN: ${{ secrets.COOLIFY_TOKEN }}
-          GH_TOKEN: ${{ github.token }}
-        run: bash scripts/trigger-coolify.sh

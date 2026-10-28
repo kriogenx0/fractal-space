@@ -35,14 +35,14 @@ The smoke test starts a temporary container on a randomly assigned localhost por
 
 ## Coolify
 
-Use [docs/coolify.md](docs/coolify.md) for the resource settings, domain, CI gate, and launch/rollback steps. In Coolify select **Docker Compose**, branch `main`, base directory `/`, and **`/docker-compose.coolify.yml`**. Route the `web` service to internal port **8080**. No runtime secrets, database, or persistent storage are needed.
+Use [docs/coolify.md](docs/coolify.md) for the GitHub App connection, resource settings, and verification/rollback steps. In Coolify select **Docker Compose**, branch `main`, base directory `/`, and **`/docker-compose.coolify.yml`**. Route the `web` service to internal port **8080**. No runtime secrets, database, or persistent storage are needed.
 
 ```sh
 make coolify-check
 make test
 ```
 
-GitHub CI validates the deployment and production image. Its optional Coolify deploy job stays off until `COOLIFY_DEPLOY_ENABLED=true` and the production environment secrets are configured. Keep Coolify Auto Deploy off so CI controls deployment. `make deploy` below runs production directly on the current Docker host; it does not deploy to Coolify.
+Coolify uses the existing **general-apps-coolify** GitHub App and automatically deploys pushes to `main` at **https://fractalspace.org**. Keep **Auto Deploy enabled** for this resource. GitHub Actions runs validation independently; it does not trigger or gate deployment, and needs no Coolify API credentials. Run `make test` before pushing. `make deploy` below runs production directly on the current Docker host; it does not deploy to Coolify.
 
 ## Production container
 
