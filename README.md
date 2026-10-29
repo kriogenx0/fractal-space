@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 38 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 44 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -107,3 +107,19 @@ Every page follows the system’s light/dark preference and has a Theme menu for
 ## Kinetic Levitated recreations
 
 Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Transformation, Gathering Line, and Riley Stack add eight new interactive Canvas interpretations. Their original GPL archives and notices, source credits, and behavioral differences are documented in `dist/levitated/README.txt`. Regenerate previews with `node scripts/check-levitated-kinetic.mjs --write`. Mandelbulb remains first; Dream Strata stays out of the main list; Invader Fractal and Tandava remain last.
+
+## Mathematical explorations
+
+The collection prioritizes mathematical constructions: fractals, chaos,
+topology, implicit surfaces, and emergent systems. Six original MIT-licensed
+experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
+player: Newton basins, Hopf fibers, Torus knots, Gyroid field,
+Reaction–diffusion, and Clifford attractor. Each displays its equation and
+has a short explanation under Help. See `dist/math-notes.txt` for formulas,
+numerical approximations, controls, references, and implementation details.
+
+Generate previews with `node scripts/check-math.mjs --write`. Checks cover
+mathematical invariants, numerical behavior, and the actual controller on
+mobile/desktop, including reduced motion. The main index keeps Mandelbulb
+first, then the new mathematics cards; Dream Strata remains excluded;
+Invader Fractal and Tandava remain the final two cards.

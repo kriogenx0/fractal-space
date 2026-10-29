@@ -15,3 +15,5 @@
 !scripts/check-levitated-player.mjs
 !scripts/check-levitated-archive.mjs
 !scripts/check-levitated-kinetic.mjs
+!scripts/check-math.mjs
+!scripts/check-math-player.mjs

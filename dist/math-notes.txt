@@ -1,0 +1,105 @@
+Fractal Space / Mathematical experiments
+Copyright (c) 2026 Alex Vaos. MIT License; see LICENSE.txt.
+
+These are new JavaScript/Canvas implementations of mathematical constructions.
+No third-party source code, artwork, photographs or shader code is copied.
+The directly served math-scenes.js and math.js are the complete source.
+Regenerate the actual-renderer previews with node scripts/check-math.mjs --write.
+
+Newton basins
+-------------
+Relaxed Newton iteration for f(z) = z^n - 1:
+z_next = z - lambda f(z)/f'(z).
+Default n=3, lambda=1. A residual squared below 1e-12 classifies a root;
+55 iterations is the work limit. A zero/near-zero derivative or overflow
+remains unclassified. Hue identifies the nearest root-of-unity angle only
+after convergence. The raster has at most 440 samples across, so zooming
+recomputes a finite approximation rather than revealing infinite precision.
+Drag/arrow keys pan, scroll/pinch/+/- zoom, Space resets the view.
+
+Hopf fibers
+-----------
+On S^3 in R^4, represented as C^2:
+z1 = cos(eta) exp(it), z2 = sin(eta) exp(i(t+phi)).
+The Hopf map is (2 Re(z1 conjugate(z2)), 2 Im(z1 conjugate(z2)),
+|z1|^2-|z2|^2). It is constant in t for each fixed eta,phi.
+Stereographic projection from w=1 sends (x,y,z,w) to (x,y,z)/(1-w).
+The experiment draws three nearby eta values; each has equally spaced phi
+values. Eta remains below pi/2 so the finite displayed fibers avoid the
+projection pole. Each curve uses 96 segments. Distinct fibers link once;
+a numerical Gauss-linking check verifies a representative pair.
+Reference: Niles Johnson, A visualization of the Hopf fibration (2011),
+https://nilesjohnson.net/hopf.html
+Further mathematical reference: Zachary Treisman (2009),
+https://nilesjohnson.net/hopf-articles/Treisman_Guide-to-Hopf-fibration.pdf
+The references' images, animation, text and code are not included.
+
+Torus knots and links
+---------------------
+R=1.6, r=.65. For d=gcd(p,q), draw d separate closed curves:
+theta=(p/d)t; phi=(q/d)t + 2*pi*k/p, k=0,...,d-1.
+Position = ((R+r cos(phi)) cos(theta),
+            (R+r cos(phi)) sin(theta), r sin(phi)).
+Each component uses 720 segments. d=1 gives a knot; d>1 gives a link.
+Space advances p. The equation shown on the page describes the coprime
+case; the explanation describes reduction and phase offsets for links.
+Curves are projected and segments depth-sorted, with screen-space strand
+width. They are not physical elastic tubes. Default (3,2) is a trefoil.
+
+Gyroid field
+------------
+g(x,y,z)=sin(x)cos(y)+sin(y)cos(z)+sin(z)cos(x).
+Draw g=c over one or two periods per axis. This trigonometric level set
+is a nodal approximation to a gyroid, not an exact minimal surface.
+A 14-cell grid per period is split into six tetrahedra per cube, with
+linear edge interpolation. The mesh therefore approximates the level set.
+Its analytic gradient gives lighting; triangle depth sorting gives occlusion.
+The bounded domain is intentionally open at its faces, without invented caps.
+Background reference: Alan H. Schoen (1970), Infinite periodic minimal
+surfaces without self-intersections, NASA TN D-5541:
+https://ntrs.nasa.gov/citations/19700020472
+That report is background on minimal surfaces; the displayed nodal equation
+and this finite mesh should not be mistaken for an exact representation.
+
+Reaction-diffusion
+------------------
+Gray-Scott fixed-step Euler simulation on a periodic 144x96 grid:
+A_next=A+lap(A)-A*B^2+f*(1-A)
+B_next=B+.5*lap(B)+A*B^2-(k+f)*B
+The nine-point Laplacian has weights -1 at center, .2 at axial neighbors,
+.05 at diagonal neighbors. dt=1. Concentrations are clamped to [0,1].
+Both fields update simultaneously via separate next-state buffers.
+Initial A=1,B=0; eighteen seeded patches add B. The player warms up 600
+steps, then advances six simulation steps per 30Hz tick. Pausing stops
+evolution; painting B changes the current state without advancing time.
+Changing rates preserves the state; selecting a preset or a new variation
+reinitializes it. Uniform A=1,B=0 is a fixed point; periodic pure diffusion
+conserves concentration. Tests compare all boundary stencil values with
+an independent modular-coordinate reference implementation.
+Brush: drag to seed B; arrow keys move, Enter plants. Space cycles regimes.
+Reference for the model and stencil: Karl Sims, Reaction-Diffusion Tutorial,
+https://www.karlsims.com/rd.html
+No reference images or implementation code are copied.
+
+Clifford attractor
+------------------
+x_next=sin(a*y)+c*cos(a*x)
+y_next=sin(b*x)+d*cos(b*y)
+Both use the old x,y simultaneously. Default a=-1.4,b=1.6,c=1,d=.7.
+The initial 100 iterates are discarded. Accumulate a 256x256 visit histogram,
+starting with 80,000 visits. Each tick adds 5,000 until the cap of 1,500,000.
+Logarithmic density, normalized to the current maximum and raised to
+the power .55 to lift faint structure, controls color.
+The domain bound is derived from |x|<=1+|c|, |y|<=1+|d|.
+Changing a or b restarts the histogram; Space selects a,b,c,d presets.
+Depending on parameters the map may have a strange attractor, a periodic
+orbit, or a fixed point. The player does not claim all parameters are chaotic.
+
+Shared interface
+----------------
+Drag/arrow orbit, scroll/pinch zoom for 3-D constructions. Plane navigation
+and simulation/attractor controls are specific to their respective models.
+The system/light/dark site theme covers all UI, equations, and help. Artwork
+colors stay independent. Reduced-motion users receive a paused initial state,
+including precomputed simulation/attractor snapshots; manual controls work.
+PNG save captures the actual canvas. No external rendering dependency is used.

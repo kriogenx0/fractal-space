@@ -44,11 +44,13 @@ const legacy = readFileSync(join(root, 'app.js'), 'utf8').match(/const workSlugs
 const fractals = [...readFileSync(join(root, 'fractal.js'), 'utf8').matchAll(/^ '([^']+)':\{n:/gm)].map(match => match[1]);
 const wild = [...readFileSync(join(root, 'wild-scenes.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
 const levitated = [...readFileSync(join(root, 'levitated/experiments.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
+const mathematics = [...readFileSync(join(root, 'math-scenes.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
+for (const work of mathematics) assert(cards.includes(`math.html?work=${work}`), 'Every mathematical work is discoverable');
 for (const href of cards) {
   const url = new URL(href, 'https://site.invalid/');
   if (url.pathname === '/tandava.html') continue;
   const work = url.searchParams.get('work');
-  const known = url.pathname === '/levitated.html' ? levitated : url.pathname === '/fractal.html' ? fractals : url.pathname === '/wild.html' ? wild : legacy;
+  const known = url.pathname === '/math.html' ? mathematics : url.pathname === '/levitated.html' ? levitated : url.pathname === '/fractal.html' ? fractals : url.pathname === '/wild.html' ? wild : legacy;
   assert(known.includes(work), `Card points to an unknown experiment: ${href}`);
 }
 console.log(`PASS: ${jsFiles.length} JavaScript files, ${checked} local links/assets, ${cards.length} unique experiment routes.`);
@@ -68,3 +70,7 @@ await import('./check-levitated-player.mjs');
 await import('./check-levitated-archive.mjs');
 
 await import('./check-levitated-kinetic.mjs');
+
+await import('./check-math.mjs');
+
+await import('./check-math-player.mjs');

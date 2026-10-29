@@ -1,0 +1,149 @@
+// MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt.
+// Original implementations of mathematical constructions; no external code/assets.
+export const catalog = {
+  'newton-basins': { n: 40, name: 'Newton basins', category: 'COMPLEX DYNAMICS', description: 'Every pixel asks the same question: which root will I reach?', equation: 'z ← z − λ (zⁿ − 1) / (n zⁿ⁻¹)', explanation: 'Apply relaxed Newton iteration to zⁿ − 1 at every starting point. Hue identifies the root reached; brightness records convergence speed. Dark pixels have not converged within 55 iterations. The jagged borders separate basins of attraction.', a: ['Polynomial degree n', 3, 7, 1, 3], b: ['Relaxation λ', .5, 1.5, .01, 1], special: 'Reset the complex plane', gesture: 'DRAG / ARROWS TO PAN · SCROLL / + − TO ZOOM', mode: 'plane' },
+  'hopf-fibers': { n: 41, name: 'Hopf fibers', category: 'TOPOLOGY / S³ → S²', description: 'Circles from a four-dimensional sphere, each linked once with every other.', equation: '(z₁, z₂) = (cos η eⁱᵗ, sin η eⁱ⁽ᵗ⁺φ⁾)', explanation: 'Each curve is a circle on the unit three-sphere in four dimensions. Stereographic projection brings it into three dimensions. Three nearby latitudes form nested tori; changing η selects their position on the base sphere. Distinct fibers link once. The display uses finite curve samples.', reference: 'https://nilesjohnson.net/hopf.html', a: ['Latitude η', .2, 1.1, .01, .65], b: ['Fibers per latitude', 8, 40, 1, 20], special: 'Reverse the rotation', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
+  'torus-knots': { n: 42, name: 'Torus knots', category: 'KNOT THEORY', description: 'Two winding numbers decide whether a single strand becomes a knot—or several become a link.', equation: 'r(t) = ((R+r cos qt) cos pt, (R+r cos qt) sin pt, r sin qt)', explanation: 'The integers p and q count windings around a torus. Coprime windings produce one knot; a common divisor d produces d separate linked components. The renderer traces every component, using reduced windings p/d and q/d with distinct phase offsets. The default (3,2) is a trefoil.', a: ['Longitudinal winding p', 2, 9, 1, 3], b: ['Meridional winding q', 2, 11, 1, 2], special: 'Next winding pair', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
+  'gyroid-field': { n: 43, name: 'Gyroid field', category: 'IMPLICIT SURFACES', description: 'One periodic equation opens a labyrinth with no preferred direction.', equation: 'sin x cos y + sin y cos z + sin z cos x = c', explanation: 'This trigonometric level set is a common nodal approximation to the gyroid, rather than an exact minimal surface. Moving c changes the level set; Repeats reveals its periodic cells. A marching-tetrahedra mesh approximates the surface, with lighting from its analytic gradient.', reference: 'https://ntrs.nasa.gov/citations/19700020472', a: ['Level c', -1, 1, .02, 0], b: ['Repeats', 1, 2, 1, 1], special: 'Swap positive and negative level', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
+  'reaction-diffusion': { n: 44, name: 'Reaction–diffusion', category: 'PATTERN FORMATION', description: 'Two concentrations, two rates. Spots and labyrinths emerge from local reactions.', equation: '∂ₜA = ΔA − AB² + f(1−A); ∂ₜB = ½ΔB + AB² − (k+f)B', explanation: 'A fixed-step Gray–Scott simulation: A diffuses twice as fast as B; AB² converts A into B. Feed f replenishes A and removal k drains B. The periodic grid uses a nine-point Laplacian, Δt = 1, and concentrations bounded to [0,1]. Drag to seed B. Pause freezes the simulation; changing rates then takes effect when resumed.', reference: 'https://www.karlsims.com/rd.html', a: ['Feed f', .01, .08, .0001, .055], b: ['Removal k', .045, .07, .0001, .062], special: 'Next chemical regime', gesture: 'DRAG TO SEED B · ARROWS MOVE BRUSH · SPACE CHANGES REGIME', mode: 'reaction' },
+  'clifford-attractor': { n: 45, name: 'Clifford attractor', category: 'ITERATED MAPS / CHAOS', description: 'A point follows a pair of equations. Its visits become a luminous density field.', equation: 'x′ = sin(ay) + c cos(ax); y′ = sin(bx) + d cos(by)', explanation: 'Both new coordinates use the previous point simultaneously. The renderer counts visits to each grid cell, then colors logarithmic density. The default constants are c = 1 and d = 0.7; Space selects another preset. Changing a or b restarts accumulation. Some parameters settle to simple cycles instead of a strange attractor.', a: ['Parameter a', -3, 3, .01, -1.4], b: ['Parameter b', -3, 3, .01, 1.6], special: 'Next attractor preset', gesture: 'ARROWS ADJUST a / b · SPACE FOR PRESETS · P PAUSES ACCUMULATION', mode: 'clifford' }
+};
+const TAU = Math.PI * 2;
+export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
+export function gcd(a, b) { while (b) [a, b] = [b, a % b]; return a; }
+function rng(seed) { let n = seed >>> 0; return () => ((n = (Math.imul(n, 1664525) + 1013904223) >>> 0) / 4294967296); }
+export function newtonSample(x, y, degree = 3, relaxation = 1, maxIterations = 55) {
+  for (let iteration = 0; iteration < maxIterations; iteration++) {
+    let px = 1, py = 0;
+    for (let i = 0; i < degree - 1; i++) [px, py] = [px * x - py * y, px * y + py * x];
+    const fx = px * x - py * y - 1, fy = px * y + py * x;
+    if (fx * fx + fy * fy < 1e-12) { const angle = (Math.atan2(y, x) + TAU) % TAU; return { root: Math.round(angle / TAU * degree) % degree, iterations: iteration }; }
+    const denominator = degree * (px * px + py * py);
+    if (denominator < 1e-24 || !Number.isFinite(denominator)) break;
+    x -= relaxation * (fx * px + fy * py) / denominator; y -= relaxation * (fy * px - fx * py) / denominator;
+  }
+  return { root: -1, iterations: maxIterations };
+}
+export function hopfS3(eta, phi, t) { return [Math.cos(eta) * Math.cos(t), Math.cos(eta) * Math.sin(t), Math.sin(eta) * Math.cos(t + phi), Math.sin(eta) * Math.sin(t + phi)]; }
+export function hopfMap([x, y, z, w]) { return [2 * (x * z + y * w), 2 * (y * z - x * w), x * x + y * y - z * z - w * w]; }
+export function hopfPoint(eta, phi, t) { const [x, y, z, w] = hopfS3(eta, phi, t); return [x / (1 - w), y / (1 - w), z / (1 - w)]; }
+export function torusPoint(t, p, q, component = 0) { const d = gcd(p, q), theta = p / d * t, phi = q / d * t + TAU * component / p, radius = 1.6 + .65 * Math.cos(phi); return [radius * Math.cos(theta), radius * Math.sin(theta), .65 * Math.sin(phi)]; }
+export function gyroid(x, y, z) { return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x); }
+export function gyroidGradient(x, y, z) { return [Math.cos(x) * Math.cos(y) - Math.sin(z) * Math.sin(x), Math.cos(y) * Math.cos(z) - Math.sin(x) * Math.sin(y), Math.cos(z) * Math.cos(x) - Math.sin(y) * Math.sin(z)]; }
+export function tetraTriangles(points, values, level) {
+  const inside = [], outside = []; values.forEach((v, i) => (v >= level ? inside : outside).push(i));
+  if (!inside.length || !outside.length) return [];
+  const cross = (a, b) => { const t = (level - values[a]) / (values[b] - values[a]); return points[a].map((v, i) => v + (points[b][i] - v) * t); };
+  if (inside.length === 1) return [outside.map(b => cross(inside[0], b))];
+  if (inside.length === 3) return [inside.map(a => cross(a, outside[0]))];
+  const [a, b] = inside, [c, d] = outside, ac = cross(a, c), ad = cross(a, d), bc = cross(b, c), bd = cross(b, d); return [[ac, bc, ad], [ad, bc, bd]];
+}
+export function gyroidMesh(level = 0, repeats = 1) {
+  const n = 14 * repeats, extent = Math.PI * repeats, step = extent * 2 / n, triangles = [], points = [], values = [];
+  const index = (x, y, z) => (z * (n + 1) + y) * (n + 1) + x;
+  for (let z = 0; z <= n; z++) for (let y = 0; y <= n; y++) for (let x = 0; x <= n; x++) { const p = [x * step - extent, y * step - extent, z * step - extent]; points.push(p); values.push(gyroid(...p)); }
+  const offsets = [[0, 0, 0], [1, 0, 0], [1, 1, 0], [0, 1, 0], [0, 0, 1], [1, 0, 1], [1, 1, 1], [0, 1, 1]], tetra = [[0, 5, 1, 6], [0, 1, 2, 6], [0, 2, 3, 6], [0, 3, 7, 6], [0, 7, 4, 6], [0, 4, 5, 6]];
+  for (let z = 0; z < n; z++) for (let y = 0; y < n; y++) for (let x = 0; x < n; x++) {
+    const ids = offsets.map(([dx, dy, dz]) => index(x + dx, y + dy, z + dz));
+    for (const t of tetra) for (const triangle of tetraTriangles(t.map(i => points[ids[i]]), t.map(i => values[ids[i]]), level)) { const center = [0, 1, 2].map(axis => triangle.reduce((sum, p) => sum + p[axis], 0) / 3); triangles.push({ points: triangle.map(p => p.map(v => v / extent * 1.8)), normal: gyroidGradient(...center), value: center[2] / extent }); }
+  }
+  return triangles;
+}
+
+export function createReaction(width = 144, height = 96, seed = 1, initialize = true) {
+  const size = width * height; let a = new Float32Array(size).fill(1), b = new Float32Array(size), nextA = new Float32Array(size), nextB = new Float32Array(size), steps = 0;
+  const random = rng(seed), at = (x, y) => ((y + height) % height) * width + (x + width) % width;
+  function plant(x, y, radius = 4) { const cx = Math.round(x), cy = Math.round(y); for (let dy = -radius; dy <= radius; dy++) for (let dx = -radius; dx <= radius; dx++) if (dx * dx + dy * dy <= radius * radius) { const i = at(cx + dx, cy + dy); a[i] = .5; b[i] = 1; } }
+  function step(feed = .055, kill = .062) {
+    for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) {
+      const i = y * width + x, left = x ? i - 1 : i + width - 1, right = x < width - 1 ? i + 1 : i - width + 1, up = y ? i - width : i + size - width, down = y < height - 1 ? i + width : x;
+      const ul = y ? left - width : left + size - width, ur = y ? right - width : right + size - width, dl = y < height - 1 ? left + width : left % width, dr = y < height - 1 ? right + width : right % width;
+      const lapA = -a[i] + .2 * (a[left] + a[right] + a[up] + a[down]) + .05 * (a[ul] + a[ur] + a[dl] + a[dr]);
+      const lapB = -b[i] + .2 * (b[left] + b[right] + b[up] + b[down]) + .05 * (b[ul] + b[ur] + b[dl] + b[dr]), reaction = a[i] * b[i] * b[i];
+      nextA[i] = clamp(a[i] + lapA - reaction + feed * (1 - a[i]), 0, 1); nextB[i] = clamp(b[i] + .5 * lapB + reaction - (kill + feed) * b[i], 0, 1);
+    }
+    [a, nextA] = [nextA, a]; [b, nextB] = [nextB, b]; steps++;
+  }
+  if (initialize) for (let i = 0; i < 18; i++) plant(random() * width, random() * height, 2 + Math.floor(random() * 3));
+  return { width, height, get a() { return a; }, get b() { return b; }, get steps() { return steps; }, plant, step };
+}
+export function cliffordStep(x, y, a = -1.4, b = 1.6, c = 1, d = .7) { return [Math.sin(a * y) + c * Math.cos(a * x), Math.sin(b * x) + d * Math.cos(b * y)]; }
+export function createClifford(seed = 1, a = -1.4, b = 1.6, c = 1, d = .7, side = 256) {
+  const random = rng(seed), density = new Uint32Array(side * side); let x = random(), y = random(), count = 0, maximum = 0; const extent = Math.max(1 + Math.abs(c), 1 + Math.abs(d)) * 1.04;
+  for (let i = 0; i < 100; i++) [x, y] = cliffordStep(x, y, a, b, c, d);
+  function step(budget = 5000) { if (count >= 1500000) return false; for (let n = 0; n < budget && count < 1500000; n++) { [x, y] = cliffordStep(x, y, a, b, c, d); const ix = clamp(Math.floor((x / extent + 1) * side / 2), 0, side - 1), iy = clamp(Math.floor((y / extent + 1) * side / 2), 0, side - 1), id = iy * side + ix; maximum = Math.max(maximum, ++density[id]); count++; } return true; }
+  return { density, side, c, d, step, get count() { return count; }, get maximum() { return maximum; }, get point() { return [x, y]; } };
+}
+function rgb(hue, light) { const h = ((hue % 360) + 360) % 360 / 60, c = (1 - Math.abs(2 * light - 1)) * .8, x = c * (1 - Math.abs(h % 2 - 1)), m = light - c / 2, colors = h < 1 ? [c, x, 0] : h < 2 ? [x, c, 0] : h < 3 ? [0, c, x] : h < 4 ? [0, x, c] : h < 5 ? [x, 0, c] : [c, 0, x]; return colors.map(v => Math.round((v + m) * 255)); }
+
+export function createMathScene(canvas, slug, makeSurface = () => document.createElement('canvas')) {
+  if (!Object.hasOwn(catalog, slug)) throw new Error('Unknown mathematical experiment');
+  const ctx = canvas.getContext('2d', { alpha: false }); if (!ctx) throw new Error('Canvas 2D unavailable');
+  let model, key = '', imageKey = '', surface, surfaceCtx, status = '', preset = 0;
+  const mode = catalog[slug].mode;
+  function prepare(s) {
+    const next = `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
+    if (next === key) return;
+    if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
+    else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
+    else if (slug === 'gyroid-field') model = gyroidMesh(s.a, Math.round(s.b));
+    key = next; imageKey = '';
+  }
+  function step(s) { prepare(s); if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
+  function plant(s, px, py) { prepare(s); if (mode !== 'reaction') return; const r = rasterRect(); if (px < r.x || px > r.x + r.w || py < r.y || py > r.y + r.h) return; model.plant(clamp((px - r.x) / r.w * model.width, 0, model.width - 1), clamp((py - r.y) / r.h * model.height, 0, model.height - 1)); imageKey = ''; }
+  function special(s) {
+    if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
+    else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
+    else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
+    else if (slug === 'torus-knots') { s.a = s.a >= 9 ? 2 : s.a + 1; }
+    else if (slug === 'gyroid-field') s.a = s.a === 0 ? .6 : -s.a;
+    else s.direction *= -1;
+    prepare(s);
+  }
+  function rasterRect() { const aspect = mode === 'reaction' ? 1.5 : 1, width = Math.min(canvas.width * .92, canvas.height * .68 * aspect), height = width / aspect; return { x: (canvas.width - width) / 2, y: canvas.height * .44 - height / 2, w: width, h: height }; }
+  function pixels(width, height, stamp, paint) {
+    if (!surface) { surface = makeSurface(); surfaceCtx = surface.getContext('2d'); if (!surfaceCtx) throw new Error('Canvas image surface unavailable'); }
+    if (imageKey !== stamp) { surface.width = width; surface.height = height; const image = surfaceCtx.createImageData(width, height); for (let y = 0; y < height; y++) for (let x = 0; x < width; x++) { const i = (y * width + x) * 4, color = paint(x, y); image.data[i] = color[0]; image.data[i + 1] = color[1]; image.data[i + 2] = color[2]; image.data[i + 3] = 255; } surfaceCtx.putImageData(image, 0, 0); imageKey = stamp; }
+    return surface;
+  }
+  function draw(s) {
+    prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), hue = s.palette * 65;
+    ctx.fillStyle = '#070c17'; ctx.fillRect(0, 0, W, H);
+    if (mode === 'plane') {
+      const width = Math.min(440, Math.max(160, Math.round(W / 3))), height = Math.max(100, Math.round(width * H / W)), span = 3.4 / s.zoom;
+      const image = pixels(width, height, `${key}:${s.palette}:${s.zoom}:${s.center}:${W}:${H}`, (x, y) => { const sample = newtonSample(s.center[0] + (x / width - .5) * span * W / H, s.center[1] + (.5 - y / height) * span, Math.round(s.a), s.b); return sample.root < 0 ? [7, 12, 23] : rgb(sample.root * 360 / s.a + hue + 15, clamp(.72 - sample.iterations * .013, .14, .72)); });
+      ctx.imageSmoothingEnabled = true; ctx.drawImage(image, 0, 0, W, H); status = `zⁿ − 1 · n = ${Math.round(s.a)} · λ = ${s.b.toFixed(2)} · zoom ×${s.zoom.toFixed(2)}`;
+    } else if (mode === 'reaction' || mode === 'clifford') {
+      const reaction = mode === 'reaction', width = reaction ? model.width : model.side, height = reaction ? model.height : model.side;
+      const image = pixels(width, height, `${key}:${s.palette}`, (x, y) => { const id = y * width + x, value = reaction ? clamp(model.b[id] * 2.2, 0, 1) : model.density[id] ? Math.pow(Math.log1p(model.density[id]) / Math.log1p(model.maximum), .55) : 0; return value <= .002 ? [7, 12, 23] : rgb(hue + 180 + value * 130, .13 + value * .67); });
+      const rect = rasterRect(); ctx.imageSmoothingEnabled = true; ctx.drawImage(image, rect.x, rect.y, rect.w, rect.h);
+      if (reaction) { const x = s.pointer[0] * W, y = s.pointer[1] * H; if (x >= rect.x && x <= rect.x + rect.w && y >= rect.y && y <= rect.y + rect.h) { ctx.beginPath(); ctx.arc(x, y, rect.w / model.width * 4, 0, TAU); ctx.strokeStyle = '#fff'; ctx.lineWidth = 1; ctx.stroke(); } }
+      status = reaction ? `${model.steps} simulation steps · f ${s.a.toFixed(4)} · k ${s.b.toFixed(4)} · drag to seed B` : `${model.count.toLocaleString()} visits · c ${model.c} · d ${model.d}${model.count >= 1500000 ? ' · accumulation complete' : ''}`;
+    } else {
+      const yaw = s.yaw + s.time * .12 * s.direction, cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(s.pitch), sp = Math.sin(s.pitch);
+      const rotate = ([x, y, z]) => { const xx = x * cy - z * sy, zz = x * sy + z * cy; return [xx, y * cp - zz * sp, y * sp + zz * cp]; };
+      const project = p => { const [x, y, z] = rotate(p), f = unit * .8 * s.zoom / Math.max(1.5, 5.8 + z); return [W * .5 + x * f, H * .42 + y * f, z]; };
+      const path = (points, color, width = 1, fill = false) => { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); if (fill) { ctx.closePath(); ctx.fillStyle = color; ctx.fill(); } else { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); } };
+      if (slug === 'gyroid-field') {
+        const triangles = model.map(t => ({ points: t.points.map(project), normal: rotate(t.normal), value: t.value })).sort((a, b) => b.points.reduce((sum, p) => sum + p[2], 0) - a.points.reduce((sum, p) => sum + p[2], 0));
+        for (const t of triangles) { const n = t.normal, light = Math.abs((n[0] * .3 - n[1] * .5 + n[2] * .8) / Math.max(.001, Math.hypot(...n))), color = `hsl(${175 + hue + t.value * 40},58%,${20 + light * 47}%)`; path(t.points, color, 1, true); }
+        status = `${model.length.toLocaleString()} triangles · level ${s.a.toFixed(2)} · ${Math.round(s.b)} periodic cell${s.b === 1 ? '' : 's'} per axis · nodal approximation`;
+      } else {
+        const segments = [];
+        function curve(points, color) { for (let i = 1; i < points.length; i++) { const a = project(points[i - 1]), b = project(points[i]); segments.push({ a, b, color: typeof color === 'function' ? color(i / (points.length - 1)) : color, depth: (a[2] + b[2]) / 2 }); } }
+        if (slug === 'hopf-fibers') {
+          for (let layer = -1; layer <= 1; layer++) { const eta = clamp(s.a + layer * .12, .08, 1.3), shrink = .76; for (let fiber = 0; fiber < Math.round(s.b); fiber++) { const phi = fiber / Math.round(s.b) * TAU, points = Array.from({ length: 97 }, (_, i) => hopfPoint(eta, phi, i / 96 * TAU).map(v => v * shrink)); curve(points, `hsl(${fiber / s.b * 270 + layer * 25 + hue + 30},82%,66%)`); } }
+          status = `${Math.round(s.b) * 3} fibers · 3 latitudes · every distinct pair links once`;
+        } else {
+          const p = Math.round(s.a), q = Math.round(s.b), components = gcd(p, q); for (let k = 0; k < components; k++) curve(Array.from({ length: 721 }, (_, i) => torusPoint(i / 720 * TAU, p, q, k)), t => `hsl(${hue + 20 + k * 360 / components + t * 65},88%,${57 + Math.sin(t * TAU) * 12}%)`);
+          status = `T(${p}, ${q}) · gcd = ${components} · ${components === 1 ? 'one knot' : components + ' linked components'}`;
+        }
+        segments.sort((a, b) => b.depth - a.depth);
+        const width = slug === 'torus-knots' ? Math.max(2, unit * .012 * s.zoom) : Math.max(.6, unit * .0018 * s.zoom);
+        for (const segment of segments) path([segment.a, segment.b], segment.color, width);
+      }
+    }
+    return status;
+  }
+  return { prepare, step, draw, plant, special, get data() { return model; } };
+}

@@ -110,3 +110,16 @@ Google Fonts are requested from Google's servers by the browser. Their
 font files are not bundled here and remain under their respective licenses.
 Any third-party software in container base images retains its own license;
 this project's MIT grant does not relicense Node.js, Nginx, Alpine, or fonts.
+
+Mathematical references
+-----------------------
+The six experiments in dist/math-scenes.js are original implementations,
+licensed under MIT. Their numerical formulas and limitations are documented
+in dist/math-notes.txt. Background references include Niles Johnson's Hopf
+fibration explanation, Zachary Treisman's mathematical notes, Karl Sims's
+Gray-Scott tutorial, and Alan H. Schoen's 1970 NASA minimal-surfaces report.
+No reference code, illustrations, animations, or photographs are bundled.
+https://nilesjohnson.net/hopf.html
+https://nilesjohnson.net/hopf-articles/Treisman_Guide-to-Hopf-fibration.pdf
+https://www.karlsims.com/rd.html
+https://ntrs.nasa.gov/citations/19700020472
