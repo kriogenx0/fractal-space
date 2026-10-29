@@ -224,3 +224,28 @@ The view fits each construction while preserving relative dimensions.
 ## More Levitated geometry
 
 Cellular Automata Twist, Trema Field, Folding Pentagons, and Double Helix are new Canvas recreations of Jared Tarbell’s published descriptions. They add a 16-bit rule-110 cylinder, middle-third cuts represented by circular areas, a shrinking edge-linked pentagon puzzle, and clickable three-bead helix rungs. All use the shared themed player, touch/keyboard controls, pause, reduced motion and PNG export. Original GPL archives, notices and SHA-256 checksums are preserved alongside the GPL-3.0-only recreations. See `dist/levitated/README.txt` for construction choices and differences. Generate their previews with `node scripts/check-levitated-geometric.mjs --write`.
+
+## Search and sharing
+
+Every experiment's existing `*.html?work=...` URL receives its own pre-rendered
+HTML from Nginx, including a title, description, canonical, Open Graph/Twitter
+metadata, JSON-LD, and text before JavaScript executes. Rendering and controls
+still use the original JavaScript. Unknown work names return 404. The default
+URL for each player uses that player's normal first artwork and canonicalizes
+to its query URL. `/index.html` redirects to `/`. No crawler-specific response
+or runtime rendering service is involved.
+
+Run `make seo` after adding experiments, editing catalogs/templates, or
+regenerating thumbnails. This optional Docker task rebuilds checked-in
+`dist/_pages/`, `seo-routes.conf`, `sitemap.xml`, `robots.txt`, share JPEGs,
+and favicon assets. It uses a locked Sharp dependency in an authoring image;
+production remains static Nginx. The normal tests reject stale generated files
+and smoke-test every experiment URL against its pre-rendered HTML.
+
+The sitemap lists the public index and credits page. Dream Strata keeps its
+direct route and metadata but remains absent from the index, collection
+structured data, and sitemap. Public card ordering is unchanged. Levitated
+page/image derivatives retain their GPL notices and author credit.
+
+Sitemap: <https://fractalspace.org/sitemap.xml>. Search Console ownership and
+sitemap submission are managed separately in the domain’s Search Console account.

@@ -70,6 +70,7 @@ case "${1:-}" in
   logs) compose logs -f app ;;
   ps) compose ps -a ;;
   sh) compose exec app sh ;;
+  seo) runtime; compose --profile tools run --build --rm --no-deps -T seo ;;
   test-fast) runtime; compose --profile tools run --build --rm --no-deps -T test ;;
   smoke) runtime; production build app; bash scripts/smoke.sh fractal-space:production ;;
   test) bash "$0" test-fast; bash "$0" smoke ;;

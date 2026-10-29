@@ -1,0 +1,446 @@
+{
+  "rendererSHA256": "685970bb420ff09ce9d4a82b404a55ccd13d868fdcae529f245afafa05152322",
+  "records": [
+    {
+      "slug": "mandelbulb",
+      "source": "thumbnails/mandelbulb.jpg",
+      "sourceSHA256": "539ce77e76a7b24dea3948542629e55320094141a40d62a508d97bdd23656ce5",
+      "image": "social/mandelbulb.jpg",
+      "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
+    },
+    {
+      "slug": "ca-twist",
+      "source": "thumbnails/ca-twist.svg",
+      "sourceSHA256": "95d078edc2eaa157cd716b3bc79a2fab15aac5000f207e9b58293f72e374c32a",
+      "image": "social/ca-twist.jpg",
+      "imageSHA256": "3a7a93d4e183e39027768072f0858edbb8512b09cd6e14297fc73c301e26f117"
+    },
+    {
+      "slug": "trema-field",
+      "source": "thumbnails/trema-field.svg",
+      "sourceSHA256": "76f12f4f32997b8c8733aa44680f23ffcaf4e69005d4b6fe828590622e596ff9",
+      "image": "social/trema-field.jpg",
+      "imageSHA256": "aca03335d31a25374728900c1f3569fe76ce29d7edf9f8e02e181203af69f87d"
+    },
+    {
+      "slug": "folding-pentagons",
+      "source": "thumbnails/folding-pentagons.svg",
+      "sourceSHA256": "a29111bd3d93bb89fdaac7a5651bab269644b31a38f03f0cc6c532d46699f33a",
+      "image": "social/folding-pentagons.jpg",
+      "imageSHA256": "f6edab196bc1c6225ec83c423945bd0f6eef0d5db0fefbcba008ac02a3b0230d"
+    },
+    {
+      "slug": "double-helix",
+      "source": "thumbnails/double-helix.svg",
+      "sourceSHA256": "0bf3c05c64bef835d3d8b5a1c8fb48a36cf51028aaecec8271e3fee183c66ca9",
+      "image": "social/double-helix.jpg",
+      "imageSHA256": "0ef05848747ca914bca5f86fb7f4ae344d559509e3b0662f19efd5549bb5bfc6"
+    },
+    {
+      "slug": "fibonacci-sculpture",
+      "source": "thumbnails/fibonacci-sculpture.svg",
+      "sourceSHA256": "78ff514ee4724404e45bce3362b11ac2a983f56831c89bced12f204e6c5c655e",
+      "image": "social/fibonacci-sculpture.jpg",
+      "imageSHA256": "21b2983a854606c7e72ad38b53b77b54160fbc00074448bb97c74e1d0f3cc45c"
+    },
+    {
+      "slug": "orbit-ink",
+      "source": "thumbnails/orbit-ink.svg",
+      "sourceSHA256": "53ff19086f3e5bfcaed555c4993f1a902c38da2bec41524d7cb240a588c54676",
+      "image": "social/orbit-ink.jpg",
+      "imageSHA256": "6afa04efec937691bf844292030c171e16e42d83259afbf946a5fa8d3f9a56ba"
+    },
+    {
+      "slug": "orbital-gravity",
+      "source": "thumbnails/orbital-gravity.svg",
+      "sourceSHA256": "7919bfe3401ef0c291365d7097508d82e35b7399dab462c1a139f12c5d51f3fa",
+      "image": "social/orbital-gravity.jpg",
+      "imageSHA256": "166d68f91b53f95c8d09aff47d9b11ade40ecaa4e4dc5d7cd39d594a0233521e"
+    },
+    {
+      "slug": "wave-interference",
+      "source": "thumbnails/wave-interference.svg",
+      "sourceSHA256": "d75299698d4726a4e73e134255037337ba0852433db423eecaedfa3037b5169b",
+      "image": "social/wave-interference.jpg",
+      "imageSHA256": "482c41787524442d328622f03a841443cf24a281c53fe1f42cf99b2ae78c4453"
+    },
+    {
+      "slug": "rossler-attractor",
+      "source": "thumbnails/rossler-attractor.svg",
+      "sourceSHA256": "f282ef3577d3fb513734a7cfe243ac4f7b36ef232d521322e34fa198f62b0c75",
+      "image": "social/rossler-attractor.jpg",
+      "imageSHA256": "0956a0d0134a149237a006fb2fcf5e1738fdae9fd42ba7851d371f50e8859be2"
+    },
+    {
+      "slug": "magnetic-pendulums",
+      "source": "thumbnails/magnetic-pendulums.svg",
+      "sourceSHA256": "3a19aafabadb74798a16acc6062ba1b42818ef1638f497ceb1c67b654bb4fc0e",
+      "image": "social/magnetic-pendulums.jpg",
+      "imageSHA256": "9937114ffdfec52f3f9af4a11f6fa8c8f4776c35ec80100bd2ca02f758007ab0"
+    },
+    {
+      "slug": "double-pendulum",
+      "source": "thumbnails/double-pendulum.svg",
+      "sourceSHA256": "00da846a0272f573764dbac4313e96489af1ff6eb37021de92384c60207915ec",
+      "image": "social/double-pendulum.jpg",
+      "imageSHA256": "1098a21aecd7bb5155d8202ef37bf56ecf08a5cf3176867f86118f6de29e4ae9"
+    },
+    {
+      "slug": "koch-snowflake",
+      "source": "thumbnails/koch-snowflake.svg",
+      "sourceSHA256": "3aafdfede11ad09bcbd9471da9ded1e28c3c55bd8b8f0a770ba14fc922b62ca8",
+      "image": "social/koch-snowflake.jpg",
+      "imageSHA256": "9118c33d438fb4974f83f7207e5d9de70bdcff10e02ecb12287fab7c1fce342c"
+    },
+    {
+      "slug": "sierpinski-triangle",
+      "source": "thumbnails/sierpinski-triangle.svg",
+      "sourceSHA256": "eb6d1e998854589109be9bc47f290a23707f9084dacc206575fa79e10ed9562a",
+      "image": "social/sierpinski-triangle.jpg",
+      "imageSHA256": "861427ac9b66b04f6c6be1715ab707da49555dbae3f0b41e3b1dc9cd9bc96b53"
+    },
+    {
+      "slug": "gyroid-field",
+      "source": "thumbnails/gyroid-field.svg",
+      "sourceSHA256": "f1807480c992a269ef0ec991d31c5adbabac96e306ec121abe924a223fa723ef",
+      "image": "social/gyroid-field.jpg",
+      "imageSHA256": "c63d42220f059acd4c0888a26f95f95af788e06a1600d48fce6f4865a1068415"
+    },
+    {
+      "slug": "mobius-strip",
+      "source": "thumbnails/mobius-strip.svg",
+      "sourceSHA256": "e5159c77e4284e588d030f23b7bfacbd4a3a61044e899eccabe52410271a519d",
+      "image": "social/mobius-strip.jpg",
+      "imageSHA256": "19a512d93afd46ff18f2238e5999f28cb4715a020be7617ba7452b2116dfb72e"
+    },
+    {
+      "slug": "schwarz-lantern",
+      "source": "thumbnails/schwarz-lantern.svg",
+      "sourceSHA256": "e2d1428a38ddfd1f9ba7d8f0a838a7b73aeb3c57bad9c54f19fb6543680d364b",
+      "image": "social/schwarz-lantern.jpg",
+      "imageSHA256": "e84e0f59b893c15776a7e3fa1e5370519abe5ccd06a8aac960c4f8e89fc33e95"
+    },
+    {
+      "slug": "klein-bottle",
+      "source": "thumbnails/klein-bottle.svg",
+      "sourceSHA256": "b20b867b02ff6494255d4457e8a620c078e5cb7d2ef83f3d26f4d1741b45c5d0",
+      "image": "social/klein-bottle.jpg",
+      "imageSHA256": "90320a0c7c6ad0442735934cf946af327832b755fb0f020baf0ac625a86b8481"
+    },
+    {
+      "slug": "torus",
+      "source": "thumbnails/torus.svg",
+      "sourceSHA256": "3389a58630b52015be3c5f5203ed9331a83bb53fd52a8841dc7e508a01e5859e",
+      "image": "social/torus.jpg",
+      "imageSHA256": "f70854783215108f07e4b4655530bcddf2a0e109bec8ebbbf68cb760c747773d"
+    },
+    {
+      "slug": "newton-basins",
+      "source": "thumbnails/newton-basins.svg",
+      "sourceSHA256": "3d85c4394ce10747e36c67b5a7d8d38f2baed524eae6318f6bf9ac2c3bbb4f4c",
+      "image": "social/newton-basins.jpg",
+      "imageSHA256": "5d4354387813f857937dfb57e201a63b048b500cfe51f7dc29f774da497e4c68"
+    },
+    {
+      "slug": "hopf-fibers",
+      "source": "thumbnails/hopf-fibers.svg",
+      "sourceSHA256": "f7e17415f7b0c170320e0f805094a168a07dfdbd3c55b2a65b7a389d80431209",
+      "image": "social/hopf-fibers.jpg",
+      "imageSHA256": "0719a1d2792daa6f40053cfed67370060831b79ad45b424a586864b2c21e0f31"
+    },
+    {
+      "slug": "torus-knots",
+      "source": "thumbnails/torus-knots.svg",
+      "sourceSHA256": "04df31569bbcf3b2803c06133172bd51958298c64b2bb5d8b5771f1011176f39",
+      "image": "social/torus-knots.jpg",
+      "imageSHA256": "ede792d85928778fe8e2981d85b14ee8c8bf6025b83b5f1688c5b2642341c2e7"
+    },
+    {
+      "slug": "reaction-diffusion",
+      "source": "thumbnails/reaction-diffusion.svg",
+      "sourceSHA256": "7b5e369a34ac1f73637950a30e9308a4179eeeafe54baa8049d0bba907244b77",
+      "image": "social/reaction-diffusion.jpg",
+      "imageSHA256": "99b33d8e8c3d206caa16a777db8fb94a1d4b6de1f03d5c414fbc5a3ae202dec2"
+    },
+    {
+      "slug": "clifford-attractor",
+      "source": "thumbnails/clifford-attractor.svg",
+      "sourceSHA256": "360285d482fba6eba6145a5a5784dbd7c6e7895aa3a323d8b4508b8cdfe7dc48",
+      "image": "social/clifford-attractor.jpg",
+      "imageSHA256": "eaefc127011803402a4e47e8ec1698270508d8dc2a6df49afc25f87f276484cc"
+    },
+    {
+      "slug": "tentacles",
+      "source": "thumbnails/tentacles.svg",
+      "sourceSHA256": "3cc5744aea127601a67147334e8d5192763bf75756346fe8e385aeb20ed79573",
+      "image": "social/tentacles.jpg",
+      "imageSHA256": "e49dba50a0618d585d327972f84e1b8a40ef5e0319a5c4b144e4037fdc46817c"
+    },
+    {
+      "slug": "bit-field",
+      "source": "thumbnails/bit-field.svg",
+      "sourceSHA256": "11c3702a7362efcf659b95f0002d855bd8743fca616e41ea7c22edddd46219d1",
+      "image": "social/bit-field.jpg",
+      "imageSHA256": "e9bc5fd282b70ebf5c5b317891327d8ca619db5bcfb8ab3c0ef0888f3df1484c"
+    },
+    {
+      "slug": "monkey-tree",
+      "source": "thumbnails/monkey-tree.svg",
+      "sourceSHA256": "253a7c021e3720fdf7cc73f3efc5383fd23893249a9622ae0c88465414842f9c",
+      "image": "social/monkey-tree.jpg",
+      "imageSHA256": "7eb1abb8d414e762132da8651cfb482cc97d1663dcbff5892b11cd69408d050a"
+    },
+    {
+      "slug": "oily-stratum",
+      "source": "thumbnails/oily-stratum.svg",
+      "sourceSHA256": "7b871f6d3b2d94c9d982e25d1e71b0fa2fb49a0ffe2873ee575eade5d2b04fb3",
+      "image": "social/oily-stratum.jpg",
+      "imageSHA256": "2d9641f621b59789b3278a0c15654d15676876d28e96129b238889f286e1f70f"
+    },
+    {
+      "slug": "attractor-sets",
+      "source": "thumbnails/attractor-sets.svg",
+      "sourceSHA256": "42fada2185ff9b14c9ffa769bd215672a05f06ae912f7472e9cce6ee16093562",
+      "image": "social/attractor-sets.jpg",
+      "imageSHA256": "61e5087e6b4b2e094e0b9b720488be2cad6b62f1ad37ad0ed064b63748953ff5"
+    },
+    {
+      "slug": "rotational-transformation",
+      "source": "thumbnails/rotational-transformation.svg",
+      "sourceSHA256": "c0abd567c1b68a57eb80fe621dea38686ad282abf53c24e9de4b44bdee44c198",
+      "image": "social/rotational-transformation.jpg",
+      "imageSHA256": "37368ac9c9a9b275b732219d2379a5419c5d68fed13a7734d4203b1853d7c10f"
+    },
+    {
+      "slug": "gathering-line",
+      "source": "thumbnails/gathering-line.svg",
+      "sourceSHA256": "5afee7d78723e7b82e26a9529c2662b2ef644ca26ff46c3a1bef8d940c333c67",
+      "image": "social/gathering-line.jpg",
+      "imageSHA256": "c20d13e625b3236d9f23bcf45c481dd21b4a0a342c3c0ca3c0be7148df7e67bc"
+    },
+    {
+      "slug": "riley-stack",
+      "source": "thumbnails/riley-stack.svg",
+      "sourceSHA256": "65158dcc6a4d180d837c03764bf2f842bd21148ba41b230cea7699d0c5c61590",
+      "image": "social/riley-stack.jpg",
+      "imageSHA256": "716989225314b987328b4189a5cc61b0c026a2f1247da5c7e66e162f0cda4842"
+    },
+    {
+      "slug": "box-fitting",
+      "source": "thumbnails/box-fitting.svg",
+      "sourceSHA256": "8f77c65f2678d8c0038c1fcecb3d8d774deef3de329806c8b586d563aad5bcc1",
+      "image": "social/box-fitting.jpg",
+      "imageSHA256": "cacc2821d7cb8f65bf3166ed4838e5cca32e40926369dd23a6c8bc32bc6325c2"
+    },
+    {
+      "slug": "quarter-round",
+      "source": "thumbnails/quarter-round.svg",
+      "sourceSHA256": "79899558b9b2d267511f523ff662a259d8d41e7c4f22062b6d2bde384a54db53",
+      "image": "social/quarter-round.jpg",
+      "imageSHA256": "438dee4f991fe47c1be7b0bcdc9a32caa93acd6f847794fbf099ec07c199f01d"
+    },
+    {
+      "slug": "seeds",
+      "source": "thumbnails/seeds.svg",
+      "sourceSHA256": "2472140118d2f20d61dd5601a344c20cba0ff3f1f9fea25eb9c649f32655489c",
+      "image": "social/seeds.jpg",
+      "imageSHA256": "69da04ef2bcf6c3109a454eb87663e3a45247724b3b4400478b58230ee720289"
+    },
+    {
+      "slug": "golden-spiral",
+      "source": "thumbnails/golden-spiral.svg",
+      "sourceSHA256": "edbb818a38080a814b16873c6773c3c9d43cda44fbf63ccf2c9c4eaa807f83b4",
+      "image": "social/golden-spiral.jpg",
+      "imageSHA256": "a282a5e321a1154b50618b4305ba814521fff99c9e05e460d9b845cf58f69d61"
+    },
+    {
+      "slug": "city-lines",
+      "source": "thumbnails/city-lines.svg",
+      "sourceSHA256": "a3a6731ff608bb9f8b6cfbbfc114ebe238c13f514fa63b899bf7c1f733d8be5d",
+      "image": "social/city-lines.jpg",
+      "imageSHA256": "2b532c5d82d639e6a276785c86f543627ce9c33131640bbaf0c65b3d48abbe57"
+    },
+    {
+      "slug": "triangulation",
+      "source": "thumbnails/triangulation.svg",
+      "sourceSHA256": "d23f82fd285bad8f080c86808bc0d6bb950c2b29e14f661fd0d306f3efc61366",
+      "image": "social/triangulation.jpg",
+      "imageSHA256": "ef211f838928818a3242b31786e71e992c3a9aa712e5f6b4b89becb0ff1c0720"
+    },
+    {
+      "slug": "isoblocks",
+      "source": "thumbnails/isoblocks.svg",
+      "sourceSHA256": "4ba3c444366ca6e240440f337b39f6020815d5cbff9beaeca192bf0afd244ae2",
+      "image": "social/isoblocks.jpg",
+      "imageSHA256": "c547f4cde4dcaa84fc953d4343ad4e6ea2b15f2128df572b1bedf37fa0e46488"
+    },
+    {
+      "slug": "mycelium",
+      "source": "thumbnails/mycelium.svg",
+      "sourceSHA256": "bc97a20077267394250e283b1efe65bf20ba2e1ddb81e8d96966f3f93899b176",
+      "image": "social/mycelium.jpg",
+      "imageSHA256": "8dec7d435c8276bd797973687ebd81d207310b3d1451a1144fe987037b4fba3b"
+    },
+    {
+      "slug": "iterative-ik",
+      "source": "thumbnails/iterative-ik.svg",
+      "sourceSHA256": "1b0b10778cdd14758846e10aedaeb433f64203c82ece7cefffcaccf899c4424d",
+      "image": "social/iterative-ik.jpg",
+      "imageSHA256": "7c2fed34954fcba8031b108ea27973fe516cf7193a8f469dd6d876414a7f54d5"
+    },
+    {
+      "slug": "dla",
+      "source": "thumbnails/dla.svg",
+      "sourceSHA256": "fdfa313e9dd8e255356efb9c13d2e659a20a482db49723c86fa146a20169538a",
+      "image": "social/dla.jpg",
+      "imageSHA256": "bbb484851243495d74879b680b17ab3683120a9349191ee93b6ef9b0fe29e917"
+    },
+    {
+      "slug": "root-gardener",
+      "source": "thumbnails/root-gardener.svg",
+      "sourceSHA256": "60d8cfbbb02d384a899a2c6085a29f7eedbe296fee517b2c39704df68f56fb61",
+      "image": "social/root-gardener.jpg",
+      "imageSHA256": "9b0f06e090cdd04154700597ada08c036c293956676e7ea51fce588cb4ecfd8a"
+    },
+    {
+      "slug": "ca-worm",
+      "source": "thumbnails/ca-worm.svg",
+      "sourceSHA256": "513b63446cc9f63be5f151269edb6f9e3a2706b6b4002b2550e0212f7bc7f44f",
+      "image": "social/ca-worm.jpg",
+      "imageSHA256": "2dcb92a3a5aaf31e1b206f8de9db44458f8d80fb96f9a4d37e558c368f10f499"
+    },
+    {
+      "slug": "deep-lorenz",
+      "source": "thumbnails/deep-lorenz.svg",
+      "sourceSHA256": "c4900e9b678a8374127948b2c64d1b10c55171f05cec6a00ce749806da780c8a",
+      "image": "social/deep-lorenz.jpg",
+      "imageSHA256": "d419533a6bd53be16ab23273aa8f570d1d94a8af3ce9cb4e3a9a06d044d0549e"
+    },
+    {
+      "slug": "orbiting-networks",
+      "source": "thumbnails/orbiting-networks.svg",
+      "sourceSHA256": "ec84e01600678bb42d830c293421aa21de8fcb3ab537586f49adf737c6b32409",
+      "image": "social/orbiting-networks.jpg",
+      "imageSHA256": "e0321c5a591321f9891c35377011a11e1c3b4edbec1c0a6e6f5e7818bb0ed5a3"
+    },
+    {
+      "slug": "sea-thing",
+      "source": "thumbnails/sea-thing.svg",
+      "sourceSHA256": "e26b9060cbdc02ef05679031bf349f328e536272318bebaa38e41b98460ddd42",
+      "image": "social/sea-thing.jpg",
+      "imageSHA256": "fb6bcbb3e6a543790da33418de268e085422f38b35c952bc345fa9129af4769a"
+    },
+    {
+      "slug": "hyperspace-bloom",
+      "source": "thumbnails/hyperspace-bloom.svg",
+      "sourceSHA256": "60efab4f13b1cf2e078af9c3b5024db56875f32a850a72352be38cfa5c5d603d",
+      "image": "social/hyperspace-bloom.jpg",
+      "imageSHA256": "dfdd43b252a009cea67c34a7923b6e27ab1252dbec0910ff6b4895b9b0b6bedc"
+    },
+    {
+      "slug": "gravity-well",
+      "source": "thumbnails/gravity-well.svg",
+      "sourceSHA256": "a6e4d1c46e7dc166866f52538ab21c3c472f2239fdc53dc77745e58ab54529af",
+      "image": "social/gravity-well.jpg",
+      "imageSHA256": "11ee8d9c5e44b2aa4d0c1f348b1573442ba40e485115b3ea5cb261c527146882"
+    },
+    {
+      "slug": "infinite-descent",
+      "source": "thumbnails/infinite-descent.svg",
+      "sourceSHA256": "d0233e015ccc4ae6c8806ec4236d8ddc1f4bb8eb00446646e78d7fbecd4ea3de",
+      "image": "social/infinite-descent.jpg",
+      "imageSHA256": "b7d1342e3ee615ccf0a6d9d4831f0064b96a7358f0797fcd6ffb042c7edb9ddd"
+    },
+    {
+      "slug": "cathedral",
+      "source": "thumbnails/cathedral.jpg",
+      "sourceSHA256": "fe0fefe8646eb138d9b2c228d6a4450023a90b55938660eec7383c153e39fca9",
+      "image": "social/cathedral.jpg",
+      "imageSHA256": "30b96a58f7fe7dbef57c354c6a6189b8e31c16afee31cbbf225a41eb7d92f57e"
+    },
+    {
+      "slug": "julia-tide",
+      "source": "thumbnails/julia-tide.jpg",
+      "sourceSHA256": "6a66e2e0f6cd694d9869bb0f5e508ee36db1ab345444bdb94cf3fb22e3594fee",
+      "image": "social/julia-tide.jpg",
+      "imageSHA256": "0d242b26b0342ff53fbf08eafcb18dcc14205869229b3264cb28c57562c01493"
+    },
+    {
+      "slug": "recursive-orchard",
+      "source": "thumbnails/recursive-orchard.jpg",
+      "sourceSHA256": "3e5975cd50e7e7c15a117b6787e1f6e8a8eb08ff9fae506c9c935b46dae2a152",
+      "image": "social/recursive-orchard.jpg",
+      "imageSHA256": "4dc7f54252eb4dddf0fe525868c823418c2b5e6b61652f166253ebe2829efe22"
+    },
+    {
+      "slug": "sierpinski-relic",
+      "source": "thumbnails/sierpinski-relic.jpg",
+      "sourceSHA256": "7a2b79d68652be9e6112cc9ad7cdf64c4c33b8340587178972a48687b4750b8b",
+      "image": "social/sierpinski-relic.jpg",
+      "imageSHA256": "d1bc434908a9773857f6bbbef4c15350ce799435b23e503613d8362b5c90603b"
+    },
+    {
+      "slug": "chaos-loom",
+      "source": "thumbnails/chaos-loom.jpg",
+      "sourceSHA256": "004558f590b85c7a87617dd4d7fe8f4ee0ab1274c92ea4ac0f9b4d8dde6c5787",
+      "image": "social/chaos-loom.jpg",
+      "imageSHA256": "6a96b9590c6ee51f713fa17a07564b4131295d94ed67c6b765e2231a84869385"
+    },
+    {
+      "slug": "silk-wind",
+      "source": "thumbnails/silk-wind.svg",
+      "sourceSHA256": "f0117cef5a93c2ab9b41daf7c2c9cc3733b803e7b27381cf7d3bcdaa47a2f042",
+      "image": "social/silk-wind.jpg",
+      "imageSHA256": "7e4853d27d8711c82748c5b0f7d28970397d3b3c9ca17d44e70ed7399b3c3b07"
+    },
+    {
+      "slug": "impossible-water",
+      "source": "thumbnails/impossible-water.svg",
+      "sourceSHA256": "4e7add770d87bda4c1c607d94cc1ca0960696d2318c9ca2f8bbf338b2d618325",
+      "image": "social/impossible-water.jpg",
+      "imageSHA256": "a2abb3569e043af1e20d74a42334fd263973a8919659da419201ad2bca82820f"
+    },
+    {
+      "slug": "afterimage",
+      "source": "thumbnails/afterimage.svg",
+      "sourceSHA256": "b398c59f7e2e5db42af50e58315bc6575d1678a6dd60f753816821768ec3ec58",
+      "image": "social/afterimage.jpg",
+      "imageSHA256": "31bf4f3f32a10f155a9638746977f52f946b5c8042af19cc6ef47991b6312497"
+    },
+    {
+      "slug": "electric-horizon",
+      "source": "thumbnails/electric-horizon.svg",
+      "sourceSHA256": "19651ffe64aef024282c3e2635c2891efcbb7cd885ef13afcf534c639d1e6db9",
+      "image": "social/electric-horizon.jpg",
+      "imageSHA256": "0d2263d296e35fd6efb4bdc8502540d7b1fda752d1c9c1fdc34292c00a9e35e9"
+    },
+    {
+      "slug": "invader-fractal",
+      "source": "thumbnails/invader-fractal.svg",
+      "sourceSHA256": "781e2da0881c13edb18486ae495b0dd76422d0d3fcd7a82d640fadc9fde7c413",
+      "image": "social/invader-fractal.jpg",
+      "imageSHA256": "cc6f5fc4fd3e3783e680d47b39b9fc7a88843fdbc4e3e17728895afaa08ff493"
+    },
+    {
+      "slug": "tandava-parallax",
+      "source": "thumbnails/tandava-parallax.svg",
+      "sourceSHA256": "c506e1026f0da9831fb53e366e615a8f28f988b6b5b88a8afb7737a84e006749",
+      "image": "social/tandava-parallax.jpg",
+      "imageSHA256": "e0fe43e9b64ba2a3dffaf9672d392d6fbb1804052aea2fc392c2a4146d8545f0"
+    },
+    {
+      "slug": "dream-strata",
+      "source": "thumbnails/dream-strata.svg",
+      "sourceSHA256": "7f29e9f5097812cfb9952409e6d1ce880bd0705d5ab53260cb946bc7383a3572",
+      "image": "social/dream-strata.jpg",
+      "imageSHA256": "1d78e07bdb6f959c308de925694008ccb03884b3c2c0bdc55da57f2451ade3b1"
+    },
+    {
+      "slug": "fractal-space",
+      "source": "thumbnails/mandelbulb.jpg",
+      "sourceSHA256": "539ce77e76a7b24dea3948542629e55320094141a40d62a508d97bdd23656ce5",
+      "image": "social/fractal-space.jpg",
+      "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
+    }
+  ]
+}

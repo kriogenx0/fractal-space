@@ -1,0 +1,7 @@
+{
+  "name": "fractal-space-seo-assets",
+  "private": true,
+  "version": "1.0.0",
+  "description": "Offline share-image generation; no browser or production dependency",
+  "dependencies": { "sharp": "0.35.5" }
+}

@@ -1,8 +1,17 @@
 FROM node:22-alpine AS test
 WORKDIR /app
 COPY dist/ ./dist/
-COPY scripts/check-site.mjs scripts/render-wild.mjs scripts/check-parallax.mjs scripts/check-levitated.mjs scripts/check-tandava-controller.mjs scripts/check-theme.mjs scripts/check-levitated-studies.mjs scripts/check-levitated-player.mjs scripts/check-levitated-archive.mjs scripts/check-levitated-kinetic.mjs scripts/check-levitated-geometric.mjs scripts/check-math.mjs scripts/check-math-player.mjs ./scripts/
+COPY scripts/check-site.mjs scripts/seo.mjs scripts/check-seo.mjs scripts/render-social.mjs scripts/render-wild.mjs scripts/check-parallax.mjs scripts/check-levitated.mjs scripts/check-tandava-controller.mjs scripts/check-theme.mjs scripts/check-levitated-studies.mjs scripts/check-levitated-player.mjs scripts/check-levitated-archive.mjs scripts/check-levitated-kinetic.mjs scripts/check-levitated-geometric.mjs scripts/check-math.mjs scripts/check-math-player.mjs ./scripts/
 CMD ["node", "scripts/check-site.mjs"]
+
+# Optional authoring image; Sharp never enters the production container.
+FROM node:22-alpine AS seo
+WORKDIR /app
+COPY tools/seo/package.json tools/seo/package-lock.json /opt/seo/
+RUN apk add --no-cache font-dejavu
+RUN npm ci --prefix /opt/seo --no-audit --no-fund
+COPY scripts/seo.mjs scripts/render-social.mjs ./scripts/
+CMD ["node", "scripts/render-social.mjs"]
 
 FROM nginx:alpine AS production
 COPY docker/nginx.conf /etc/nginx/nginx.conf

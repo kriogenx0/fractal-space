@@ -280,3 +280,8 @@ https://levitated.net/daily/levCATwist
 https://levitated.net/daily/levTremaFieldWhite
 https://levitated.net/daily/levFoldingPentagons
 https://levitated.net/daily/levDoubleHelix
+
+The per-experiment pre-rendered HTML and matching JPEG share previews retain
+these GPL terms and original attribution. SEO authoring source is in the
+public repository's scripts/seo.mjs and scripts/render-social.mjs:
+https://github.com/kriogenx0/fractal-space

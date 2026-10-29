@@ -22,3 +22,12 @@ services:
       context: .
       target: test
     image: fractal-space:test
+
+  seo:
+    profiles: [tools]
+    build:
+      context: .
+      target: seo
+    image: fractal-space:seo
+    volumes:
+      - ./dist:/app/dist

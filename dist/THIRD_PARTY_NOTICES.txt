@@ -160,3 +160,19 @@ https://levitated.net/daily/levCATwist.html
 https://levitated.net/daily/levTremaFieldWhite.html
 https://levitated.net/daily/levFoldingPentagons.html
 https://levitated.net/daily/levDoubleHelix.html
+
+SEO generation and share previews
+---------------------------------
+The SEO authoring/verification tools scripts/seo.mjs, render-social.mjs
+and check-seo.mjs are GPL-3.0-only because they process GPL Levitated
+templates and previews alongside the original artworks. They are excluded
+from the repository's MIT grant. Generated dist/_pages/levitated/** pages
+and the matching dist/social/<Levitated-slug>.jpg derivatives retain GPL
+terms. Their slugs are the Levitated catalog keys in dist/levitated/experiments.js.
+Metadata identifies Jared Tarbell's original work and links to its source
+and license. The other generated pages, original-artwork share images,
+favicon designs, and site metadata are original MIT-licensed contributions.
+
+Sharp (Apache-2.0) and its dependencies, and DejaVu fonts, are used only in
+the optional offline SEO authoring image. Their package notices remain in
+that image. No Sharp runtime or font files are bundled into the web app.

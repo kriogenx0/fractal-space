@@ -1,0 +1,8 @@
+/* MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt. */
+/* Loaded only inside the no-JavaScript fallback. */
+html,body{overflow:auto!important}
+.canvas-page .hud,.canvas-page #show{display:none!important}
+.static-preview{position:relative;z-index:20;box-sizing:border-box;max-width:900px;margin:2rem auto;padding:2rem;background:#f4f3ed;color:#252620;font:16px/1.6 sans-serif}
+.static-preview img{display:block;width:100%;height:auto;margin:1rem 0}
+.static-preview a{color:#7136a8}
+@media(prefers-color-scheme:dark){.static-preview{background:#141922;color:#eef0f4}.static-preview a{color:#c6a4ff}}

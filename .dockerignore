@@ -18,3 +18,10 @@
 !scripts/check-math.mjs
 !scripts/check-math-player.mjs
 !scripts/check-levitated-geometric.mjs
+!scripts/seo.mjs
+!scripts/check-seo.mjs
+!scripts/render-social.mjs
+!tools/
+!tools/seo/
+!tools/seo/package.json
+!tools/seo/package-lock.json

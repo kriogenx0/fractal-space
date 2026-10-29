@@ -23,7 +23,8 @@ let checked = 0;
 for (const path of htmlFiles) {
   const html = readFileSync(path, 'utf8');
   for (const [, value] of html.matchAll(/(?:src|href)="([^"]+)"/g)) {
-    const url = new URL(value, `https://site.invalid/${relative(root, path)}`);
+    const documentURL = new URL(html.match(/<base href="([^"]+)"/)?.[1] ?? '', `https://site.invalid/${relative(root, path)}`);
+    const url = new URL(value, documentURL);
     if (url.origin !== 'https://site.invalid') continue;
     const asset = resolve(root, `.${decodeURIComponent(url.pathname)}`);
     assert(asset === root || asset.startsWith(root + '/'), `Path escapes the site: ${value}`);
@@ -76,3 +77,5 @@ await import('./check-math.mjs');
 await import('./check-math-player.mjs');
 
 await import('./check-levitated-geometric.mjs');
+
+await import('./check-seo.mjs');
