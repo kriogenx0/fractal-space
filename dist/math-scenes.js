@@ -9,7 +9,9 @@ export const catalog = {
   'reaction-diffusion': { n: 44, name: 'Reaction–diffusion', category: 'PATTERN FORMATION', description: 'Two concentrations, two rates. Spots and labyrinths emerge from local reactions.', equation: '∂ₜA = ΔA − AB² + f(1−A); ∂ₜB = ½ΔB + AB² − (k+f)B', explanation: 'A fixed-step Gray–Scott simulation: A diffuses twice as fast as B; AB² converts A into B. Feed f replenishes A and removal k drains B. The periodic grid uses a nine-point Laplacian, Δt = 1, and concentrations bounded to [0,1]. Drag to seed B. Pause freezes the simulation; changing rates then takes effect when resumed.', reference: 'https://www.karlsims.com/rd.html', a: ['Feed f', .01, .08, .0001, .055], b: ['Removal k', .045, .07, .0001, .062], special: 'Next chemical regime', gesture: 'DRAG TO SEED B · ARROWS MOVE BRUSH · SPACE CHANGES REGIME', mode: 'reaction' },
   'clifford-attractor': { n: 45, name: 'Clifford attractor', category: 'ITERATED MAPS / CHAOS', description: 'A point follows a pair of equations. Its visits become a luminous density field.', equation: 'x′ = sin(ay) + c cos(ax); y′ = sin(bx) + d cos(by)', explanation: 'Both new coordinates use the previous point simultaneously. The renderer counts visits to each grid cell, then colors logarithmic density. The default constants are c = 1 and d = 0.7; Space selects another preset. Changing a or b restarts accumulation. Some parameters settle to simple cycles instead of a strange attractor.', a: ['Parameter a', -3, 3, .01, -1.4], b: ['Parameter b', -3, 3, .01, 1.6], special: 'Next attractor preset', gesture: 'ARROWS ADJUST a / b · SPACE FOR PRESETS · P PAUSES ACCUMULATION', mode: 'clifford' },
   'klein-bottle': { n: 46, name: 'Klein bottle', category: 'TOPOLOGY / NON-ORIENTABLE SURFACES', description: 'Follow a surface that has no globally distinct inside and outside.', equation: '(u, v) ∼ (u+2π, π−v); (u, v) ∼ (u, v+2π)', explanation: 'A Klein bottle is a closed, non-orientable surface. Its familiar bottle shape is an immersion into three dimensions: the neck passes through the wall, while the abstract surface does not join at that crossing. Neck width changes the shape; Surface reveal opens a cutaway. Space cycles glass, solid, and wireframe views. The fully revealed mesh identifies its end with a reversed parameter direction. Local shading is two-sided because no consistent global normal exists.', reference: 'https://www.math.union.edu/~dpvc/TFB/Art/PAC-9603/tour/klein/klein.html', a: ['Neck width', .65, 1.25, .01, 1], b: ['Surface reveal', .2, 1, .01, 1], special: 'Glass / solid / wireframe', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
-  'torus': { n: 47, name: 'Torus', category: 'TOPOLOGY / SURFACES OF REVOLUTION', description: 'Two circular directions, one hole. Change the radii and follow the surface.', equation: 'r(u,v) = ((R+r cos v) cos u, r sin v, (R+r cos v) sin u)', explanation: 'A circle of radius r revolved around an axis at distance R produces a torus. The two sliders change its ring radius R and tube radius r, always keeping R greater than r so the hole remains open. Unlike the Klein bottle, this surface is orientable. Both are closed surfaces with Euler characteristic zero. Space cycles solid, wireframe, and glass views.', a: ['Ring radius R', 1.2, 2.4, .01, 1.7], b: ['Tube radius r', .2, 1.1, .01, .65], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' }
+  'torus': { n: 47, name: 'Torus', category: 'TOPOLOGY / SURFACES OF REVOLUTION', description: 'Two circular directions, one hole. Change the radii and follow the surface.', equation: 'r(u,v) = ((R+r cos v) cos u, r sin v, (R+r cos v) sin u)', explanation: 'A circle of radius r revolved around an axis at distance R produces a torus. The two sliders change its ring radius R and tube radius r, always keeping R greater than r so the hole remains open. Unlike the Klein bottle, this surface is orientable. Both are closed surfaces with Euler characteristic zero. Space cycles solid, wireframe, and glass views.', a: ['Ring radius R', 1.2, 2.4, .01, 1.7], b: ['Tube radius r', .2, 1.1, .01, .65], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
+  'mobius-strip': { n: 48, name: 'Möbius strip', category: 'TOPOLOGY / ONE-SIDED SURFACES', description: 'A half-turn joins the ends of a ribbon. Follow its only edge all the way home.', equation: 'r(u,v) = ((R+v cos(hu/2)) cos u, v sin(hu/2), (R+v cos(hu/2)) sin u)', explanation: 'A Möbius strip is a non-orientable surface with one boundary loop. Its ends join with the width coordinate reversed: (0,v) is identified with (2π,−v). The width slider changes the ribbon; Half-turns selects 1, 3, or 5, all odd. The bright tracer follows the boundary and returns after two trips around the center. Space cycles solid, wireframe, and glass views. The tracer and rotation pause together; manual controls still work.', a: ['Ribbon half-width', .15, .85, .01, .55], b: ['Half-turns h', 1, 5, 2, 1], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
+  'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -50,6 +52,27 @@ export function parametricSurface(slug, a, b) {
   for (let i = 0; i < nu; i += 4) grid.push(Array.from({ length: nv + 1 }, (_, j) => at(i, j)));
   for (let j = 0; j < nv; j += 3) grid.push(Array.from({ length: nu + 1 }, (_, i) => at(i, j)));
   return { vertices, faces, grid, full };
+}
+
+export function mobiusPoint(u, v, halfTurns = 1) { const radius = 1.7 + v * Math.cos(halfTurns * u / 2); return [radius * Math.cos(u), v * Math.sin(halfTurns * u / 2), radius * Math.sin(u)]; }
+export function mobiusSurface(width = .55, halfTurns = 1) {
+  if (![1, 3, 5].includes(halfTurns)) throw new Error('The Möbius strip needs an odd half-turn count');
+  const nu = 96, nv = 16, vertices = [], faces = [], grid = [];
+  for (let i = 0; i < nu; i++) for (let j = 0; j <= nv; j++) vertices.push(mobiusPoint(i / nu * TAU, (j / nv * 2 - 1) * width, halfTurns));
+  const at = (i, j) => i === nu ? nv - j : i * (nv + 1) + j;
+  for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) { const a = at(i, j), b = at(i + 1, j), c = at(i + 1, j + 1), d = at(i, j + 1); faces.push([a, b, c], [a, c, d]); }
+  for (let i = 0; i < nu; i += 4) grid.push(Array.from({ length: nv + 1 }, (_, j) => at(i, j)));
+  for (let j = 0; j <= nv; j += 4) grid.push(Array.from({ length: nu + 1 }, (_, i) => at(i, j)));
+  return { vertices, faces, grid, full: true };
+}
+export function schwarzArea(n, m, radius = 1.5, height = 3) { return 2 * m * n * radius * Math.sin(Math.PI / n) * Math.hypot(height / m, radius * (1 - Math.cos(Math.PI / n))); }
+export function schwarzLantern(n = 12, m = 18) {
+  const radius = 1.5, height = 3, vertices = [], faces = [], edges = new Map();
+  const at = (i, j) => i * n + (j + n) % n;
+  for (let i = 0; i <= m; i++) for (let j = 0; j < n; j++) { const angle = j / n * TAU + (i % 2) * Math.PI / n; vertices.push([radius * Math.cos(angle), height * (i / m - .5), radius * Math.sin(angle)]); }
+  for (let i = 0; i < m; i++) for (let j = 0; j < n; j++) { const a = at(i, j), peak = at(i + 1, j + i % 2); faces.push([a, peak, at(i, j + 1)], [a, at(i + 1, j + i % 2 - 1), peak]); }
+  for (const face of faces) for (let k = 0; k < 3; k++) { const a = face[k], b = face[(k + 1) % 3], key = a < b ? `${a},${b}` : `${b},${a}`; if (!edges.has(key)) edges.set(key, [a, b]); }
+  return { vertices, faces, grid: [...edges.values()], radius, height, area: schwarzArea(n, m, radius, height), cylinderArea: TAU * radius * height, full: true };
 }
 
 export function gyroid(x, y, z) { return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x); }
@@ -111,6 +134,8 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
     else if (slug === 'gyroid-field') model = gyroidMesh(s.a, Math.round(s.b));
+    else if (slug === 'mobius-strip') model = mobiusSurface(s.a, Math.round(s.b));
+    else if (slug === 'schwarz-lantern') model = schwarzLantern(Math.round(s.a), Math.round(s.b));
     else if (['klein-bottle', 'torus'].includes(slug)) model = parametricSurface(slug, s.a, s.b);
     key = next; imageKey = '';
   }
@@ -121,7 +146,7 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
     else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
     else if (slug === 'torus-knots') { s.a = s.a >= 9 ? 2 : s.a + 1; }
-    else if (['klein-bottle', 'torus'].includes(slug)) s.surfaceStyle = ((s.surfaceStyle ?? 0) + 1) % 3;
+    else if (['klein-bottle', 'torus', 'mobius-strip', 'schwarz-lantern'].includes(slug)) s.surfaceStyle = ((s.surfaceStyle ?? 0) + 1) % 3;
     else if (slug === 'gyroid-field') s.a = s.a === 0 ? .6 : -s.a;
     else s.direction *= -1;
     prepare(s);
@@ -150,8 +175,8 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
       const rotate = ([x, y, z]) => { const xx = x * cy - z * sy, zz = x * sy + z * cy; return [xx, y * cp - zz * sp, y * sp + zz * cp]; };
       const project = p => { const [x, y, z] = rotate(p), f = unit * .8 * s.zoom / Math.max(1.5, 5.8 + z); return [W * .5 + x * f, H * .42 + y * f, z]; };
       const path = (points, color, width = 1, fill = false) => { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); if (fill) { ctx.closePath(); ctx.fillStyle = color; ctx.fill(); } else { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); } };
-      if (['klein-bottle', 'torus'].includes(slug)) {
-        const klein = slug === 'klein-bottle', style = ((s.surfaceStyle ?? 0) + (klein ? 2 : 0)) % 3; // 0 solid, 1 wire, 2 glass.
+      if (['klein-bottle', 'torus', 'mobius-strip', 'schwarz-lantern'].includes(slug)) {
+        const klein = slug === 'klein-bottle', mobius = slug === 'mobius-strip', lantern = slug === 'schwarz-lantern', baseHue = klein ? 210 : mobius ? 280 : lantern ? 145 : 25, style = ((s.surfaceStyle ?? 0) + (klein ? 2 : 0)) % 3; // 0 solid, 1 wire, 2 glass.
         const projected = model.vertices.map(project), triangles = model.faces.map(face => {
           const [a, b, c] = face.map(i => model.vertices[i]), ab = b.map((v, i) => v - a[i]), ac = c.map((v, i) => v - a[i]);
           const normal = rotate([ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]]);
@@ -159,13 +184,14 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
         }).sort((a, b) => b.depth - a.depth);
         if (style !== 1) {
           ctx.globalAlpha = style === 2 ? .24 : 1;
-          for (const triangle of triangles) { const n = triangle.normal, light = Math.abs((n[0] * .3 - n[1] * .55 + n[2] * .8) / Math.max(1e-9, Math.hypot(...n))); const color = `hsl(${(klein ? 210 : 25) + hue + triangle.height * 24},72%,${25 + light * 43}%)`; path(triangle.face.map(i => projected[i]), color, 1, true); }
+          for (const triangle of triangles) { const n = triangle.normal, light = Math.abs((n[0] * .3 - n[1] * .55 + n[2] * .8) / Math.max(1e-9, Math.hypot(...n))); const color = `hsl(${baseHue + hue + triangle.height * 24},72%,${25 + light * 43}%)`; const points = triangle.face.map(i => projected[i]); path(points, color, 1, true); if (lantern && style === 0) path([...points, points[0]], '#0b252d', Math.max(.25, unit / 1600)); }
         }
         ctx.globalAlpha = style === 0 ? .32 : .7;
-        if (style !== 0) for (const trace of model.grid) path(trace.map(i => projected[i]), `hsl(${(klein ? 185 : 42) + hue},80%,75%)`, Math.max(.35, unit / 1100));
+        if (style !== 0) for (const trace of model.grid) path(trace.map(i => projected[i]), `hsl(${(klein ? 185 : mobius ? 295 : lantern ? 160 : 42) + hue},80%,75%)`, Math.max(.35, unit / 1100));
         ctx.globalAlpha = 1;
         const styles = ['solid', 'wireframe', 'glass'];
-        status = klein ? `${model.full ? 'Closed, non-orientable surface · χ = 0' : 'Cutaway view · open surface'} · ${styles[style]} · 3-D self-intersection` : `R ${s.a.toFixed(2)} · r ${s.b.toFixed(2)} · hole radius ${(s.a - s.b).toFixed(2)} · orientable · χ = 0 · ${styles[style]}`;
+        if (mobius) { const p = project(mobiusPoint((s.time * .45) % (TAU * 2), s.a, Math.round(s.b))); ctx.beginPath(); ctx.arc(p[0], p[1], Math.max(2, unit / 150), 0, TAU); ctx.fillStyle = '#fff4b5'; ctx.fill(); }
+        status = mobius ? `Non-orientable · one boundary loop · χ = 0 · ${Math.round(s.b)} half-turn${s.b === 1 ? '' : 's'} · ${styles[style]}` : lantern ? `${model.faces.length.toLocaleString()} triangles · A ${model.area.toFixed(3)} / cylinder ${model.cylinderArea.toFixed(3)} = ${(model.area / model.cylinderArea).toFixed(4)}× · ${styles[style]}` : klein ? `${model.full ? 'Closed, non-orientable surface · χ = 0' : 'Cutaway view · open surface'} · ${styles[style]} · 3-D self-intersection` : `R ${s.a.toFixed(2)} · r ${s.b.toFixed(2)} · hole radius ${(s.a - s.b).toFixed(2)} · orientable · χ = 0 · ${styles[style]}`;
       } else if (slug === 'gyroid-field') {
         const triangles = model.map(t => ({ points: t.points.map(project), normal: rotate(t.normal), value: t.value })).sort((a, b) => b.points.reduce((sum, p) => sum + p[2], 0) - a.points.reduce((sum, p) => sum + p[2], 0));
         for (const t of triangles) { const n = t.normal, light = Math.abs((n[0] * .3 - n[1] * .5 + n[2] * .8) / Math.max(.001, Math.hypot(...n))), color = `hsl(${175 + hue + t.value * 40},58%,${20 + light * 47}%)`; path(t.points, color, 1, true); }

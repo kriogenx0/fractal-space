@@ -7,7 +7,7 @@ const state = { a: work.a[4], b: work.b[4], time: 0, yaw: .45, pitch: .45, zoom:
 let scene, paused = reduced, visible = !document.hidden, dirty = true, last = performance.now(), lastDraw = 0, accumulator = 0, drag = null, pinch = 0;
 const touches = new Map();
 $('#title').textContent = work.name; $('#category').textContent = work.category; $('#description').textContent = work.description;
-$('#equation').textContent = work.equation; $('#explanation').textContent = work.explanation; $('#edition').textContent = `FRACTAL SPACE / ${work.n}`;
+$('#equation').textContent = work.equation; $('#measurement').hidden = slug !== 'schwarz-lantern'; $('#explanation').textContent = work.explanation; $('#edition').textContent = `FRACTAL SPACE / ${work.n}`;
 $('#material').textContent = 'MATHEMATICS / LIVE CANVAS'; $('#gesture').textContent = work.gesture; $('#special').textContent = work.special;
 $('#help-text').textContent = work.mode === 'reaction' ? 'Drag to seed chemical B. Arrow keys move the brush and Enter plants at its position. Space selects a chemical regime. P pauses; changing rates while paused takes effect after resuming.' : work.mode === 'clifford' ? 'Arrow keys adjust a and b. Space selects a preset, R restarts the accumulation, P pauses it.' : work.mode === 'plane' ? 'Drag or use arrows to pan the complex plane. Scroll, pinch or + / − to zoom. Space resets the view. R changes the polynomial degree.' : 'Drag or use arrows to orbit. Scroll, pinch or + / − to zoom. Space uses the named action; P pauses rotation.';
 $('#zoom-help').hidden = !['plane', 'orbit'].includes(mode);
@@ -16,7 +16,7 @@ $('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'fractal.html?work=
 document.title = `${work.name} — Fractal Space`; canvas.setAttribute('aria-label', `${work.name}. ${$('#help-text').textContent}`);
 function precision(step) { return step >= 1 ? 0 : step < .001 ? 4 : 2; }
 function sync() { for (const key of ['a', 'b']) { const range = work[key], input = $('#param-' + key); $('#label-' + key).textContent = range[0]; input.min = range[1]; input.max = range[2]; input.step = range[3]; input.value = state[key]; $('#value-' + key).textContent = state[key].toFixed(precision(range[3])); } }
-function parameter(key, value) { const range = work[key]; state[key] = clamp(Math.round(value / range[3]) * range[3], range[1], range[2]); sync(); dirty = true; }
+function parameter(key, value) { const range = work[key]; state[key] = clamp(Math.round((value - range[1]) / range[3]) * range[3] + range[1], range[1], range[2]); sync(); dirty = true; }
 for (const key of ['a', 'b']) $('#param-' + key).addEventListener('input', () => parameter(key, +$('#param-' + key).value)); sync();
 function pauseUI() { $('#pause').textContent = paused ? '▶' : 'Ⅱ'; $('#pause').setAttribute('aria-label', paused ? 'Resume animation' : 'Pause animation'); $('#pause').setAttribute('aria-pressed', String(paused)); }
 function pause() { paused = !paused; accumulator = 0; pauseUI(); dirty = true; } pauseUI();
@@ -57,7 +57,7 @@ window.addEventListener('keydown', e => {
   } else if (!e.repeat) { const key = e.key.toLowerCase(); if (key === ' ') { e.preventDefault(); special(); } if (key === 'enter' && mode === 'reaction') { e.preventDefault(); plant(); } if (key === 'p') pause(); if (key === 'r') vary(); if (key === 'h') hud($('#hud').hidden); if (key === 'f') fullscreen(); if (['+', '=', '-'].includes(key)) zoom(key === '-' ? .85 : 1.15); }
 });
 $('#save').onclick = () => { if (!scene) return; scene.draw(state); canvas.toBlob(blob => { if (!blob) return; const url = URL.createObjectURL(blob), link = document.createElement('a'); link.download = `fractal-space-${slug}-${state.seed}.png`; link.href = url; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1500); }); };
-function draw() { if (scene) $('#status').textContent = scene.draw(state); dirty = false; }
+function draw() { if (scene) { $('#status').textContent = scene.draw(state); if (slug === 'schwarz-lantern') { const model = scene.data, text = `Triangle area ${model.area.toFixed(3)} · Cylinder ${model.cylinderArea.toFixed(3)} · Ratio ${(model.area / model.cylinderArea).toFixed(4)}×`; if ($('#measurement').textContent !== text) $('#measurement').textContent = text; } } dirty = false; }
 function frame(now) {
   requestAnimationFrame(frame); const dt = clamp((now - last) / 1000, 0, .06); last = now;
   if (!visible || !scene) return;

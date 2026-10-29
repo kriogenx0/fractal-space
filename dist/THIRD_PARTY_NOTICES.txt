@@ -133,3 +133,11 @@ The complete upstream MIT notice is preserved in
 https://github.com/mrdoob/three.js/blob/dev/examples/jsm/geometries/ParametricFunctions.js
 Mesh topology, surface rendering and controls are new implementations.
 No Three.js runtime, textures, or other artwork is bundled.
+
+Möbius strip / Schwarz lantern
+-----------------------------
+These are original MIT-licensed mathematical implementations. Schwarz
+lantern construction reference: John M. Sullivan / Matteo Petrera,
+Geometry II, TU Berlin (2010), exercise sheet 1, Exercise 2.
+https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf
+No reference text, diagrams, source code, or other assets are bundled.

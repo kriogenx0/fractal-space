@@ -150,3 +150,44 @@ Space cycles surface styles: Klein starts in glass, torus in solid. Glass
 uses translucent painter's-algorithm triangles and is an illustrative view,
 not an exact order-independent transparency solution at intersecting sheets.
 Parameters, manual rotation, and view switching work while paused.
+
+
+Möbius strip and Schwarz lantern (2026-10-29)
+-------------------------------------------
+Both are original MIT-licensed implementations of standard mathematical
+constructions. No source code or images from a reference are copied.
+
+Möbius strip: R=1.7, u in [0,2pi], v in [-width,width]:
+f(u,v)=((R+v cos(hu/2))cos u, v sin(hu/2),
+        (R+v cos(hu/2))sin u).
+The half-turn count h is odd (1,3,5), so f(2pi,v)=f(0,-v).
+The 96x16-cell mesh identifies that reversed seam. It has Euler
+characteristic zero, is non-orientable, and has exactly one boundary loop.
+The boundary tracer follows f(t,width), t=0..4pi. It visits the opposite
+parameter edge after 2pi and returns after 4pi. The marker is drawn visibly
+over the surface to make its journey easy to follow. The light/shading is
+local and two-sided. This is a geometric ribbon, not a material bending model.
+Slider steps are aligned to their minimum so 1,3,5 stay odd in the UI.
+
+Schwarz lantern: radius r=1.5, height H=3. Use n evenly spaced vertices on
+each of m+1 polygon rings. Every odd ring is shifted by pi/n; adjacent
+rings are joined with 2n congruent isosceles triangles per band.
+There are 2mn faces; no end caps are included. The mesh is an orientable
+annulus with two boundary loops. Every vertex lies on the cylinder.
+One triangle has area r*sin(pi/n)*sqrt((H/m)^2+r^2*(1-cos(pi/n))^2), hence
+A=2mn*r*sin(pi/n)*sqrt((H/m)^2+r^2*(1-cos(pi/n))^2).
+The readout compares A with the cylinder lateral area 2pi*r*H. It also
+sums the geometry independently in tests using cross products.
+
+For simultaneous n,m -> infinity, the area converges to the cylinder's
+area exactly when m/n^2 -> 0. A sequence m=n works; m=n^2 has a larger
+finite limiting ratio; m=n^3 diverges. The analytic tests cover these
+sequences without constructing unbounded meshes. The interactive mesh is
+bounded by n<=40,m<=160, at most 12,800 triangles. This numerical-control
+limit does not claim to realize an infinite sequence on screen.
+
+Construction reference: John M. Sullivan / Matteo Petrera, Geometry II,
+TU Berlin, exercise sheet 1 (2010), Exercise 2, The Schwarz lantern:
+https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf
+Its notation swaps the names of the two counts compared with this player;
+our n always means vertices around each ring, m always means bands.

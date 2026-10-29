@@ -6,3 +6,4 @@
 .math-page dialog h3{font-size:17px;font-weight:500;line-height:1.4;margin-top:28px}
 .math-page dialog a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:700px){.math-page h1{font-size:32px}.math-page .work-title .math-equation{font-size:9px;line-height:1.5;margin-top:8px}}
+.math-page .work-title .math-measurement{font:11px/1.7 ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums;margin-top:10px}

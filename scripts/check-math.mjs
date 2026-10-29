@@ -44,6 +44,24 @@ for (const [ring, tube] of [[1.2, .2], [1.2, 1.1], [2.4, 1.1]]) { const torus = 
 const cutaway = math.parametricSurface('klein-bottle', 1, .5); assert(!cutaway.full && topology(cutaway).boundary > 0, 'A cutaway is explicitly open');
 assert(readFileSync('dist/math/threejs-LICENSE.txt', 'utf8').includes('Copyright © 2010-2026 three.js authors'));
 
+function boundaryLoops(model) {
+  const edges = new Map(), adjacency = new Map();
+  for (const face of model.faces) for (let k = 0; k < 3; k++) { const a = face[k], b = face[(k + 1) % 3], key = a < b ? `${a},${b}` : `${b},${a}`; if (!edges.has(key)) edges.set(key, { a, b, count: 0 }); edges.get(key).count++; }
+  for (const { a, b, count } of edges.values()) if (count === 1) { if (!adjacency.has(a)) adjacency.set(a, []); if (!adjacency.has(b)) adjacency.set(b, []); adjacency.get(a).push(b); adjacency.get(b).push(a); }
+  const seen = new Set(); let loops = 0; for (const start of adjacency.keys()) { if (seen.has(start)) continue; loops++; const queue = [start]; seen.add(start); for (let i = 0; i < queue.length; i++) { const next = adjacency.get(queue[i]); assert.equal(next.length, 2, 'Boundary is a cycle without branching'); for (const v of next) if (!seen.has(v)) { seen.add(v); queue.push(v); } } } return loops;
+}
+for (const width of [.15, .85]) for (const turns of [1, 3, 5]) {
+  const strip = math.mobiusSurface(width, turns); assert.deepEqual(topology(strip), { chi: 0, boundary: 192, orientable: false, components: 1 }); assert.equal(boundaryLoops(strip), 1);
+  for (const v of [-width, 0, width]) { const a = math.mobiusPoint(TAU, v, turns), b = math.mobiusPoint(0, -v, turns); assert(Math.hypot(...a.map((value, i) => value - b[i])) < 1e-12); }
+  const start = math.mobiusPoint(0, width, turns), halfway = math.mobiusPoint(TAU, width, turns), finish = math.mobiusPoint(TAU * 2, width, turns); assert(Math.hypot(...start.map((value, i) => value - halfway[i])) > width); assert(Math.hypot(...start.map((value, i) => value - finish[i])) < 1e-12, 'The single boundary returns after two center circuits');
+}
+for (const [n, m] of [[4, 2], [12, 18], [8, 160], [40, 160]]) {
+  const lantern = math.schwarzLantern(n, m); assert.equal(lantern.faces.length, 2 * n * m); assert.deepEqual(topology(lantern), { chi: 0, boundary: 2 * n, orientable: true, components: 1 }); assert.equal(boundaryLoops(lantern), 2);
+  for (const [x, y, z] of lantern.vertices) assert(Math.abs(Math.hypot(x, z) - lantern.radius) < 1e-12 && Math.abs(y) <= lantern.height / 2);
+  let area = 0; for (const face of lantern.faces) { const [a, b, c] = face.map(i => lantern.vertices[i]), u = b.map((v, i) => v - a[i]), v = c.map((value, i) => value - a[i]); area += Math.hypot(u[1] * v[2] - u[2] * v[1], u[2] * v[0] - u[0] * v[2], u[0] * v[1] - u[1] * v[0]) / 2; } assert(Math.abs(area - lantern.area) / area < 1e-10, 'Summed geometric triangle area equals the independent closed formula');
+}
+const ratio = (n, m) => math.schwarzArea(n, m) / (TAU * 1.5 * 3); assert(Math.abs(ratio(200, 200) - 1) < .0001); assert(Math.abs(ratio(200, 200 ** 2) - Math.sqrt(1 + Math.PI ** 4 / 16)) < .001); assert(ratio(40, 40 ** 3) > ratio(20, 20 ** 3) * 1.9, 'Over-refining the bands makes area diverge');
+
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -68,4 +86,4 @@ for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: eight math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, finite desktop/mobile previews.');
+console.log('PASS: ten math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, finite desktop/mobile previews.');

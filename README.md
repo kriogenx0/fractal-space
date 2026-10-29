@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 46 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 48 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,11 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Eight MIT-licensed
+topology, implicit surfaces, and emergent systems. Ten MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid field,
-Reaction–diffusion, Clifford attractor, Klein bottle, and Torus. Each displays its equation and
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, and Schwarz lantern.
+Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
 
@@ -138,3 +139,15 @@ export, reduced motion, drag/arrow orbit, and scroll/pinch zoom.
 The Klein bottle parametrization is adapted from the MIT-licensed Three.js
 ParametricFunctions example; its copyright notice is included in
 `dist/math/threejs-LICENSE.txt`. No Three.js runtime or assets are loaded.
+
+## Möbius strip and Schwarz lantern
+
+The Möbius strip has adjustable width and 1, 3, or 5 half-turns. Its mesh
+reverses the width coordinate at the seam, with one boundary loop and no
+global orientation. A boundary tracer returns after two circuits.
+The Schwarz lantern (Schwarz's polyhedron) compares the actual triangle
+area with the cylinder's lateral area, excluding end caps. Ring vertices
+and band counts expose the area-convergence paradox. Both support orbit,
+zoom, surface styles, precise parameters, pause and reduced motion.
+Tests verify boundary loops, seam reversal, odd twist controls, triangle
+area against its independent formula, and different convergence regimes.
