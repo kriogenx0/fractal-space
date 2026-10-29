@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 61 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 62 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -249,3 +249,14 @@ page/image derivatives retain their GPL notices and author credit.
 
 Sitemap: <https://fractalspace.org/sitemap.xml>. Search Console ownership and
 sitemap submission are managed separately in the domain’s Search Console account.
+
+## Mountain terrain
+
+A seeded 3D landscape built from warped, ridged fractal value noise. Mountain
+height and valley depth adjust elevation independently; roughness changes fine
+ridges, and landscape depth stretches the front-to-back extent. Changing
+relief preserves the landscape seed. New terrain / R regenerates the range
+without changing the camera or controls. Space switches shaded alpine,
+height-contour and wireframe views. Drag/arrows orbit, scroll/pinch zooms,
+P pauses rotation, and Save frame exports a PNG. The 64×64 height grid has
+8,192 surface triangles and exposed side walls. All controls work while paused.

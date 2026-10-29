@@ -10,3 +10,7 @@
 
 #art[data-mode=ink],#art[data-mode=ink]:active{cursor:crosshair}
 .math-page button:disabled{opacity:.35;cursor:default}
+
+.hud[data-extra-controls="true"] .panel{max-height:calc(100dvh - 150px);overflow-y:auto}
+@media(max-width:700px){.hud[data-extra-controls="true"] .work-title{bottom:320px}.hud[data-extra-controls="true"] .panel{max-height:calc(100dvh - 120px)}}
+@media(max-width:700px) and (max-height:700px){.hud[data-extra-controls="true"] .work-title{bottom:auto;top:112px}.hud[data-extra-controls="true"] .work-title .math-equation{display:none}}

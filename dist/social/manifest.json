@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "mountain-terrain",
+      "source": "thumbnails/mountain-terrain.svg",
+      "sourceSHA256": "5c386aa50a2f7ecd2e7655269aaba7653d03c8b59dd63ab147e620266ea8ab82",
+      "image": "social/mountain-terrain.jpg",
+      "imageSHA256": "53861a972dbeb85f07854ce3d1d7d60cca455a040cdb11b073c9f5a9e82ba540"
+    },
+    {
       "slug": "ca-twist",
       "source": "thumbnails/ca-twist.svg",
       "sourceSHA256": "95d078edc2eaa157cd716b3bc79a2fab15aac5000f207e9b58293f72e374c32a",

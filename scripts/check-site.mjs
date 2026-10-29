@@ -79,3 +79,5 @@ await import('./check-math-player.mjs');
 await import('./check-levitated-geometric.mjs');
 
 await import('./check-seo.mjs');
+
+await import('./check-terrain.mjs');

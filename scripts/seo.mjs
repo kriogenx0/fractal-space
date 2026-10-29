@@ -22,6 +22,7 @@ function catalog(file, name = 'catalog') {
   return runInNewContext(`(${literal})`, Object.create(null), { timeout: 1000 });
 }
 const editorial = {
+  'mountain-terrain': 'Generate a random 3D mountain terrain. Adjust mountain height, valley depth, roughness, and landscape depth, then orbit its shaded, contour, or wireframe views.',
   'dream-strata': 'Explore a layered generative landscape in your browser. Move the cursor to shift floating monuments, suspended oceans, and distant moons.',
   mandelbulb: 'Explore a 3D Mandelbulb fractal in WebGL. Orbit and zoom into its folded surface, adjust power and iterations, and save a frame in your browser.',
   cathedral: 'Explore a Menger sponge fractal in 3D. Carve recursive tunnels into a cube, adjust recursion and twist, then orbit and zoom through its geometry.',
@@ -89,6 +90,7 @@ function preRender(template, work) {
     html = setContent(html, 'title', work.name); html = setContent(html, 'description', d.description ?? work.description);
     for (const id of ['category', 'equation', 'explanation', 'status']) if (d[id]) html = setContent(html, id, d[id]);
     html = setContent(html, 'help-text', d.help ?? d.gesture ?? d.hint ?? work.description);
+    if (d.extra) for (const [key, range] of Object.entries(d.extra)) { html = setContent(html, 'label-' + key, range[0]); html = html.replace(`<label id="extra-${key}" hidden>`, `<label id="extra-${key}">`); }
     if (d.a) html = setContent(html, 'label-a', d.a[0]); if (d.b) html = setContent(html, 'label-b', d.b[0]);
     if (d.special) html = setContent(html, 'special', d.special);
   }

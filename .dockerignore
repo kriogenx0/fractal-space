@@ -25,3 +25,4 @@
 !tools/seo/
 !tools/seo/package.json
 !tools/seo/package-lock.json
+!scripts/check-terrain.mjs

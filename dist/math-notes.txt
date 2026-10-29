@@ -401,3 +401,34 @@ Mathematical reference: Eric W. Weisstein, Fibonacci Number, MathWorld:
 https://mathworld.wolfram.com/FibonacciNumber.html
 Golden spiral reference: https://mathworld.wolfram.com/GoldenSpiral.html
 No source code, prose, or images from these references are copied.
+
+
+Mountain terrain
+----------------
+Original MIT-licensed implementation in mountain-terrain.js. A 32-bit integer
+lattice hash feeds bounded 2-D value noise with quintic interpolation
+6t^5−15t^4+10t^3. Two coarse noise fields warp the sampling domain. Five
+rotated noise octaves contribute squared ridges (1−abs(N))^2, with
+lacunarity 1.9 and persistence 0.25 + 0.43 × roughness. A coarse component
+adds broader landforms. The finite grid is normalized once to [−1,1].
+
+Positive samples become H × f^1.55, negative samples become
+−V × (−f)^0.9. Thus the field's highest and lowest sampled points reach
+the chosen mountain height H and negative valley depth −V exactly, in
+relative units. Height/depth edits preserve the seed and normalized field;
+roughness rebuilds the noise with that same seed. Landscape depth scales
+z coordinates only, preserving every elevation. A 64×64 grid produces
+8,192 consistently oriented surface triangles. Vertical side walls and a
+bottom close the cut section at y=−V−0.22.
+
+Perspective projection uses a camera distance larger than the bounding
+sphere, so the denominator stays positive for all orbit angles. Faces are
+backface-culled and depth sorted; this Canvas painter approximates visibility
+for highly overlapping projected triangles. Color and directional lighting
+show height and slope. Contours interpolate twelve height levels on the
+triangulation. Wireframe preserves solid depth occlusion. No erosion,
+hydrology, physical units, or real-world elevation data are simulated.
+
+New terrain changes only the seed. Surface, Contours, and Wireframe share
+the same geometry. Animation rotates the camera rather than morphing the
+landscape. Pause/reduced motion preserve manual edits, orbit and PNG capture.
