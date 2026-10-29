@@ -1,0 +1,26 @@
+// MIT License — Copyright (c) 2026 Alex Vaos. See ../LICENSE.
+import assert from 'node:assert/strict';
+import { math } from './check-math.mjs';
+const { createRippleField, rippleDt, rippleCamera, ripplePlaneHit, rippleHeightAt, rippleSurfaceHit, rippleVertices } = math;
+const quiet = createRippleField(); assert.equal(quiet.step(), false); assert.equal(quiet.steps, 0); assert(quiet.height.every(v => v === 0)); assert.equal(quiet.drop(NaN, 0), false); assert.equal(quiet.drop(4, 0), false); assert.throws(() => createRippleField(128));
+quiet.drop(0, 0); assert.deepEqual(quiet.height, quiet.previous, 'An impulse preserves the discrete initial velocity'); quiet.clear(); assert.equal(quiet.drops, 0); assert(quiet.quiet && quiet.height.every(v => v === 0));
+const wave = createRippleField(); wave.drop(0, 0, .18);
+const outside = field => field.height.reduce((sum, v, k) => { const x = (k % field.size / field.resolution - .5) * 6.4, z = (Math.floor(k / field.size) / field.resolution - .5) * 6.4; return sum + (Math.hypot(x, z) > .9 ? v * v : 0); }, 0);
+assert.equal(outside(wave), 0); for (let i = 0; i < 30; i++) wave.step(1.2, .2); assert(outside(wave) > .001, 'The disturbance propagates outward beyond the original drop');
+for (let j = 0; j < wave.size; j++) for (let i = 0; i < wave.size; i++) assert(Math.abs(wave.height[j * wave.size + i] - wave.height[i * wave.size + j]) < 1e-10, 'The square solver preserves 90-degree radial symmetry');
+const a = createRippleField(32), b = createRippleField(32), combined = createRippleField(32); a.drop(-.8, .2); b.drop(.9, -.3); combined.drop(-.8, .2); combined.drop(.9, -.3);
+for (let i = 0; i < 90; i++) { a.step(1.1, .35); b.step(1.1, .35); combined.step(1.1, .35); }
+for (let i = 0; i < a.height.length; i++) assert(Math.abs(a.height[i] + b.height[i] - combined.height[i]) < 1e-10, 'Independent impacts superpose in the shared wave field');
+const cancellation = createRippleField(); cancellation.drop(0, 0, .28, .8); cancellation.drop(0, 0, .28, -.8); cancellation.step(); assert(cancellation.height.every(v => v === 0), 'Equal opposite disturbances cancel exactly');
+function energy(field, speed = 1.15) { let sum = 0; for (let j = 1; j < field.resolution; j++) for (let i = 1; i < field.resolution; i++) { const k = j * field.size + i, v = (field.height[k] - field.previous[k]) / rippleDt, dx = (field.height[k + 1] - field.height[k]) / field.spacing, dz = (field.height[k + field.size] - field.height[k]) / field.spacing; sum += v * v + speed * speed * (dx * dx + dz * dz); } return sum * field.spacing ** 2 / 2; }
+const mild = createRippleField(), damped = createRippleField(); mild.drop(0, 0); damped.drop(0, 0); for (let i = 0; i < 45; i++) { mild.step(1.15, .05); damped.step(1.15, 2); } assert(energy(damped) < energy(mild) * .3, 'Stronger damping removes more wave energy before reaching the edge');
+for (const resolution of [16, 64, 96]) for (const [speed, damping] of [[.4, .05], [2.4, .05], [2.4, 2]]) { const field = createRippleField(resolution); for (let i = 0; i < 12; i++) field.drop(Math.sin(i) * 2, Math.cos(i) * 2, i % 2 ? .15 : .6); for (let i = 0; i < 150; i++) field.step(speed, damping); assert(field.height.every(Number.isFinite)); assert(Math.max(...field.height.map(Math.abs)) < 20, 'All control endpoints stay stable'); for (let i = 0; i < field.size; i++) assert.equal(field.height[i], 0, 'The outer ring remains fixed'); }
+const impacts = createRippleField(); for (let i = 0; i < 100; i++) impacts.drop(0, 0); assert.equal(impacts.impacts.length, 32); for (let i = 0; i < 35; i++) impacts.step(); assert.equal(impacts.impacts.length, 0, 'Transient impact indicators retire while waves remain');
+for (const [width, height] of [[1000, 625], [390, 844]]) for (const yaw of [-1.1, .45]) for (const pitch of [-.7, .4, 1.2]) {
+  const state = { yaw, pitch, zoom: 1.3 }, camera = rippleCamera(width, height, state), flat = createRippleField(16);
+  for (const point of [[0, 0, 0], [1, 0, -.8], [-1.3, 0, 1.1]]) { const p = camera.project(point), rest = ripplePlaneHit(camera, p[0], p[1]), hit = rippleSurfaceHit(flat, 1, camera, p[0], p[1]); assert(rest && hit); assert(Math.hypot(rest[0] - point[0], rest[1] - point[2]) < 1e-8); assert(Math.hypot(hit[0] - point[0], hit[1] - point[2]) < 1e-8); }
+  const slope = createRippleField(16); slope.height.forEach((_, k) => { const x = (k % slope.size / slope.resolution - .5) * 6.4, z = (Math.floor(k / slope.size) / slope.resolution - .5) * 6.4; slope.height[k] = Math.atanh((x * .04 + z * .025) / 1.2); });
+  for (const [x, z] of [[-.8, .7], [1, -.6]]) { const y = x * .04 + z * .025; assert(Math.abs(rippleHeightAt(slope, x, z, 1.2) - y) < 1e-12); const p = camera.project([x, y, z]), hit = rippleSurfaceHit(slope, 1.2, camera, p[0], p[1]); assert(hit && Math.hypot(hit[0] - x, hit[1] - z) < 1e-8, 'Perspective ray hits the displaced triangles rather than the ground plane'); }
+  for (const p of rippleVertices(impacts, 1.8)) assert(camera.project(p).every(Number.isFinite));
+}
+console.log('PASS: ripple plane — outward propagation, symmetry, linear superposition/cancellation, damping energy loss, stable speed/grid limits, bounded indicators, rest/clear, and desktop/mobile 3D surface picking.');

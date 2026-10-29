@@ -81,3 +81,5 @@ await import('./check-levitated-geometric.mjs');
 await import('./check-seo.mjs');
 
 await import('./check-terrain.mjs');
+
+await import('./check-ripples.mjs');

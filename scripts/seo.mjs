@@ -22,6 +22,7 @@ function catalog(file, name = 'catalog') {
   return runInNewContext(`(${literal})`, Object.create(null), { timeout: 1000 });
 }
 const editorial = {
+  'ripple-plane': 'Drop water onto an interactive 3D plane. Watch ripples travel outward and interfere, then adjust wave height, speed, damping, and droplet size.',
   'mountain-terrain': 'Generate a random 3D mountain terrain. Adjust mountain height, valley depth, roughness, and landscape depth, then orbit its shaded, contour, or wireframe views.',
   'dream-strata': 'Explore a layered generative landscape in your browser. Move the cursor to shift floating monuments, suspended oceans, and distant moons.',
   mandelbulb: 'Explore a 3D Mandelbulb fractal in WebGL. Orbit and zoom into its folded surface, adjust power and iterations, and save a frame in your browser.',

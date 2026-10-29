@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "ripple-plane",
+      "source": "thumbnails/ripple-plane.svg",
+      "sourceSHA256": "b66c5226a9c0fdee2c5bf72f8a7842e61f88fd367be45bc59b20a935cfba03a6",
+      "image": "social/ripple-plane.jpg",
+      "imageSHA256": "0a9bc5e116635788e07fdd81a7df7d252843e73b6cc1fe2b0aea915518b535b4"
+    },
+    {
       "slug": "mountain-terrain",
       "source": "thumbnails/mountain-terrain.svg",
       "sourceSHA256": "5c386aa50a2f7ecd2e7655269aaba7653d03c8b59dd63ab147e620266ea8ab82",

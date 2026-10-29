@@ -1,7 +1,7 @@
 FROM node:22-alpine AS test
 WORKDIR /app
 COPY dist/ ./dist/
-COPY scripts/check-site.mjs scripts/seo.mjs scripts/check-seo.mjs scripts/render-social.mjs scripts/render-wild.mjs scripts/check-parallax.mjs scripts/check-levitated.mjs scripts/check-tandava-controller.mjs scripts/check-theme.mjs scripts/check-levitated-studies.mjs scripts/check-levitated-player.mjs scripts/check-levitated-archive.mjs scripts/check-levitated-kinetic.mjs scripts/check-levitated-geometric.mjs scripts/check-math.mjs scripts/check-terrain.mjs scripts/check-math-player.mjs ./scripts/
+COPY scripts/check-site.mjs scripts/seo.mjs scripts/check-seo.mjs scripts/render-social.mjs scripts/render-wild.mjs scripts/check-parallax.mjs scripts/check-levitated.mjs scripts/check-tandava-controller.mjs scripts/check-theme.mjs scripts/check-levitated-studies.mjs scripts/check-levitated-player.mjs scripts/check-levitated-archive.mjs scripts/check-levitated-kinetic.mjs scripts/check-levitated-geometric.mjs scripts/check-math.mjs scripts/check-terrain.mjs scripts/check-ripples.mjs scripts/check-math-player.mjs ./scripts/
 CMD ["node", "scripts/check-site.mjs"]
 
 # Optional authoring image; Sharp never enters the production container.

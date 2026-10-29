@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 62 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 63 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -260,3 +260,14 @@ without changing the camera or controls. Space switches shaded alpine,
 height-contour and wireframe views. Drag/arrows orbit, scroll/pinch zooms,
 P pauses rotation, and Save frame exports a PNG. The 64×64 height grid has
 8,192 surface triangles and exposed side walls. All controls work while paused.
+
+## Ripple plane
+
+A 3D wave surface with clickable/tappable droplets. Each impact displaces
+a shared damped-wave field, so circular ripples travel outward and interfere.
+Wave height, speed, damping, and droplet size are adjustable without clearing
+the surface. Clicks use a ray intersection with the displaced mesh; drag
+rotates and pinch zooms without dropping water. Arrows move a target, Space
+or Enter adds a drop, Shift + arrows orbits, and R clears the water. Pause
+freezes propagation while impacts and camera controls remain usable. Two
+initial ripples introduce the surface; Clear water starts a flat plane.

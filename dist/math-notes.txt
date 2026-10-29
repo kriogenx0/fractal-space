@@ -432,3 +432,38 @@ hydrology, physical units, or real-world elevation data are simulated.
 New terrain changes only the seed. Surface, Contours, and Wireframe share
 the same geometry. Animation rotates the camera rather than morphing the
 landscape. Pause/reduced motion preserve manual edits, orbit and PNG capture.
+
+
+Ripple plane
+------------
+Original MIT-licensed damped-wave solver and 3D renderer in ripple-plane.js.
+A 64×64-cell grid spans 6.4 relative units per side. The finite-difference
+recurrence approximates u_tt + gamma*u_t = c²*(u_xx+u_zz), with centered
+spatial differences and damping centered in time. Four 1/120 substeps give
+each 1/30 display tick. At maximum speed 2.4, the Courant number is 0.20
+on this grid, below 1/sqrt(2); even the helper's maximum grid has CFL 0.30.
+The outer ring is fixed and an eight-cell damping strip softens reflections.
+It is an approximate absorbing edge, not a perfectly matched boundary.
+
+A droplet adds a compact, Gaussian-derived displacement to both current
+and previous buffers, preserving instantaneous velocity. Its profile is
+−A*(1−q/2)*exp(−q/2), q=r²/sigma², truncated at four sigma. Multiple
+impulses superpose in the same linear field. The truncated/discretized
+profile only approximately has zero net displacement; it does not model
+water volume or a falling object's dynamics. Speed/damping changes retain
+the field history; droplet size affects future drops only. Render height
+is H*tanh(u), a bounded visual scale for dense overlapping impulses. The
+physics itself remains linear; there is no nonlinear fluid solver.
+
+The height field is triangulated and shaded with a perspective camera.
+Clicks/taps use the nearest ray/triangle hit on its actual displaced
+triangles. Hover uses the rest plane as a light-weight target estimate.
+Drag, cancel, pinch, blur and help actions suppress accidental droplets.
+The camera stays still while waves move; drag/Shift+arrows orbit it.
+Pause/reduced motion freeze propagation and preserve all manual controls.
+Two finite initialized ripples demonstrate the surface even when paused.
+R/Clear water removes every wave while retaining parameters and camera.
+Impact indicators retain at most 32 entries and disappear after one second;
+the full field retains their waves. At negligible displacement the solver
+rests. Surface lighting, faint grid, and impact rings are illustrative;
+there are no textures, copied source code, or external fluid dependencies.
