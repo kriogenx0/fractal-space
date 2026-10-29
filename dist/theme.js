@@ -2,6 +2,7 @@
 // Apply the saved preference before styles load, on every page.
 (() => {
   const key = 'fractal-space-theme', themes = ['system', 'light', 'dark'];
+  const labels = { system: 'System', light: 'Light', dark: 'Dark' }, icons = { system: '◐', light: '☀', dark: '☾' };
   const root = document.documentElement, system = window.matchMedia('(prefers-color-scheme: dark)');
   let theme = 'system';
   try { const saved = localStorage.getItem(key); if (themes.includes(saved)) theme = saved; } catch { /* Storage is optional. */ }
@@ -10,8 +11,15 @@
     root.dataset.theme = theme;
     root.dataset.resolvedTheme = dark ? 'dark' : 'light';
     document.querySelector('meta[name="theme-color"]')?.setAttribute('content', dark ? '#101610' : '#f4f3ed');
-    const select = document.querySelector('#theme-select');
-    if (select) select.value = theme;
+    const button = document.querySelector('#theme-toggle');
+    if (button) {
+      const next = themes[(themes.indexOf(theme) + 1) % themes.length], current = theme === 'system' ? `System (${dark ? 'Dark' : 'Light'})` : labels[theme];
+      button.dataset.theme = theme;
+      button.querySelector('.theme-icon').textContent = icons[theme];
+      button.querySelector('.theme-label').textContent = labels[theme];
+      const description = `Color theme: ${current}. Switch to ${labels[next]}.`;
+      button.setAttribute('aria-label', description); button.title = description;
+    }
   }
   apply();
   if (system.addEventListener) system.addEventListener('change', apply);
@@ -22,13 +30,11 @@
     apply();
   });
   function controls() {
-    const select = document.querySelector('#theme-select');
-    if (!select) return;
-    select.value = theme;
-    select.closest('.theme-control').hidden = false;
-    select.addEventListener('change', () => {
-      if (!themes.includes(select.value)) return;
-      theme = select.value;
+    const button = document.querySelector('#theme-toggle');
+    if (!button) return;
+    apply(); button.hidden = false;
+    button.addEventListener('click', () => {
+      theme = themes[(themes.indexOf(theme) + 1) % themes.length];
       try { if (theme === 'system') localStorage.removeItem(key); else localStorage.setItem(key, theme); } catch { /* Switching still works for this visit. */ }
       apply();
     });

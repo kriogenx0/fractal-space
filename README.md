@@ -102,7 +102,7 @@ Box Fitting, Quarter Round Mosaic, Seeds, Golden Spiral, City Lines, Triangulati
 
 ## Site appearance
 
-Every page follows the system’s light/dark preference and has a Theme menu for System, Light, or Dark. Explicit choices persist across navigation and synchronize across tabs. A blocked storage API does not prevent switching themes. The shared theme applies before styles load and covers navigation, controls, help dialogs, credits, error states, and license text. Canvas artworks, PNG exports, and thumbnails retain their original colors, including Levitated’s white drawing fields and Tandava’s dark sky.
+Every page follows the system’s light/dark preference and has one theme button that cycles System → Light → Dark → System. The button shows the current mode, with its next action in the accessible label and tooltip. Explicit choices persist across navigation and synchronize across tabs. A blocked storage API does not prevent switching themes. The shared theme applies before styles load and covers navigation, controls, help dialogs, credits, error states, and license text. Canvas artworks, PNG exports, and thumbnails retain their original colors, including Levitated’s white drawing fields and Tandava’s dark sky.
 
 ## Kinetic Levitated recreations
 
