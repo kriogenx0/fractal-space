@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 55 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 56 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Seventeen MIT-licensed
+topology, implicit surfaces, and emergent systems. Eighteen MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid,
-Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, Double pendulum, Orbital gravity, Interference pool, Rössler attractor, and Magnetic pendulums.
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, Double pendulum, Orbital gravity, Interference pool, Rössler attractor, Magnetic pendulums, and Orbit ink.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
@@ -200,3 +200,14 @@ three smooth attraction wells, with adjustable damping and strength.
 Drag releases a group near the cursor. The three renderers and pure helpers
 live in `dist/math-extra.js`. All four support pause, reduced motion,
 themes, keyboard controls, fullscreen, and PNG export.
+
+## Orbit ink
+
+Draw freehand into a slowly rotating 3-D coordinate system. Each pen sample
+is inverse-rotated from the camera-facing depth plane into world space, so
+existing strokes remain fixed while new points follow the cursor. Rotation
+speed and pen depth are adjustable; arrows orbit, pinch/scroll zooms, and
+P pauses rotation while drawing remains available. U, Space or Cmd/Ctrl-Z
+undo; Clear drawing is undoable; R resets the view. Colors apply to new
+strokes. PNG capture saves the current view. Starts empty, including with
+reduced motion. The drawing is capped at 12,000 points / 128 strokes.

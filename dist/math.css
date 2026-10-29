@@ -7,3 +7,6 @@
 .math-page dialog a{text-decoration:underline;text-underline-offset:3px}
 @media(max-width:700px){.math-page h1{font-size:32px}.math-page .work-title .math-equation{font-size:9px;line-height:1.5;margin-top:8px}}
 .math-page .work-title .math-measurement{font:11px/1.7 ui-monospace,SFMono-Regular,monospace;font-variant-numeric:tabular-nums;margin-top:10px}
+
+#art[data-mode=ink],#art[data-mode=ink]:active{cursor:crosshair}
+.math-page button:disabled{opacity:.35;cursor:default}
