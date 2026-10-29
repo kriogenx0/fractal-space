@@ -2,7 +2,8 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
-export const math = await import(`data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-scenes.js', 'utf8')).toString('base64')}`);
+const extraModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-extra.js', 'utf8')).toString('base64')}`;
+export const math = await import(`data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-scenes.js', 'utf8').replaceAll("'./math-extra.js'", JSON.stringify(extraModule))).toString('base64')}`);
 const { catalog, newtonSample, hopfS3, hopfMap, hopfPoint, torusPoint, gcd, gyroid, gyroidGradient, tetraTriangles, gyroidMesh, createReaction, cliffordStep, createClifford, createMathScene } = math, TAU = Math.PI * 2;
 for (let n = 3; n <= 7; n++) {
   for (let root = 0; root < n; root++) { const angle = root * TAU / n; assert.equal(newtonSample(Math.cos(angle), Math.sin(angle), n).root, root); }
@@ -99,6 +100,42 @@ for (const [a, b] of [[0, 0], [120, -25], [175, -175], [-175, 175], [10, 15]]) {
   assert(maxDrift / 29.43 < 2e-5, 'Energy remains stable over 60 simulated seconds'); assert.equal(pendulum.trail.length, 901); assert.equal(pendulum.ghostTrail.length, 901); assert.equal(pendulum.time, 60);
 }
 const chaos = math.createDoublePendulum(); for (let i = 0; i < 900; i++) chaos.step(); assert(Math.hypot(...chaos.trail.at(-1).map((v, i) => v - chaos.ghostTrail.at(-1)[i])) > .1, 'The chosen energetic release separates from its perturbed twin');
+// Independent mechanics checks for the central-star sandbox.
+const orbitBody = (x, y, vx, vy) => ({ x, y, vx, vy, status: 'orbiting' });
+const gravityAcceleration = math.orbitalAcceleration(2, 0, 3); assert(Math.abs(gravityAcceleration[0] + .75) < 1e-12 && gravityAcceleration[1] === 0);
+const circle = orbitBody(1, 0, 0, 1); let circleEnergyError = 0;
+for (let i = 0; i < 2262; i++) { math.orbitalVerlet(circle, 1); circleEnergyError = Math.max(circleEnergyError, Math.abs(math.orbitalInvariants(circle, 1).energy + .5)); }
+const circleTime = 2262 / 360; assert(Math.hypot(circle.x - Math.cos(circleTime), circle.y - Math.sin(circleTime)) < 1e-4); assert(circleEnergyError < 1e-8); assert(Math.abs(math.orbitalInvariants(circle, 1).angularMomentum - 1) < 1e-12);
+for (const [mu, speed] of [[1, 1], [1.5, 1], [.5, 1.5]]) { const b = orbitBody(2, 0, 0, speed / Math.sqrt(2)), info = math.orbitalInvariants(b, mu); assert(Math.abs(info.eccentricity - Math.abs(speed * speed / mu - 1)) < 1e-12); assert.equal(info.energy < 0, speed * speed < 2 * mu); }
+const symmetric = orbitBody(1, .5, -.2, .8), mirror = orbitBody(-1, -.5, .2, -.8); for (let i = 0; i < 100; i++) { math.orbitalVerlet(symmetric, 1); math.orbitalVerlet(mirror, 1); } for (const key of ['x', 'y', 'vx', 'vy']) assert(Math.abs(symmetric[key] + mirror[key]) < 1e-12);
+const radial = orbitBody(.5, 0, -1, 0); for (let i = 0; i < 300; i++) math.orbitalVerlet(radial, 2.5); assert.equal(radial.status, 'absorbed'); assert(Math.abs(Math.hypot(radial.x, radial.y) - .18) < 1e-12);
+const reversible = orbitBody(2, .1, -.2, .7), original = { ...reversible }; math.orbitalVerlet(reversible, 1); reversible.vx *= -1; reversible.vy *= -1; math.orbitalVerlet(reversible, 1); for (const key of ['x', 'y']) assert(Math.abs(reversible[key] - original[key]) < 1e-12); for (const key of ['vx', 'vy']) assert(Math.abs(reversible[key] + original[key]) < 1e-12);
+for (const [mu, speed] of [[1.2, 1], [.25, 2.2], [2.5, .2]]) {
+  const system = math.createOrbitalGravity(mu, speed), repeat = math.createOrbitalGravity(mu, speed);
+  for (let i = 0; i < 3000; i++) { system.step(); if (i < 300) repeat.step(); if (i === 299) assert.deepEqual(system.bodies, repeat.bodies); }
+  for (const body of system.bodies) { assert([body.x, body.y, body.vx, body.vy].every(Number.isFinite)); assert(body.trail.length <= 901); if (body.status === 'orbiting') { const now = math.orbitalInvariants(body, mu); assert(Math.abs(now.angularMomentum - body.initial.angularMomentum) < 1e-10); assert(Math.abs(now.energy - body.initial.energy) < 1e-4); } }
+  if (speed === .2) assert(system.bodies.every(b => b.status === 'absorbed')); if (speed === 2.2) assert(system.bodies.some(b => b.status === 'escaped'));
+}
+const launches = math.createOrbitalGravity(); assert(!launches.launch(0, 0, 1, 1)); assert(!launches.launch(1, 0, Infinity, 0)); for (let i = 0; i < 6; i++) assert(launches.launch(2, 0, 0, 1)); assert(!launches.launch(2, 0, 0, 1)); assert.equal(launches.bodies.length, 12); assert.equal(launches.steps, 0);
+// Wave symmetry, coherent cancellation, temporal periodicity and height bounds.
+for (const t of [0, .3, 100]) for (const z of [-3, -.2, 1.7]) {
+  assert(Math.abs(math.waveSample(0, z, t, 1.1, 1.4, Math.PI)) < 1e-12);
+  assert(Math.abs(math.waveSample(.7, z, t) - math.waveSample(-.7, z, t)) < 1e-12);
+  assert(Math.abs(math.waveSample(.2, z, t) - math.waveSample(.2, z, t + 1 / .6)) < 1e-12);
+  assert(Math.abs(math.waveSample(.2, z, t)) <= .64);
+}
+// RK4 convergence against an analytic solution, and the Rössler equilibrium.
+function rkError(dt) { let p = [1]; for (let i = 0; i < Math.round(1 / dt); i++) p = math.integrateRK4(p, dt, x => x); return Math.abs(p[0] - Math.E); }
+assert(rkError(.1) / rkError(.05) > 14);
+const rz = (5.7 - Math.sqrt(5.7 ** 2 - 4 * .2 * .2)) / (.4); assert(math.rosslerDerivative([.2 * rz, -rz, rz]).every(v => Math.abs(v) < 1e-12));
+for (const a of [.1, .2, .28]) for (const c of [3.5, 5.7, 6.5]) { const curve = math.rosslerCurve(a, c); assert(curve.points.length <= 8000 && curve.points.length > 100); assert(curve.points.flat().every(Number.isFinite)); if (a === .2 && c === 5.7) assert(!curve.stopped && curve.points.length === 8000); }
+// Magnetic force equals minus the potential gradient; damping removes energy.
+const magneticState = [.4, -.7, .6, -.8], magneticDamping = .22, magneticStrength = .8, magneticD = math.magneticDerivative(magneticState, magneticDamping, magneticStrength);
+let energyRate = 0; for (let axis = 0; axis < 4; axis++) { const a = magneticState.slice(), b = magneticState.slice(); a[axis] += 1e-6; b[axis] -= 1e-6; energyRate += (math.magneticEnergy(a, magneticStrength) - math.magneticEnergy(b, magneticStrength)) / 2e-6 * magneticD[axis]; } assert(Math.abs(energyRate + magneticDamping * (magneticState[2] ** 2 + magneticState[3] ** 2)) < 1e-8);
+for (const [damping, strength] of [[.08, .2], [.8, 1.5], [.22, .8]]) {
+  const field = math.createMagneticPendulums(damping, strength), energies = field.bodies.map(b => math.magneticEnergy(b.state, strength));
+  for (let i = 0; i < 600; i++) field.step(); field.bodies.forEach((b, i) => { assert(b.state.every(Number.isFinite)); assert(b.trail.length <= 361); assert(math.magneticEnergy(b.state, strength) <= energies[i] + 1e-7); });
+}
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -123,4 +160,4 @@ for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); for (let i = 0; i < (work.previewSteps ?? 0); i++) scene.step(state); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: thirteen math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, double-pendulum mechanics/energy/RK4/replay/trail bounds, finite desktop/mobile previews.');
+console.log('PASS: seventeen math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, double-pendulum mechanics/energy/RK4/replay/trail bounds, Kepler energy/angular momentum/escape/collisions, coherent waves, RK4 convergence, Rössler equilibrium, magnetic potential/dissipation/bounds, finite desktop/mobile previews.');

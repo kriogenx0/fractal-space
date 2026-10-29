@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 51 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 55 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Thirteen MIT-licensed
+topology, implicit surfaces, and emergent systems. Seventeen MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid,
-Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, and Double pendulum.
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, Double pendulum, Orbital gravity, Interference pool, Rössler attractor, and Magnetic pendulums.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
@@ -185,3 +185,18 @@ The amber twin starts 0.01° away in its lower angle. Both leave a bounded
 rest; Space replays the same release, R cycles presets, and P pauses.
 Reduced motion starts paused. The readout shows elapsed simulation time,
 tip separation, and energy drift normalized by 3mgL.
+
+## Gravity, waves, and attracting fields
+
+Orbital gravity provides six planets, adjustable stellar gravity and launch
+speed, fading trails, and drag-to-launch planets. Up to twelve independent
+Kepler trajectories use velocity-Verlet integration. Space resets, R cycles
+circular/elliptical/escape/infall presets, and scroll/pinch zooms.
+
+Interference pool adds two coherent analytic waves on a 3-D surface; Space
+switches the relative phase. Rössler attractor renders a sampled RK4 curve
+with adjustable a and c. Magnetic pendulums releases 21 planar bobs between
+three smooth attraction wells, with adjustable damping and strength.
+Drag releases a group near the cursor. The three renderers and pure helpers
+live in `dist/math-extra.js`. All four support pause, reduced motion,
+themes, keyboard controls, fullscreen, and PNG export.

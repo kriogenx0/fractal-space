@@ -1,3 +1,5 @@
+import { createExtraMathScene } from './math-extra.js';
+export { integrateRK4, waveSample, rosslerDerivative, rosslerCurve, magneticPoles, magneticDerivative, magneticEnergy, magneticLayout, createMagneticPendulums } from './math-extra.js';
 // MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt.
 // Mathematical constructions. Klein bottle parametrization adapted from Three.js
 // (MIT, Copyright three.js authors); see math/threejs-LICENSE.txt and math-notes.txt.
@@ -14,7 +16,11 @@ export const catalog = {
   'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'sierpinski-triangle': { n: 50, name: 'Sierpiński triangle', category: 'FRACTALS / RECURSIVE SUBDIVISION', description: 'Three smaller triangles survive each cut. Follow a simple rule toward infinite detail.', equation: 'Nₙ = 3ⁿ; sₙ = 2⁻ⁿ; Aₙ/A₀ = (3/4)ⁿ; D = log 3 / log 2', explanation: 'Join the midpoints of an equilateral triangle and remove the central triangle; repeat on the three survivors. Recursion depth sets the target generation. Construction progress reveals each round of cuts, interpolating the next central holes as you move the slider. Space advances a full generation, wrapping back to the initial triangle. The remaining area is (3/4)ⁿ after n complete generations. The infinite limiting set has dimension log 3 / log 2; every finite rendering is an approximation.', a: ['Recursion depth', 0, 8, 1, 6], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 2.5 },
   'koch-snowflake': { n: 51, name: 'Koch snowflake', category: 'FRACTALS / INFINITE BOUNDARIES', description: 'A triangle grows a coastline. Infinite perimeter, finite area, one repeating rule.', equation: 'Nₙ = 3·4ⁿ; Pₙ/P₀ = (4/3)ⁿ; Aₙ/A₀ = 8/5 − (3/5)(4/9)ⁿ', explanation: 'Replace the middle third of every edge with two sides of an outward equilateral triangle. Each edge becomes four edges, each one-third as long. Recursion depth sets the target; Construction progress raises the next generation of triangular peaks. Space advances one complete generation and wraps to the initial triangle. The perimeter grows without bound while the area approaches 8/5 of the starting triangle. The limiting boundary has dimension log 4 / log 3; every finite rendering is a polygonal approximation.', a: ['Recursion depth', 0, 7, 1, 5], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 3.1 },
-  'double-pendulum': { n: 52, name: 'Double pendulum', category: 'CHAOS / COUPLED MOTION', description: 'Two arms, one law of gravity. A tiny change becomes an entirely different dance.', equation: '2θ̈₁ + cos(δ)θ̈₂ = −2g sin θ₁ − sin(δ)ω₂²; δ = θ₁−θ₂', explanation: 'Two equal point masses hang from rigid, massless rods of equal length. Angles are measured from the downward vertical; each slider sets a starting angle and releases both masses from rest. The brighter rods show the main pendulum; the faint twin starts with its lower angle just 0.01° larger. At energetic starting positions their paths can diverge. Small oscillations can remain regular. There is no damping or forcing. Eight fourth-order Runge–Kutta substeps per display tick approximate the equations; the energy drift readout reports numerical error. Space resets the same release, R cycles starting positions, and P pauses. Drag sets the lower starting angle. Trails retain the latest 30 seconds.', reference: 'https://www.myphysicslab.com/pendulum/double-pendulum-en.html', a: ['Upper starting angle θ₁ (°)', -175, 175, 1, 120], b: ['Lower starting angle θ₂ (°)', -175, 175, 1, -25], special: 'Replay the same release', gesture: 'DRAG SETS LOWER ANGLE · ARROWS SET ANGLES · SPACE REPLAYS · P PAUSES', mode: 'pendulum', previewSteps: 450 }
+  'double-pendulum': { n: 52, name: 'Double pendulum', category: 'CHAOS / COUPLED MOTION', description: 'Two arms, one law of gravity. A tiny change becomes an entirely different dance.', equation: '2θ̈₁ + cos(δ)θ̈₂ = −2g sin θ₁ − sin(δ)ω₂²; δ = θ₁−θ₂', explanation: 'Two equal point masses hang from rigid, massless rods of equal length. Angles are measured from the downward vertical; each slider sets a starting angle and releases both masses from rest. The brighter rods show the main pendulum; the faint twin starts with its lower angle just 0.01° larger. At energetic starting positions their paths can diverge. Small oscillations can remain regular. There is no damping or forcing. Eight fourth-order Runge–Kutta substeps per display tick approximate the equations; the energy drift readout reports numerical error. Space resets the same release, R cycles starting positions, and P pauses. Drag sets the lower starting angle. Trails retain the latest 30 seconds.', reference: 'https://www.myphysicslab.com/pendulum/double-pendulum-en.html', a: ['Upper starting angle θ₁ (°)', -175, 175, 1, 120], b: ['Lower starting angle θ₂ (°)', -175, 175, 1, -25], special: 'Replay the same release', gesture: 'DRAG SETS LOWER ANGLE · ARROWS SET ANGLES · SPACE REPLAYS · P PAUSES', mode: 'pendulum', previewSteps: 450 },
+  'orbital-gravity': { n: 53, name: 'Orbital gravity', category: 'CELESTIAL MECHANICS / KEPLER ORBITS', description: 'Six worlds circle a star. Change its pull, change their speed, or launch a world of your own.', equation: 'r̈ = −μr / |r|³; μ = GM; v_c = √(μ/r); v_esc = √(2μ/r)', explanation: 'Each planet follows a fixed central star independently, in a flat plane. Gravity μ combines the gravitational constant and stellar mass. The six starting planets have tangential launch speeds k/√r in normalized units: circular motion needs k = √μ, escape starts at k = √(2μ). Changing either slider resets the system for repeatable comparisons. Drag from a point in space in the direction of launch; longer arrows give faster launches. Click drops a planet from rest. Up to twelve planets are retained. Space resets to six; R cycles orbit presets; P pauses; scroll, pinch or + / − zooms. Fixed-step velocity-Verlet integration approximates the inverse-square force. Planets hitting the star are absorbed; unbound planets beyond 200 units retire. Trails retain 30 simulation units. Planet sizes and colors are illustrative.', reference: 'https://science.nasa.gov/learn/basics-of-space-flight/chapter3-3/', a: ['Stellar gravity μ = GM', .25, 2.5, .01, 1.2], b: ['Launch speed k', .2, 2.2, .01, 1], special: 'Reset six-planet system', gesture: 'DRAG TO LAUNCH · ARROWS CHANGE GRAVITY / SPEED · SCROLL TO ZOOM · P PAUSES', mode: 'gravity', previewSteps: 900 },
+  'wave-interference': { n: 54, name: 'Interference pool', category: 'WAVES / SUPERPOSITION', description: 'Two sources ripple through a luminous surface. Their meeting draws a moving geometry.', equation: 'u = Σ cos(2πrᵢ/λ − ωt + φᵢ) / √(1+0.8rᵢ)', explanation: 'This analytic surface adds two coherent radial wave profiles with the same frequency. The height scale is illustrative; the decaying amplitude is chosen for display. Wavelength and source separation change the interference pattern. Space switches the second source between matching and opposite phase: along the centerline the equal contributions reinforce or cancel. This is prescribed superposition, with no boundary reflections or fluid solver. Drag/arrows orbit, scroll/pinch zoom, and P freezes the waves and camera.', a: ['Wavelength λ', .4, 2.4, .01, 1.1], b: ['Source separation', .3, 3, .01, 1.4], help: 'Drag or use arrows to orbit the wave surface. Scroll / pinch / + / − zooms. Space switches between matching and opposite source phase. P freezes the waves and view; controls still work. Wavelength and source separation change the pattern.', special: 'Switch source phase', gesture: 'DRAG / ARROWS TO ORBIT · SPACE SWITCHES PHASE · P FREEZES WAVES', mode: 'orbit' },
+  'rossler-attractor': { n: 55, name: 'Rössler attractor', category: 'CHAOS / CONTINUOUS FLOWS', description: 'A ribbon of motion spirals, lifts, and folds back into itself.', equation: 'ẋ = −y−z; ẏ = x+ay; ż = 0.2+z(x−c)', explanation: 'The Rössler system is a continuous flow with three coupled equations. The default a=0.2, b=0.2, c=5.7 shows its familiar folded spiral. Other parameters can produce regular cycles or different behavior. An RK4 trajectory discards an initial transient and keeps 8,000 samples; moving the controls recomputes it. The view rotates around that finite trace. Space reverses the view rotation; R changes the starting point. A trajectory leaving the finite window stops and is labeled.', reference: 'https://doi.org/10.1016/0375-9601(76)90101-8', a: ['Parameter a', .1, .28, .01, .2], b: ['Parameter c', 3.5, 6.5, .05, 5.7], help: 'Drag or use arrows to orbit the finite trajectory. Scroll / pinch / + / − zooms. Sliders rebuild the trace. Space reverses view rotation; R selects a nearby starting point; P freezes rotation. This is a finite RK4 sample of the continuous flow.', special: 'Reverse the view rotation', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE REVERSES VIEW', mode: 'orbit' },
+  'magnetic-pendulums': { n: 56, name: 'Magnetic pendulums', category: 'CHAOS / ATTRACTING WELLS', description: 'Twenty-one releases wander between three magnetic wells, weaving paths toward rest.', equation: 'r̈ = −0.3r − γṙ + Σ q(mᵢ−r) / (|mᵢ−r|²+0.35²)³ᐟ²', explanation: 'A planar pendulum model combines a restoring spring, damping, and three smooth attraction wells. The height offset 0.35 keeps the idealized magnetic force finite. Twenty-one bobs start from rest; color marks the closest well. Damping removes mechanical energy. The force is a simplified potential model, not a calibrated magnet law. Drag to release a close group near the cursor; small starting differences can send them toward different wells. Space resets the ring, R rotates the releases, and P pauses. Trails retain twelve time units. A bob stops after two seconds with tiny speed and force.', a: ['Damping γ', .08, .8, .01, .22], b: ['Attraction q', .2, 1.5, .01, .8], special: 'Reset the release ring', gesture: 'DRAG TO RELEASE A GROUP · ARROWS ADJUST γ / q · P PAUSES', mode: 'magnetic', previewSteps: 360 }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -180,17 +186,48 @@ export function createDoublePendulum(a = 120, b = -25) {
   }
   return { step, trail, ghostTrail, initialEnergy, get main() { return main; }, get ghost() { return ghost; }, get steps() { return steps; }, get energy() { return pendulumEnergy(main); }, get time() { return steps / 30; } };
 }
+export function orbitalAcceleration(x, y, mu) { const r = Math.hypot(x, y); if (r === 0) throw new Error('Gravity is singular at the origin'); const f = -mu / (r * r * r); return [x * f, y * f]; }
+export function orbitalInvariants(body, mu) {
+  const energy = (body.vx * body.vx + body.vy * body.vy) / 2 - mu / Math.hypot(body.x, body.y), angularMomentum = body.x * body.vy - body.y * body.vx;
+  return { energy, angularMomentum, eccentricity: Math.sqrt(Math.max(0, 1 + 2 * energy * angularMomentum * angularMomentum / (mu * mu))) };
+}
+export function orbitalVerlet(body, mu, dt = 1 / 360, starRadius = .18) {
+  if (body.status !== 'orbiting') return;
+  const [ax, ay] = orbitalAcceleration(body.x, body.y, mu), dx = body.vx * dt + ax * dt * dt / 2, dy = body.vy * dt + ay * dt * dt / 2;
+  // Check the swept segment before evaluating acceleration near the star.
+  const q = dx * dx + dy * dy, b = 2 * (body.x * dx + body.y * dy), c = body.x * body.x + body.y * body.y - starRadius * starRadius, discriminant = b * b - 4 * q * c;
+  if (starRadius > 0 && q > 0 && discriminant >= 0) { const t = (-b - Math.sqrt(discriminant)) / (2 * q); if (t >= 0 && t <= 1) { body.x += dx * t; body.y += dy * t; body.vx = body.vy = 0; body.status = 'absorbed'; return; } }
+  body.x += dx; body.y += dy; const [bx, by] = orbitalAcceleration(body.x, body.y, mu); body.vx += (ax + bx) * dt / 2; body.vy += (ay + by) * dt / 2;
+}
+export function gravityLayout(width, height, zoom = 1) { return { x: width / 2, y: height * .37, scale: Math.min(width / 9.5, height / 11.5) * zoom }; }
+export function createOrbitalGravity(mu = 1.2, speed = 1) {
+  const bodies = []; let steps = 0;
+  function launch(x, y, vx, vy) {
+    if (bodies.length >= 12 || ![x, y, vx, vy].every(Number.isFinite) || Math.hypot(x, y) < .35 || Math.hypot(x, y) > 8 || Math.hypot(vx, vy) > 8) return false;
+    const body = { x, y, vx, vy, status: 'orbiting', trail: [[x, y]], color: bodies.length * 52, size: 3 + bodies.length % 3 };
+    body.initial = orbitalInvariants(body, mu); bodies.push(body); return true;
+  }
+  for (const [i, radius] of [.8, 1.15, 1.6, 2.15, 2.8, 3.55].entries()) { const angle = i * 2.399963, v = speed / Math.sqrt(radius); launch(radius * Math.cos(angle), radius * Math.sin(angle), -v * Math.sin(angle), v * Math.cos(angle)); }
+  function step() {
+    for (let i = 0; i < 12; i++) for (const body of bodies) orbitalVerlet(body, mu);
+    for (const body of bodies) { if (body.status !== 'orbiting') continue; if (Math.hypot(body.x, body.y) > 200 && orbitalInvariants(body, mu).energy >= 0 && body.x * body.vx + body.y * body.vy > 0) body.status = 'escaped'; body.trail.push([body.x, body.y]); if (body.trail.length > 901) body.trail.shift(); }
+    steps++;
+  }
+  return { mu, speed, bodies, launch, step, get steps() { return steps; }, get time() { return steps / 30; } };
+}
 function rgb(hue, light) { const h = ((hue % 360) + 360) % 360 / 60, c = (1 - Math.abs(2 * light - 1)) * .8, x = c * (1 - Math.abs(h % 2 - 1)), m = light - c / 2, colors = h < 1 ? [c, x, 0] : h < 2 ? [x, c, 0] : h < 3 ? [0, c, x] : h < 4 ? [0, x, c] : h < 5 ? [x, 0, c] : [c, 0, x]; return colors.map(v => Math.round((v + m) * 255)); }
 
 export function createMathScene(canvas, slug, makeSurface = () => document.createElement('canvas')) {
   if (!Object.hasOwn(catalog, slug)) throw new Error('Unknown mathematical experiment');
+  if (['wave-interference', 'rossler-attractor', 'magnetic-pendulums'].includes(slug)) return createExtraMathScene(canvas, slug);
   const ctx = canvas.getContext('2d', { alpha: false }); if (!ctx) throw new Error('Canvas 2D unavailable');
   let model, key = '', imageKey = '', surface, surfaceCtx, status = '', preset = 0;
   const mode = catalog[slug].mode;
   function prepare(s) {
     const next = ['sierpinski-triangle', 'koch-snowflake'].includes(slug) ? `construction:${s.a}` : `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
     if (next === key) return;
-    if (mode === 'pendulum') model = createDoublePendulum(s.a, s.b);
+    if (mode === 'gravity') model = createOrbitalGravity(s.a, s.b);
+    else if (mode === 'pendulum') model = createDoublePendulum(s.a, s.b);
     else if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
     else if (slug === 'koch-snowflake') model = kochSnowflake(Math.round(s.a));
@@ -201,10 +238,10 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     else if (['klein-bottle', 'torus'].includes(slug)) model = parametricSurface(slug, s.a, s.b);
     key = next; imageKey = '';
   }
-  function step(s) { prepare(s); if (mode === 'pendulum') { model.step(); return true; } if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
+  function step(s) { prepare(s); if (mode === 'pendulum' || mode === 'gravity') { model.step(); return true; } if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
   function plant(s, px, py) { prepare(s); if (mode !== 'reaction') return; const r = rasterRect(); if (px < r.x || px > r.x + r.w || py < r.y || py > r.y + r.h) return; model.plant(clamp((px - r.x) / r.w * model.width, 0, model.width - 1), clamp((py - r.y) / r.h * model.height, 0, model.height - 1)); imageKey = ''; }
   function special(s) {
-    if (mode === 'pendulum') { key = ''; }
+    if (mode === 'pendulum' || mode === 'gravity') { key = ''; }
     else if (['sierpinski-triangle', 'koch-snowflake'].includes(slug)) { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
     else if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
@@ -215,6 +252,7 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     else s.direction *= -1;
     prepare(s);
   }
+  function launch(s, start, end) { prepare(s); if (mode !== 'gravity') return false; let vx = (end[0] - start[0]) * .8, vy = (end[1] - start[1]) * .8; const speed = Math.hypot(vx, vy); if (speed > 8) { vx *= 8 / speed; vy *= 8 / speed; } return model.launch(start[0], start[1], vx, vy); }
   function rasterRect() { const aspect = mode === 'reaction' ? 1.5 : 1, width = Math.min(canvas.width * .92, canvas.height * .68 * aspect), height = width / aspect; return { x: (canvas.width - width) / 2, y: canvas.height * .44 - height / 2, w: width, h: height }; }
   function pixels(width, height, stamp, paint) {
     if (!surface) { surface = makeSurface(); surfaceCtx = surface.getContext('2d'); if (!surfaceCtx) throw new Error('Canvas image surface unavailable'); }
@@ -224,7 +262,23 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function draw(s) {
     prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), hue = s.palette * 65;
     ctx.fillStyle = '#070c17'; ctx.fillRect(0, 0, W, H);
-    if (mode === 'pendulum') {
+    if (mode === 'gravity') {
+      const layout = gravityLayout(W, H, s.zoom), project = ([x, y]) => [layout.x + x * layout.scale, layout.y + y * layout.scale];
+      function dot(x, y, radius, color) { ctx.beginPath(); ctx.arc(x, y, radius, 0, TAU); ctx.fillStyle = color; ctx.fill(); }
+      function path(points, color, width) { ctx.beginPath(); points.forEach((p, i) => { const q = project(p); if (i) ctx.lineTo(...q); else ctx.moveTo(...q); }); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); }
+      const stars = rng(537); for (let i = 0; i < 130; i++) dot(stars() * W, stars() * H, .3 + stars() * .8, '#a6bddd30');
+      for (const radius of [.8, 1.6, 2.8, 3.55]) { ctx.beginPath(); ctx.arc(layout.x, layout.y, radius * layout.scale, 0, TAU); ctx.strokeStyle = '#172333'; ctx.lineWidth = 1; ctx.stroke(); }
+      for (const body of model.bodies) {
+        const color = `hsl(${body.color + hue + 175},82%,72%)`, trail = body.trail;
+        for (let start = 0; start < trail.length - 1; start += 40) { ctx.globalAlpha = .07 + .68 * (start + 1) / trail.length; path(trail.slice(start, start + 41), color, Math.max(1, unit / 600)); } ctx.globalAlpha = 1;
+        if (body.status === 'orbiting') { const p = project([body.x, body.y]); if (p[0] > -20 && p[0] < W + 20 && p[1] > -20 && p[1] < H + 20) { ctx.globalAlpha = .12; dot(...p, body.size * 3, color); ctx.globalAlpha = 1; dot(...p, body.size, color); dot(p[0] - 1, p[1] - 1, 1, '#fff'); } }
+      }
+      for (let i = 4; i > 0; i--) { ctx.globalAlpha = .025 * (5 - i); dot(layout.x, layout.y, .18 * layout.scale + i * unit / 70, '#ffad57'); } ctx.globalAlpha = 1;
+      dot(layout.x, layout.y, .18 * layout.scale, '#ffc879'); dot(layout.x - layout.scale * .03, layout.y - layout.scale * .03, .11 * layout.scale, '#fff0c1');
+      if (s.launch) { const { start, end } = s.launch; path([start, end], '#fff', 1.5); dot(...project(start), 4, '#fff'); const angle = Math.atan2(end[1] - start[1], end[0] - start[0]), length = .16 / s.zoom; path([[end[0] - length * Math.cos(angle - .5), end[1] - length * Math.sin(angle - .5)], end, [end[0] - length * Math.cos(angle + .5), end[1] - length * Math.sin(angle + .5)]], '#fff', 1.5); }
+      const bound = model.bodies.filter(b => b.status === 'orbiting' && orbitalInvariants(b, s.a).energy < 0).length, unbound = model.bodies.filter(b => b.status === 'orbiting' && orbitalInvariants(b, s.a).energy >= 0).length, absorbed = model.bodies.filter(b => b.status === 'absorbed').length, escaped = model.bodies.filter(b => b.status === 'escaped').length;
+      status = `${model.time.toFixed(1)} time units · ${bound} bound · ${unbound} unbound · ${absorbed} absorbed · ${escaped} beyond field · ${model.bodies.length}/12 planets`;
+    } else if (mode === 'pendulum') {
       const layout = pendulumLayout(W, H), project = ([x, y]) => [layout.x + x * layout.scale, layout.y + y * layout.scale];
       for (const radius of [1, 2]) { ctx.beginPath(); ctx.arc(layout.x, layout.y, radius * layout.scale, 0, TAU); ctx.strokeStyle = '#172333'; ctx.lineWidth = 1; ctx.stroke(); }
       function path(points, color, width) { ctx.beginPath(); points.forEach((point, i) => { const p = project(point); if (i) ctx.lineTo(...p); else ctx.moveTo(...p); }); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); }
@@ -308,5 +362,5 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     }
     return status;
   }
-  return { prepare, step, draw, plant, special, get data() { return model; } };
+  return { prepare, step, draw, plant, special, launch, get data() { return model; } };
 }

@@ -279,3 +279,52 @@ No source code, prose, or visual assets from the reference are copied.
 Tests check coupled-equation residuals, rod lengths, symmetry, rest states,
 time reversal, fourth-order convergence, bounded trails, energy drift and
 repeatability, as well as actual pointer/keyboard/paused player behavior.
+
+
+Gravity, waves, and attracting fields (2026-10-29)
+-------------------------------------------------
+All four additions are original MIT implementations with no copied source,
+prose or visual assets. Equations use normalized units.
+
+Orbital gravity: a(r)=-mu*r/|r|^3, mu=GM in [.25,2.5]. The star is fixed;
+planets follow its attraction independently. Six initial radii are
+.8,1.15,1.6,2.15,2.8,3.55; initial tangential speed is k/sqrt(r), k=.2..2.2.
+Circular motion requires k=sqrt(mu), escape k>=sqrt(2mu). Changing gravity
+holds the requested launch k fixed and resets the six planets.
+E=|v|^2/2-mu/r; h=x*vy-y*vx; e=sqrt(1+2Eh^2/mu^2).
+Velocity-Verlet uses twelve steps of 1/360 per simulation tick of 1/30:
+r'=r+v*dt+a(r)*dt^2/2; v'=v+(a(r)+a(r'))*dt/2.
+Swept segment intersection detects impact at star radius .18 before the
+new acceleration is evaluated. An impact absorbs the planet. Unbound,
+outward-moving planets beyond radius 200 retire. Body count is capped at
+12; each trail retains 901 samples (30 time units). Launch positions must
+have radius .35..8; drag velocity=.8*(end-start), capped at magnitude 8.
+Space restores six planets; canceled pointers and Help discard launches.
+Physics: https://science.nasa.gov/learn/basics-of-space-flight/chapter3-3/
+Numerics: https://users.utu.fi/tejohy/teaching/simu/L42.html
+
+Interference pool: u=.32*sum(cos(2*pi*r_i/lambda-omega*t+phi_i)
+/sqrt(1+.8*r_i)), omega=2*pi*.6, sources at (+/-separation/2,0).
+The radial attenuation is illustrative. This is prescribed coherent wave
+superposition, not a fluid simulation or boundary-value solver. Opposite
+phase cancels exactly at x=0; matching phase reinforces there. A 36x36-cell
+wire surface samples the analytic formula. Animation uses simulation time;
+P and reduced motion freeze both waves and automatic view rotation.
+
+Rössler: x'=-y-z, y'=x+a*y, z'=.2+z*(x-c). RK4 dt=.025,
+1,000 transient steps followed by 8,000 retained samples. Every computed
+point must be finite with absolute coordinates below 100; leaving this
+window stops the trace and displays a label. Parameters can yield regular
+or chaotic motion. The view rotates around a finite sampled curve.
+Reference: O. E. Rössler, An equation for continuous chaos (1976),
+https://doi.org/10.1016/0375-9601(76)90101-8
+
+Magnetic pendulums: three poles on a unit equilateral ring, height h=.35;
+V=.15*|r|^2-sum(q/sqrt(|m_i-r|^2+h^2)); r''=-grad(V)-gamma*r'.
+This is a simplified smooth potential for planar bobs. The exact energy
+rate is dE/dt=-gamma*|v|^2. RK4 uses eight steps of 1/240 per 1/30 tick.
+Twenty-one releases start from rest on radius 2.25; dragging releases a
+small group near the cursor. Each trail retains 361 samples (12 time units).
+Speed below .015 and force below .02 for 60 ticks retires a bob as settled.
+This finite stopping tolerance is an illustrative equilibrium criterion.
+Color identifies the nearest well; it is not an exact basin classification.
