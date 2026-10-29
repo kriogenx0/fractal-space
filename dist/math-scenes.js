@@ -13,7 +13,8 @@ export const catalog = {
   'mobius-strip': { n: 48, name: 'Möbius strip', category: 'TOPOLOGY / ONE-SIDED SURFACES', description: 'A half-turn joins the ends of a ribbon. Follow its only edge all the way home.', equation: 'r(u,v) = ((R+v cos(hu/2)) cos u, v sin(hu/2), (R+v cos(hu/2)) sin u)', explanation: 'A Möbius strip is a non-orientable surface with one boundary loop. Its ends join with the width coordinate reversed: (0,v) is identified with (2π,−v). The width slider changes the ribbon; Half-turns selects 1, 3, or 5, all odd. The bright tracer follows the boundary and returns after two trips around the center. Space cycles solid, wireframe, and glass views. The tracer and rotation pause together; manual controls still work.', a: ['Ribbon half-width', .15, .85, .01, .55], b: ['Half-turns h', 1, 5, 2, 1], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'sierpinski-triangle': { n: 50, name: 'Sierpiński triangle', category: 'FRACTALS / RECURSIVE SUBDIVISION', description: 'Three smaller triangles survive each cut. Follow a simple rule toward infinite detail.', equation: 'Nₙ = 3ⁿ; sₙ = 2⁻ⁿ; Aₙ/A₀ = (3/4)ⁿ; D = log 3 / log 2', explanation: 'Join the midpoints of an equilateral triangle and remove the central triangle; repeat on the three survivors. Recursion depth sets the target generation. Construction progress reveals each round of cuts, interpolating the next central holes as you move the slider. Space advances a full generation, wrapping back to the initial triangle. The remaining area is (3/4)ⁿ after n complete generations. The infinite limiting set has dimension log 3 / log 2; every finite rendering is an approximation.', a: ['Recursion depth', 0, 8, 1, 6], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 2.5 },
-  'koch-snowflake': { n: 51, name: 'Koch snowflake', category: 'FRACTALS / INFINITE BOUNDARIES', description: 'A triangle grows a coastline. Infinite perimeter, finite area, one repeating rule.', equation: 'Nₙ = 3·4ⁿ; Pₙ/P₀ = (4/3)ⁿ; Aₙ/A₀ = 8/5 − (3/5)(4/9)ⁿ', explanation: 'Replace the middle third of every edge with two sides of an outward equilateral triangle. Each edge becomes four edges, each one-third as long. Recursion depth sets the target; Construction progress raises the next generation of triangular peaks. Space advances one complete generation and wraps to the initial triangle. The perimeter grows without bound while the area approaches 8/5 of the starting triangle. The limiting boundary has dimension log 4 / log 3; every finite rendering is a polygonal approximation.', a: ['Recursion depth', 0, 7, 1, 5], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 3.1 }
+  'koch-snowflake': { n: 51, name: 'Koch snowflake', category: 'FRACTALS / INFINITE BOUNDARIES', description: 'A triangle grows a coastline. Infinite perimeter, finite area, one repeating rule.', equation: 'Nₙ = 3·4ⁿ; Pₙ/P₀ = (4/3)ⁿ; Aₙ/A₀ = 8/5 − (3/5)(4/9)ⁿ', explanation: 'Replace the middle third of every edge with two sides of an outward equilateral triangle. Each edge becomes four edges, each one-third as long. Recursion depth sets the target; Construction progress raises the next generation of triangular peaks. Space advances one complete generation and wraps to the initial triangle. The perimeter grows without bound while the area approaches 8/5 of the starting triangle. The limiting boundary has dimension log 4 / log 3; every finite rendering is a polygonal approximation.', a: ['Recursion depth', 0, 7, 1, 5], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 3.1 },
+  'double-pendulum': { n: 52, name: 'Double pendulum', category: 'CHAOS / COUPLED MOTION', description: 'Two arms, one law of gravity. A tiny change becomes an entirely different dance.', equation: '2θ̈₁ + cos(δ)θ̈₂ = −2g sin θ₁ − sin(δ)ω₂²; δ = θ₁−θ₂', explanation: 'Two equal point masses hang from rigid, massless rods of equal length. Angles are measured from the downward vertical; each slider sets a starting angle and releases both masses from rest. The brighter rods show the main pendulum; the faint twin starts with its lower angle just 0.01° larger. At energetic starting positions their paths can diverge. Small oscillations can remain regular. There is no damping or forcing. Eight fourth-order Runge–Kutta substeps per display tick approximate the equations; the energy drift readout reports numerical error. Space resets the same release, R cycles starting positions, and P pauses. Drag sets the lower starting angle. Trails retain the latest 30 seconds.', reference: 'https://www.myphysicslab.com/pendulum/double-pendulum-en.html', a: ['Upper starting angle θ₁ (°)', -175, 175, 1, 120], b: ['Lower starting angle θ₂ (°)', -175, 175, 1, -25], special: 'Replay the same release', gesture: 'DRAG SETS LOWER ANGLE · ARROWS SET ANGLES · SPACE REPLAYS · P PAUSES', mode: 'pendulum', previewSteps: 450 }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -157,6 +158,28 @@ export function createClifford(seed = 1, a = -1.4, b = 1.6, c = 1, d = .7, side 
   function step(budget = 5000) { if (count >= 1500000) return false; for (let n = 0; n < budget && count < 1500000; n++) { [x, y] = cliffordStep(x, y, a, b, c, d); const ix = clamp(Math.floor((x / extent + 1) * side / 2), 0, side - 1), iy = clamp(Math.floor((y / extent + 1) * side / 2), 0, side - 1), id = iy * side + ix; maximum = Math.max(maximum, ++density[id]); count++; } return true; }
   return { density, side, c, d, step, get count() { return count; }, get maximum() { return maximum; }, get point() { return [x, y]; } };
 }
+// Equal unit masses and lengths; state = [theta1, theta2, omega1, omega2].
+export function pendulumDerivative([a, b, u, v]) {
+  const c = Math.cos(a - b), sn = Math.sin(a - b), f = -2 * 9.81 * Math.sin(a) - sn * v * v, h = -9.81 * Math.sin(b) + sn * u * u, denominator = 2 - c * c;
+  return [u, v, (f - c * h) / denominator, (2 * h - c * f) / denominator];
+}
+export function pendulumRK4(state, dt = 1 / 240) {
+  const add = (derivative, scale) => state.map((v, i) => v + derivative[i] * scale), k1 = pendulumDerivative(state), k2 = pendulumDerivative(add(k1, dt / 2)), k3 = pendulumDerivative(add(k2, dt / 2)), k4 = pendulumDerivative(add(k3, dt));
+  return state.map((v, i) => v + dt / 6 * (k1[i] + 2 * k2[i] + 2 * k3[i] + k4[i]));
+}
+export function pendulumEnergy([a, b, u, v]) { return u * u + v * v / 2 + u * v * Math.cos(a - b) - 9.81 * (2 * Math.cos(a) + Math.cos(b)); }
+export function pendulumPositions([a, b]) { const upper = [Math.sin(a), Math.cos(a)]; return [upper, [upper[0] + Math.sin(b), upper[1] + Math.cos(b)]]; }
+export function pendulumLayout(width, height) { return { x: width / 2, y: height * .38, scale: Math.min(width / 4.8, height / 5.8) }; }
+export function createDoublePendulum(a = 120, b = -25) {
+  let main = [a * Math.PI / 180, b * Math.PI / 180, 0, 0], ghost = [main[0], main[1] + Math.PI / 18000, 0, 0], steps = 0;
+  const initialEnergy = pendulumEnergy(main), trail = [pendulumPositions(main)[1]], ghostTrail = [pendulumPositions(ghost)[1]];
+  function step() {
+    for (let i = 0; i < 8; i++) { main = pendulumRK4(main); ghost = pendulumRK4(ghost); }
+    steps++; trail.push(pendulumPositions(main)[1]); ghostTrail.push(pendulumPositions(ghost)[1]);
+    if (trail.length > 901) { trail.shift(); ghostTrail.shift(); }
+  }
+  return { step, trail, ghostTrail, initialEnergy, get main() { return main; }, get ghost() { return ghost; }, get steps() { return steps; }, get energy() { return pendulumEnergy(main); }, get time() { return steps / 30; } };
+}
 function rgb(hue, light) { const h = ((hue % 360) + 360) % 360 / 60, c = (1 - Math.abs(2 * light - 1)) * .8, x = c * (1 - Math.abs(h % 2 - 1)), m = light - c / 2, colors = h < 1 ? [c, x, 0] : h < 2 ? [x, c, 0] : h < 3 ? [0, c, x] : h < 4 ? [0, x, c] : h < 5 ? [x, 0, c] : [c, 0, x]; return colors.map(v => Math.round((v + m) * 255)); }
 
 export function createMathScene(canvas, slug, makeSurface = () => document.createElement('canvas')) {
@@ -167,7 +190,8 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function prepare(s) {
     const next = ['sierpinski-triangle', 'koch-snowflake'].includes(slug) ? `construction:${s.a}` : `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
     if (next === key) return;
-    if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
+    if (mode === 'pendulum') model = createDoublePendulum(s.a, s.b);
+    else if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
     else if (slug === 'koch-snowflake') model = kochSnowflake(Math.round(s.a));
     else if (slug === 'sierpinski-triangle') model = sierpinskiTriangle(Math.round(s.a));
@@ -177,10 +201,11 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     else if (['klein-bottle', 'torus'].includes(slug)) model = parametricSurface(slug, s.a, s.b);
     key = next; imageKey = '';
   }
-  function step(s) { prepare(s); if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
+  function step(s) { prepare(s); if (mode === 'pendulum') { model.step(); return true; } if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
   function plant(s, px, py) { prepare(s); if (mode !== 'reaction') return; const r = rasterRect(); if (px < r.x || px > r.x + r.w || py < r.y || py > r.y + r.h) return; model.plant(clamp((px - r.x) / r.w * model.width, 0, model.width - 1), clamp((py - r.y) / r.h * model.height, 0, model.height - 1)); imageKey = ''; }
   function special(s) {
-    if (['sierpinski-triangle', 'koch-snowflake'].includes(slug)) { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
+    if (mode === 'pendulum') { key = ''; }
+    else if (['sierpinski-triangle', 'koch-snowflake'].includes(slug)) { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
     else if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
     else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
@@ -199,7 +224,19 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function draw(s) {
     prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), hue = s.palette * 65;
     ctx.fillStyle = '#070c17'; ctx.fillRect(0, 0, W, H);
-    if (slug === 'koch-snowflake') {
+    if (mode === 'pendulum') {
+      const layout = pendulumLayout(W, H), project = ([x, y]) => [layout.x + x * layout.scale, layout.y + y * layout.scale];
+      for (const radius of [1, 2]) { ctx.beginPath(); ctx.arc(layout.x, layout.y, radius * layout.scale, 0, TAU); ctx.strokeStyle = '#172333'; ctx.lineWidth = 1; ctx.stroke(); }
+      function path(points, color, width) { ctx.beginPath(); points.forEach((point, i) => { const p = project(point); if (i) ctx.lineTo(...p); else ctx.moveTo(...p); }); ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); }
+      for (const [trail, color] of [[model.ghostTrail, 35 + hue], [model.trail, 185 + hue]]) {
+        for (let start = 0; start < trail.length - 1; start += 30) { ctx.globalAlpha = .08 + .72 * (start + 1) / trail.length; path(trail.slice(start, start + 31), `hsl(${color},90%,68%)`, Math.max(1, unit / 650)); } ctx.globalAlpha = 1;
+      }
+      function pendulum(state, color, ghost) { const positions = pendulumPositions(state); ctx.globalAlpha = ghost ? .45 : 1; path([[0, 0], ...positions], color, Math.max(ghost ? 1 : 2, unit / 320)); for (const p of positions) { ctx.beginPath(); ctx.arc(...project(p), Math.max(ghost ? 3 : 5, unit / (ghost ? 125 : 90)), 0, TAU); ctx.fillStyle = color; ctx.fill(); } ctx.globalAlpha = 1; }
+      pendulum(model.ghost, `hsl(${35 + hue},95%,70%)`, true); pendulum(model.main, `hsl(${185 + hue},90%,78%)`, false);
+      ctx.beginPath(); ctx.arc(layout.x, layout.y, Math.max(3, unit / 180), 0, TAU); ctx.fillStyle = '#fff'; ctx.fill();
+      const a = model.trail.at(-1), b = model.ghostTrail.at(-1), separation = Math.hypot(a[0] - b[0], a[1] - b[1]);
+      status = `${model.time.toFixed(1)} s · tip separation ${separation.toFixed(4)} m · energy drift ${(Math.abs(model.energy - model.initialEnergy) / 29.43 * 1e6).toFixed(2)} ppm`;
+    } else if (slug === 'koch-snowflake') {
       const info = kochProgress(model.depth, s.b), points = info.fraction > 0 ? kochSubdivision(model.levels[info.generation], info.fraction) : model.levels[info.generation], scale = H / mathPlaneSpan(W, H, 3.1) * s.zoom;
       model.progress = info;
       ctx.beginPath(); points.forEach(([x, y], i) => { const px = W * .5 + (x - s.center[0]) * scale, py = H * .42 - (y - s.center[1]) * scale; if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py); }); ctx.closePath();

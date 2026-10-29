@@ -82,6 +82,23 @@ for (let depth = 0; depth <= 7; depth++) {
   for (const [width, height] of [[390, 844], [1600, 900]]) { const scale = height / math.mathPlaneSpan(width, height, 3.1); for (const [x, y] of points) { assert(Math.abs(x * scale) < width / 2); assert(height * .42 - y * scale > 0 && height * .42 - y * scale < height, 'The snowflake fits the initial mobile and desktop view'); } }
 }
 for (const depth of [-1, .5, 8]) assert.throws(() => math.kochSnowflake(depth));
+// Validate the integrator against mechanics, independently of the renderer.
+assert(math.pendulumDerivative([0, 0, 0, 0]).every(v => v === 0));
+for (const state of [[.7, -.3, 1.2, -.8], [2.8, 2.8, -2, 3], [-2.5, 1.5, 4, -3]]) {
+  const [a, b, u, v] = state, [, , aa, bb] = math.pendulumDerivative(state), c = Math.cos(a - b), sn = Math.sin(a - b);
+  assert(Math.abs(2 * aa + c * bb + 2 * 9.81 * Math.sin(a) + sn * v * v) < 1e-12); assert(Math.abs(c * aa + bb + 9.81 * Math.sin(b) - sn * u * u) < 1e-12);
+  math.pendulumDerivative(state.map(v => -v)).forEach((v, i) => assert(Math.abs(v + math.pendulumDerivative(state)[i]) < 1e-12));
+  const [p, q] = math.pendulumPositions(state); assert(Math.abs(Math.hypot(...p) - 1) < 1e-12 && Math.abs(Math.hypot(q[0] - p[0], q[1] - p[1]) - 1) < 1e-12);
+}
+function integrate(dt) { let state = [2, -.4, 0, 0]; for (let i = 0; i < Math.round(1 / dt); i++) state = math.pendulumRK4(state, dt); return state; }
+const solution = integrate(1 / 3840), integrationError = dt => Math.hypot(...integrate(dt).map((v, i) => v - solution[i])); assert(integrationError(1 / 60) > integrationError(1 / 120) * 10, 'RK4 converges at fourth order before chaotic separation');
+const forward = math.pendulumRK4([.3, -.4, .8, -.6]); const reversed = math.pendulumRK4([forward[0], forward[1], -forward[2], -forward[3]]); [.3, -.4, -.8, .6].forEach((v, i) => assert(Math.abs(reversed[i] - v) < 1e-9));
+for (const [a, b] of [[0, 0], [120, -25], [175, -175], [-175, 175], [10, 15]]) {
+  const pendulum = math.createDoublePendulum(a, b), twin = math.createDoublePendulum(a, b); let maxDrift = 0;
+  for (let i = 0; i < 1800; i++) { pendulum.step(); if (i < 300) twin.step(); assert([...pendulum.main, ...pendulum.ghost].every(Number.isFinite)); maxDrift = Math.max(maxDrift, Math.abs(pendulum.energy - pendulum.initialEnergy)); if (i === 299) assert.deepEqual(pendulum.main, twin.main, 'Identical releases replay exactly'); }
+  assert(maxDrift / 29.43 < 2e-5, 'Energy remains stable over 60 simulated seconds'); assert.equal(pendulum.trail.length, 901); assert.equal(pendulum.ghostTrail.length, 901); assert.equal(pendulum.time, 60);
+}
+const chaos = math.createDoublePendulum(); for (let i = 0; i < 900; i++) chaos.step(); assert(Math.hypot(...chaos.trail.at(-1).map((v, i) => v - chaos.ghostTrail.at(-1)[i])) > .1, 'The chosen energetic release separates from its perturbed twin');
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -103,7 +120,7 @@ export function recorder(width, height) {
 }
 export const baseState = work => ({ a: work.a[4], b: work.b[4], time: 1, yaw: .45, pitch: .45, zoom: 1, center: [0, 0], pointer: [.5, .42], seed: 1, palette: 0, direction: 1 });
 for (const [slug, work] of Object.entries(catalog)) {
-  const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
+  const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); for (let i = 0; i < (work.previewSteps ?? 0); i++) scene.step(state); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: twelve math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, finite desktop/mobile previews.');
+console.log('PASS: thirteen math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, double-pendulum mechanics/energy/RK4/replay/trail bounds, finite desktop/mobile previews.');

@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 50 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 51 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Twelve MIT-licensed
+topology, implicit surfaces, and emergent systems. Thirteen MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid,
-Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, and Koch snowflake.
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, and Double pendulum.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
@@ -176,3 +176,12 @@ growth, and exact generation stepping. The live readout compares perimeter
 and area with the initial triangle: perimeter grows by 4/3 per generation,
 while area approaches 8/5. Drag/arrows pan; scroll/pinch zoom. The controls
 work with reduced motion and while paused. The index keeps Mandelbulb first.
+
+## Double pendulum
+
+Two unit point masses on unit massless rods, integrated with RK4 at 240 Hz.
+The amber twin starts 0.01° away in its lower angle. Both leave a bounded
+30-second trail. Starting-angle sliders, drag, and arrow keys release from
+rest; Space replays the same release, R cycles presets, and P pauses.
+Reduced motion starts paused. The readout shows elapsed simulation time,
+tip separation, and energy drift normalized by 3mgL.

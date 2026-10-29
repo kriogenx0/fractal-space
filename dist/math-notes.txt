@@ -249,3 +249,33 @@ Space advances an exact generation and wraps back to the starting triangle.
 Depth zero is valid. Geometry is cached across progress, pan and color changes.
 Checks independently sum edge lengths and signed shoelace area, including
 partial generations, and exercise the controller with reduced motion.
+
+
+Double pendulum (2026-10-29)
+----------------------------
+Original MIT implementation of the ideal equal-mass, equal-length double
+pendulum: two point masses m=1 kg, rigid massless rods L=1 m, g=9.81 m/s^2.
+No friction, driving force, collision handling or small-angle approximation.
+Angles a,b are from the downward vertical. With u=da/dt,v=db/dt,d=a-b:
+2*a''+cos(d)*b''=-2*g*sin(a)-sin(d)*v^2;
+cos(d)*a''+b''=-g*sin(b)+sin(d)*u^2.
+Solve this 2x2 linear system (determinant 2-cos(d)^2 >= 1) for acceleration.
+E=u^2+v^2/2+u*v*cos(d)-g*(2*cos(a)+cos(b)).
+The displayed drift is abs(E-E0)/(3mgL), in parts per million, not relative
+to E0 (which can be zero). The amber twin adds 0.01 degrees to initial b.
+It illustrates sensitivity for chaotic releases, not a Lyapunov estimate.
+Low-energy starting positions may remain regular.
+
+Each 1/30-second simulation tick takes eight fourth-order Runge-Kutta
+substeps of 1/240 second. Rendering never advances physics. The retained
+trail has at most 901 samples spanning 30 seconds. A slow display slows
+simulation time rather than taking unstable long integration steps.
+Pause, reduced motion, hidden-tab suspension and modal Help stop stepping.
+Reset repeats the same deterministic release from rest; changing a starting
+angle also resets both trajectories and trails without resuming a pause.
+Reference for the standard equations: Erik Neumann, myPhysicsLab,
+https://www.myphysicslab.com/pendulum/double-pendulum-en.html
+No source code, prose, or visual assets from the reference are copied.
+Tests check coupled-equation residuals, rod lengths, symmetry, rest states,
+time reversal, fourth-order convergence, bounded trails, energy drift and
+repeatability, as well as actual pointer/keyboard/paused player behavior.
