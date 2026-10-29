@@ -12,7 +12,8 @@ export const catalog = {
   'torus': { n: 47, name: 'Torus', category: 'TOPOLOGY / SURFACES OF REVOLUTION', description: 'Two circular directions, one hole. Change the radii and follow the surface.', equation: 'r(u,v) = ((R+r cos v) cos u, r sin v, (R+r cos v) sin u)', explanation: 'A circle of radius r revolved around an axis at distance R produces a torus. The two sliders change its ring radius R and tube radius r, always keeping R greater than r so the hole remains open. Unlike the Klein bottle, this surface is orientable. Both are closed surfaces with Euler characteristic zero. Space cycles solid, wireframe, and glass views.', a: ['Ring radius R', 1.2, 2.4, .01, 1.7], b: ['Tube radius r', .2, 1.1, .01, .65], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'mobius-strip': { n: 48, name: 'Möbius strip', category: 'TOPOLOGY / ONE-SIDED SURFACES', description: 'A half-turn joins the ends of a ribbon. Follow its only edge all the way home.', equation: 'r(u,v) = ((R+v cos(hu/2)) cos u, v sin(hu/2), (R+v cos(hu/2)) sin u)', explanation: 'A Möbius strip is a non-orientable surface with one boundary loop. Its ends join with the width coordinate reversed: (0,v) is identified with (2π,−v). The width slider changes the ribbon; Half-turns selects 1, 3, or 5, all odd. The bright tracer follows the boundary and returns after two trips around the center. Space cycles solid, wireframe, and glass views. The tracer and rotation pause together; manual controls still work.', a: ['Ribbon half-width', .15, .85, .01, .55], b: ['Half-turns h', 1, 5, 2, 1], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
-  'sierpinski-triangle': { n: 50, name: 'Sierpiński triangle', category: 'FRACTALS / RECURSIVE SUBDIVISION', description: 'Three smaller triangles survive each cut. Follow a simple rule toward infinite detail.', equation: 'Nₙ = 3ⁿ; sₙ = 2⁻ⁿ; Aₙ/A₀ = (3/4)ⁿ; D = log 3 / log 2', explanation: 'Join the midpoints of an equilateral triangle and remove the central triangle; repeat on the three survivors. Recursion depth sets the target generation. Construction progress reveals each round of cuts, interpolating the next central holes as you move the slider. Space advances a full generation, wrapping back to the initial triangle. The remaining area is (3/4)ⁿ after n complete generations. The infinite limiting set has dimension log 3 / log 2; every finite rendering is an approximation.', a: ['Recursion depth', 0, 8, 1, 6], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 2.5 }
+  'sierpinski-triangle': { n: 50, name: 'Sierpiński triangle', category: 'FRACTALS / RECURSIVE SUBDIVISION', description: 'Three smaller triangles survive each cut. Follow a simple rule toward infinite detail.', equation: 'Nₙ = 3ⁿ; sₙ = 2⁻ⁿ; Aₙ/A₀ = (3/4)ⁿ; D = log 3 / log 2', explanation: 'Join the midpoints of an equilateral triangle and remove the central triangle; repeat on the three survivors. Recursion depth sets the target generation. Construction progress reveals each round of cuts, interpolating the next central holes as you move the slider. Space advances a full generation, wrapping back to the initial triangle. The remaining area is (3/4)ⁿ after n complete generations. The infinite limiting set has dimension log 3 / log 2; every finite rendering is an approximation.', a: ['Recursion depth', 0, 8, 1, 6], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 2.5 },
+  'koch-snowflake': { n: 51, name: 'Koch snowflake', category: 'FRACTALS / INFINITE BOUNDARIES', description: 'A triangle grows a coastline. Infinite perimeter, finite area, one repeating rule.', equation: 'Nₙ = 3·4ⁿ; Pₙ/P₀ = (4/3)ⁿ; Aₙ/A₀ = 8/5 − (3/5)(4/9)ⁿ', explanation: 'Replace the middle third of every edge with two sides of an outward equilateral triangle. Each edge becomes four edges, each one-third as long. Recursion depth sets the target; Construction progress raises the next generation of triangular peaks. Space advances one complete generation and wraps to the initial triangle. The perimeter grows without bound while the area approaches 8/5 of the starting triangle. The limiting boundary has dimension log 4 / log 3; every finite rendering is a polygonal approximation.', a: ['Recursion depth', 0, 7, 1, 5], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 3.1 }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -90,6 +91,26 @@ export function sierpinskiTriangle(depth = 6) {
   return { depth, outer, levels, leaves, progress: sierpinskiProgress(depth, 1) };
 }
 
+export function kochProgress(depth, progress) {
+  const phase = depth * clamp(progress, 0, 1), generation = Math.min(depth, Math.floor(phase + 1e-10)), fraction = generation >= depth ? 0 : clamp(phase - generation, 0, 1);
+  return { generation, fraction, perimeter: (4 / 3) ** generation * (2 + Math.sqrt(1 + 3 * fraction * fraction)) / 3, area: 8 / 5 - 3 / 5 * (4 / 9) ** generation + fraction / 3 * (4 / 9) ** generation, dimension: Math.log(4) / Math.log(3) };
+}
+export function kochSubdivision(points, fraction = 1) {
+  const next = [], height = Math.sqrt(3) / 6 * clamp(fraction, 0, 1);
+  for (let i = 0; i < points.length; i++) {
+    const a = points[i], b = points[(i + 1) % points.length], dx = b[0] - a[0], dy = b[1] - a[1];
+    // The polygon runs counterclockwise: its right normal points outward.
+    next.push(a, [a[0] + dx / 3, a[1] + dy / 3], [(a[0] + b[0]) / 2 + dy * height, (a[1] + b[1]) / 2 - dx * height], [a[0] + dx * 2 / 3, a[1] + dy * 2 / 3]);
+  }
+  return next;
+}
+export function kochSnowflake(depth = 5) {
+  if (!Number.isInteger(depth) || depth < 0 || depth > 7) throw new Error('Snowflake depth must be an integer from 0 to 7');
+  const levels = [[[0, 2 / Math.sqrt(3)], [-1, -1 / Math.sqrt(3)], [1, -1 / Math.sqrt(3)]]];
+  for (let n = 0; n < depth; n++) levels.push(kochSubdivision(levels[n]));
+  return { depth, levels, progress: kochProgress(depth, 1) };
+}
+
 export function gyroid(x, y, z) { return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x); }
 export function gyroidGradient(x, y, z) { return [Math.cos(x) * Math.cos(y) - Math.sin(z) * Math.sin(x), Math.cos(y) * Math.cos(z) - Math.sin(x) * Math.sin(y), Math.cos(z) * Math.cos(x) - Math.sin(y) * Math.sin(z)]; }
 export function tetraTriangles(points, values, level) {
@@ -144,10 +165,11 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   let model, key = '', imageKey = '', surface, surfaceCtx, status = '', preset = 0;
   const mode = catalog[slug].mode;
   function prepare(s) {
-    const next = slug === 'sierpinski-triangle' ? `triangle:${s.a}` : `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
+    const next = ['sierpinski-triangle', 'koch-snowflake'].includes(slug) ? `construction:${s.a}` : `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
     if (next === key) return;
     if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
+    else if (slug === 'koch-snowflake') model = kochSnowflake(Math.round(s.a));
     else if (slug === 'sierpinski-triangle') model = sierpinskiTriangle(Math.round(s.a));
     else if (slug === 'gyroid-field') model = gyroidMesh(s.a, Math.round(s.b));
     else if (slug === 'mobius-strip') model = mobiusSurface(s.a, Math.round(s.b));
@@ -158,7 +180,7 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function step(s) { prepare(s); if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
   function plant(s, px, py) { prepare(s); if (mode !== 'reaction') return; const r = rasterRect(); if (px < r.x || px > r.x + r.w || py < r.y || py > r.y + r.h) return; model.plant(clamp((px - r.x) / r.w * model.width, 0, model.width - 1), clamp((py - r.y) / r.h * model.height, 0, model.height - 1)); imageKey = ''; }
   function special(s) {
-    if (slug === 'sierpinski-triangle') { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
+    if (['sierpinski-triangle', 'koch-snowflake'].includes(slug)) { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
     else if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
     else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
@@ -177,7 +199,13 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function draw(s) {
     prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), hue = s.palette * 65;
     ctx.fillStyle = '#070c17'; ctx.fillRect(0, 0, W, H);
-    if (slug === 'sierpinski-triangle') {
+    if (slug === 'koch-snowflake') {
+      const info = kochProgress(model.depth, s.b), points = info.fraction > 0 ? kochSubdivision(model.levels[info.generation], info.fraction) : model.levels[info.generation], scale = H / mathPlaneSpan(W, H, 3.1) * s.zoom;
+      model.progress = info;
+      ctx.beginPath(); points.forEach(([x, y], i) => { const px = W * .5 + (x - s.center[0]) * scale, py = H * .42 - (y - s.center[1]) * scale; if (i) ctx.lineTo(px, py); else ctx.moveTo(px, py); }); ctx.closePath();
+      ctx.fillStyle = `hsl(${205 + hue},65%,28%)`; ctx.fill(); ctx.strokeStyle = `hsl(${185 + hue},90%,76%)`; ctx.lineWidth = Math.max(.7, unit / 550); ctx.lineJoin = 'round'; ctx.stroke();
+      status = `Generation ${info.generation}${info.fraction > 1e-8 ? ' → ' + (info.generation + 1) : ''} / ${model.depth} · boundary dimension → ${info.dimension.toFixed(5)}`;
+    } else if (slug === 'sierpinski-triangle') {
       const scale = H / mathPlaneSpan(W, H, 2.5) * s.zoom, project = ([x, y]) => [W * .5 + (x - s.center[0]) * scale, H * .42 - (y - s.center[1]) * scale], info = sierpinskiProgress(model.depth, s.b);
       model.progress = info;
       function triangle(points, color) { ctx.beginPath(); points.forEach((p, i) => { const q = project(p); if (i) ctx.lineTo(...q); else ctx.moveTo(...q); }); ctx.closePath(); ctx.fillStyle = color; ctx.fill(); }

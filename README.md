@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 49 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 50 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Eleven MIT-licensed
+topology, implicit surfaces, and emergent systems. Twelve MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid,
-Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, and Sierpiński triangle.
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, and Koch snowflake.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
@@ -168,3 +168,11 @@ initial triangle; drag/arrows pan and scroll/pinch zoom. The readout exposes
 retained area and the limiting dimension log(3)/log(2). Completed stages have
 3^n surviving triangles and area fraction (3/4)^n; partial holes expand about
 their centers. Controls work while paused, including with reduced motion.
+
+## Koch snowflake
+
+An original recursive Canvas construction with depths 0–7, continuous peak
+growth, and exact generation stepping. The live readout compares perimeter
+and area with the initial triangle: perimeter grows by 4/3 per generation,
+while area approaches 8/5. Drag/arrows pan; scroll/pinch zoom. The controls
+work with reduced motion and while paused. The index keeps Mandelbulb first.

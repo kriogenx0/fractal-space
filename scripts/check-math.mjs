@@ -71,6 +71,17 @@ for (let depth = 0; depth <= 8; depth++) {
   if (depth) { const info = math.sierpinskiProgress(depth, .5 / depth); assert(Math.abs(info.area - (1 - .5 ** 2 / 4)) < 1e-12); }
 }
 for (const [width, height] of [[390, 844], [1600, 900]]) { const span = math.mathPlaneSpan(width, height, 2.5); for (const [x, y] of math.sierpinskiTriangle(0).outer) { const px = width * .5 + x * height / span, py = height * .42 - y * height / span; assert(px > 0 && px < width && py > 0 && py < height, 'The initial triangle fits mobile and desktop canvases'); } }
+// Independent geometry sums verify both the completed and growing snowflake.
+function polygonMetrics(points) { let area = 0, perimeter = 0; for (let i = 0; i < points.length; i++) { const a = points[i], b = points[(i + 1) % points.length]; assert(a.every(Number.isFinite)); area += a[0] * b[1] - a[1] * b[0]; perimeter += Math.hypot(b[0] - a[0], b[1] - a[1]); } return { area: area / 2, perimeter }; }
+for (let depth = 0; depth <= 7; depth++) {
+  const snowflake = math.kochSnowflake(depth), points = snowflake.levels[depth], metrics = polygonMetrics(points), info = math.kochProgress(depth, 1);
+  assert.equal(points.length, 3 * 4 ** depth); assert(Math.abs(metrics.area / Math.sqrt(3) - info.area) < 1e-10); assert(Math.abs(metrics.perimeter / 6 - info.perimeter) < 1e-10);
+  for (let i = 0; i < points.length; i++) assert(Math.abs(Math.hypot(...points[i].map((v, axis) => v - points[(i + 1) % points.length][axis])) - 2 / 3 ** depth) < 1e-12);
+  assert.equal(math.kochProgress(depth, 0).area, 1); assert(info.area < 1.6);
+  if (depth < 7) for (const fraction of [0, .25, .5, 1]) { const grown = polygonMetrics(math.kochSubdivision(points, fraction)), expected = math.kochProgress(depth + 1, (depth + fraction) / (depth + 1)); assert(Math.abs(grown.area / Math.sqrt(3) - expected.area) < 1e-10); assert(Math.abs(grown.perimeter / 6 - expected.perimeter) < 1e-10); }
+  for (const [width, height] of [[390, 844], [1600, 900]]) { const scale = height / math.mathPlaneSpan(width, height, 3.1); for (const [x, y] of points) { assert(Math.abs(x * scale) < width / 2); assert(height * .42 - y * scale > 0 && height * .42 - y * scale < height, 'The snowflake fits the initial mobile and desktop view'); } }
+}
+for (const depth of [-1, .5, 8]) assert.throws(() => math.kochSnowflake(depth));
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -95,4 +106,4 @@ for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: eleven math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, finite desktop/mobile previews.');
+console.log('PASS: twelve math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, finite desktop/mobile previews.');

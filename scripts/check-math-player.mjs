@@ -47,5 +47,12 @@ triangle.input('a', 0); triangle.frame(); triangle.elements.special.onclick(); t
 const triangleView = player('sierpinski-triangle', true, 390, 844), view = triangleView.state().state, sample = [.7, .2];
 const planePoint = () => { const span = math.mathPlaneSpan(390, 844, 2.5) / view.zoom; return [view.center[0] + (sample[0] - .5) * 390 / 844 * span, view.center[1] + (.42 - sample[1]) * span]; };
 const pointBefore = planePoint(); triangleView.canvas.handlers.wheel({ clientX: sample[0] * 390, clientY: sample[1] * 844, deltaY: -120, preventDefault() {} }); planePoint().forEach((v, i) => assert(Math.abs(v - pointBefore[i]) < 1e-12, 'Triangle zoom stays anchored to the cursor on mobile'));
+const snowflake = player('koch-snowflake', true); assert.equal(snowflake.elements.measurement.hidden, false); snowflake.key(' '); snowflake.frame(); assert.equal(snowflake.state().state.b, 0);
+const snowModel = snowflake.state().scene.data, snowReadout = snowflake.elements.measurement.textContent;
+for (let generation = 1; generation <= 5; generation++) { snowflake.key(' '); snowflake.frame(); assert.equal(snowflake.state().scene.data.progress.generation, generation); assert.equal(snowflake.state().scene.data, snowModel, 'Peak growth preserves the recursion cache'); }
+assert.notEqual(snowflake.elements.measurement.textContent, snowReadout); snowflake.input('a', 7); snowflake.key('r'); snowflake.frame(); assert.equal(snowflake.state().state.a, 0); snowflake.key(' '); snowflake.frame(); assert.equal(snowflake.state().scene.data.progress.perimeter, 1); assert(snowflake.state().paused);
+const snowView = player('koch-snowflake', true, 390, 844), snowState = snowView.state().state;
+const snowPoint = () => { const span = math.mathPlaneSpan(390, 844, 3.1) / snowState.zoom; return [snowState.center[0] + .2 * 390 / 844 * span, snowState.center[1] + .22 * span]; };
+const snowBefore = snowPoint(); snowView.canvas.handlers.wheel({ clientX: .7 * 390, clientY: .2 * 844, deltaY: -100, preventDefault() {} }); snowPoint().forEach((v, i) => assert(Math.abs(v - snowBefore[i]) < 1e-12, 'Snowflake zoom stays under the cursor'));
 assert.equal(player('toString', true).state().slug, 'newton-basins', 'Malformed routes fall back safely');
 console.log('PASS: mathematical players initialize on desktop/mobile, preserve pause/reduced motion, update precise rates, handle theme/help keys, cancel drags, anchor complex-plane zoom, paint while paused, reset attractors, save PNG, and toggle fullscreen.');
