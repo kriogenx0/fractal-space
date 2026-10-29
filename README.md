@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 44 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 46 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Six original MIT-licensed
+topology, implicit surfaces, and emergent systems. Eight MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid field,
-Reaction–diffusion, and Clifford attractor. Each displays its equation and
+Reaction–diffusion, Clifford attractor, Klein bottle, and Torus. Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
 
@@ -123,3 +123,18 @@ mathematical invariants, numerical behavior, and the actual controller on
 mobile/desktop, including reduced motion. The main index keeps Mandelbulb
 first, then the new mathematics cards; Dream Strata remains excluded;
 Invader Fractal and Tandava remain the final two cards.
+
+## Klein bottle and torus
+
+`math.html?work=klein-bottle` adds the classic bottle immersion, with neck
+width, a cutaway, and glass/solid/wireframe views. The corresponding abstract
+mesh reverses one seam; tests check closedness, Euler characteristic zero,
+and non-orientability. `math.html?work=torus` adds a separate surface with
+adjustable major/minor radii, preserving an open hole, and the same three
+views. Its mesh is closed and orientable, also with Euler characteristic zero.
+Both share the mathematical player, themed controls, equations, help, PNG
+export, reduced motion, drag/arrow orbit, and scroll/pinch zoom.
+
+The Klein bottle parametrization is adapted from the MIT-licensed Three.js
+ParametricFunctions example; its copyright notice is included in
+`dist/math/threejs-LICENSE.txt`. No Three.js runtime or assets are loaded.

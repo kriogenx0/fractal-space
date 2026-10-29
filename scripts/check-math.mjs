@@ -27,6 +27,23 @@ const reference = createReaction(6, 5, 1, false); reference.a.forEach((_, i) => 
 for (let y = 0; y < 5; y++) for (let x = 0; x < 6; x++) { const id = index(x, y), lap = values => { let result = -values[id]; for (let dy = -1; dy <= 1; dy++) for (let dx = -1; dx <= 1; dx++) if (dx || dy) result += values[index(x + dx, y + dy)] * (dx && dy ? .05 : .2); return result; }, reaction = oldA[id] * oldB[id] ** 2; assert(Math.abs(reference.a[id] - Math.max(0, Math.min(1, oldA[id] + lap(oldA) - reaction + .055 * (1 - oldA[id])))) < 1e-6); assert(Math.abs(reference.b[id] - Math.max(0, Math.min(1, oldB[id] + .5 * lap(oldB) + reaction - .117 * oldB[id]))) < 1e-6); }
 for (const [feed, kill] of [[.01, .045], [.08, .07], [.055, .062]]) { const r = createReaction(36, 24, 1); for (let i = 0; i < 300; i++) r.step(feed, kill); assert(r.a.every(v => Number.isFinite(v) && v >= 0 && v <= 1) && r.b.every(v => Number.isFinite(v) && v >= 0 && v <= 1)); }
 assert.deepEqual(cliffordStep(0, 0), [1, .7]); const clifford = createClifford(1); clifford.step(20000); assert.equal(clifford.density.reduce((s, v) => s + v, 0), clifford.count); assert.equal(clifford.maximum, clifford.density.reduce((m, v) => Math.max(m, v), 0)); assert(clifford.point.every(Number.isFinite));
+// Topology is checked on indexed sheets, so immersion intersections never weld.
+function topology(model) {
+  const edges = new Map(), neighbors = model.faces.map(() => []);
+  model.faces.forEach((face, fi) => { assert.equal(new Set(face).size, 3); for (let k = 0; k < 3; k++) { const a = face[k], b = face[(k + 1) % 3], key = a < b ? `${a},${b}` : `${b},${a}`; if (!edges.has(key)) edges.set(key, []); edges.get(key).push({ face: fi, direction: a < b ? 1 : -1 }); } });
+  let boundary = 0; for (const incident of edges.values()) { assert(incident.length <= 2); if (incident.length === 1) boundary++; else { const [a, b] = incident, parity = a.direction === b.direction ? -1 : 1; neighbors[a.face].push([b.face, parity]); neighbors[b.face].push([a.face, parity]); } }
+  const signs = new Int8Array(model.faces.length); let orientable = true, components = 0;
+  for (let root = 0; root < signs.length; root++) { if (signs[root]) continue; components++; signs[root] = 1; const queue = [root]; for (let qi = 0; qi < queue.length; qi++) { const face = queue[qi]; for (const [next, parity] of neighbors[face]) { const required = signs[face] * parity; if (!signs[next]) { signs[next] = required; queue.push(next); } else if (signs[next] !== required) orientable = false; } } }
+  return { chi: model.vertices.length - edges.size + model.faces.length, boundary, orientable, components };
+}
+for (const width of [.65, 1, 1.25]) {
+  for (let v = 0; v <= TAU; v += .2) { const a = math.kleinPoint(TAU, v, width), b = math.kleinPoint(0, Math.PI - v, width); assert(Math.hypot(...a.map((value, i) => value - b[i])) < 1e-12, 'Klein seam closes with reversed parameter direction'); }
+  const klein = math.parametricSurface('klein-bottle', width, 1); assert.deepEqual(topology(klein), { chi: 0, boundary: 0, orientable: false, components: 1 });
+}
+for (const [ring, tube] of [[1.2, .2], [1.2, 1.1], [2.4, 1.1]]) { const torus = math.parametricSurface('torus', ring, tube); assert.deepEqual(topology(torus), { chi: 0, boundary: 0, orientable: true, components: 1 }); for (const [x, y, z] of torus.vertices) assert(Math.abs((Math.hypot(x, z) - ring) ** 2 + y * y - tube * tube) < 1e-12, 'Every surface vertex satisfies the torus equation'); }
+const cutaway = math.parametricSurface('klein-bottle', 1, .5); assert(!cutaway.full && topology(cutaway).boundary > 0, 'A cutaway is explicitly open');
+assert(readFileSync('dist/math/threejs-LICENSE.txt', 'utf8').includes('Copyright © 2010-2026 three.js authors'));
+
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -36,11 +53,11 @@ function png(image) {
 export function recorder(width, height) {
   const shapes = []; let path = '', arc = '', calls = 0, lastImage;
   const num = n => { assert(Number.isFinite(n), 'Finite Canvas coordinates'); calls++; return +n.toFixed(3); };
-  const context = { fillStyle: '#000', strokeStyle: '#fff', lineWidth: 1,
+  const context = { globalAlpha: 1, fillStyle: '#000', strokeStyle: '#fff', lineWidth: 1,
     beginPath() { path = ''; arc = ''; }, moveTo(x, y) { path += `M${num(x)} ${num(y)}`; }, lineTo(x, y) { path += `L${num(x)} ${num(y)}`; }, closePath() { path += 'Z'; },
     arc(x, y, r) { assert(r > 0); arc = `circle cx="${num(x)}" cy="${num(y)}" r="${num(r)}"`; },
     fillRect(x, y, w, h) { shapes.push(`<rect x="${num(x)}" y="${num(y)}" width="${num(w)}" height="${num(h)}" fill="${this.fillStyle}"/>`); },
-    fill() { shapes.push(`<${arc || `path d="${path}"`} fill="${this.fillStyle}"/>`); }, stroke() { shapes.push(`<${arc || `path d="${path}"`} fill="none" stroke="${this.strokeStyle}" stroke-width="${num(this.lineWidth)}" stroke-linecap="round"/>`); },
+    fill() { shapes.push(`<${arc || `path d="${path}"`} fill="${this.fillStyle}"${this.globalAlpha === 1 ? '' : ` opacity="${this.globalAlpha}"`}/>`); }, stroke() { shapes.push(`<${arc || `path d="${path}"`} fill="none" stroke="${this.strokeStyle}" stroke-width="${num(this.lineWidth)}" stroke-linecap="round"${this.globalAlpha === 1 ? '' : ` opacity="${this.globalAlpha}"`}/>`); },
     createImageData(w, h) { return { width: w, height: h, data: new Uint8ClampedArray(w * h * 4) }; }, putImageData(image) { lastImage = image; },
     drawImage(surface, x, y, w, h) { const image = surface.getImage(); assert(image && image.data.some(v => v !== 0), 'A raster scene contains rendered pixels'); shapes.push(`<image x="${num(x)}" y="${num(y)}" width="${num(w)}" height="${num(h)}" href="data:image/png;base64,${png(image).toString('base64')}"/>`); }
   };
@@ -51,4 +68,4 @@ for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: six math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, finite desktop/mobile previews.');
+console.log('PASS: eight math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, finite desktop/mobile previews.');

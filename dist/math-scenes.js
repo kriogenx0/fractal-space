@@ -1,12 +1,15 @@
 // MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt.
-// Original implementations of mathematical constructions; no external code/assets.
+// Mathematical constructions. Klein bottle parametrization adapted from Three.js
+// (MIT, Copyright three.js authors); see math/threejs-LICENSE.txt and math-notes.txt.
 export const catalog = {
   'newton-basins': { n: 40, name: 'Newton basins', category: 'COMPLEX DYNAMICS', description: 'Every pixel asks the same question: which root will I reach?', equation: 'z ← z − λ (zⁿ − 1) / (n zⁿ⁻¹)', explanation: 'Apply relaxed Newton iteration to zⁿ − 1 at every starting point. Hue identifies the root reached; brightness records convergence speed. Dark pixels have not converged within 55 iterations. The jagged borders separate basins of attraction.', a: ['Polynomial degree n', 3, 7, 1, 3], b: ['Relaxation λ', .5, 1.5, .01, 1], special: 'Reset the complex plane', gesture: 'DRAG / ARROWS TO PAN · SCROLL / + − TO ZOOM', mode: 'plane' },
   'hopf-fibers': { n: 41, name: 'Hopf fibers', category: 'TOPOLOGY / S³ → S²', description: 'Circles from a four-dimensional sphere, each linked once with every other.', equation: '(z₁, z₂) = (cos η eⁱᵗ, sin η eⁱ⁽ᵗ⁺φ⁾)', explanation: 'Each curve is a circle on the unit three-sphere in four dimensions. Stereographic projection brings it into three dimensions. Three nearby latitudes form nested tori; changing η selects their position on the base sphere. Distinct fibers link once. The display uses finite curve samples.', reference: 'https://nilesjohnson.net/hopf.html', a: ['Latitude η', .2, 1.1, .01, .65], b: ['Fibers per latitude', 8, 40, 1, 20], special: 'Reverse the rotation', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
   'torus-knots': { n: 42, name: 'Torus knots', category: 'KNOT THEORY', description: 'Two winding numbers decide whether a single strand becomes a knot—or several become a link.', equation: 'r(t) = ((R+r cos qt) cos pt, (R+r cos qt) sin pt, r sin qt)', explanation: 'The integers p and q count windings around a torus. Coprime windings produce one knot; a common divisor d produces d separate linked components. The renderer traces every component, using reduced windings p/d and q/d with distinct phase offsets. The default (3,2) is a trefoil.', a: ['Longitudinal winding p', 2, 9, 1, 3], b: ['Meridional winding q', 2, 11, 1, 2], special: 'Next winding pair', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
   'gyroid-field': { n: 43, name: 'Gyroid field', category: 'IMPLICIT SURFACES', description: 'One periodic equation opens a labyrinth with no preferred direction.', equation: 'sin x cos y + sin y cos z + sin z cos x = c', explanation: 'This trigonometric level set is a common nodal approximation to the gyroid, rather than an exact minimal surface. Moving c changes the level set; Repeats reveals its periodic cells. A marching-tetrahedra mesh approximates the surface, with lighting from its analytic gradient.', reference: 'https://ntrs.nasa.gov/citations/19700020472', a: ['Level c', -1, 1, .02, 0], b: ['Repeats', 1, 2, 1, 1], special: 'Swap positive and negative level', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL / + − TO ZOOM', mode: 'orbit' },
   'reaction-diffusion': { n: 44, name: 'Reaction–diffusion', category: 'PATTERN FORMATION', description: 'Two concentrations, two rates. Spots and labyrinths emerge from local reactions.', equation: '∂ₜA = ΔA − AB² + f(1−A); ∂ₜB = ½ΔB + AB² − (k+f)B', explanation: 'A fixed-step Gray–Scott simulation: A diffuses twice as fast as B; AB² converts A into B. Feed f replenishes A and removal k drains B. The periodic grid uses a nine-point Laplacian, Δt = 1, and concentrations bounded to [0,1]. Drag to seed B. Pause freezes the simulation; changing rates then takes effect when resumed.', reference: 'https://www.karlsims.com/rd.html', a: ['Feed f', .01, .08, .0001, .055], b: ['Removal k', .045, .07, .0001, .062], special: 'Next chemical regime', gesture: 'DRAG TO SEED B · ARROWS MOVE BRUSH · SPACE CHANGES REGIME', mode: 'reaction' },
-  'clifford-attractor': { n: 45, name: 'Clifford attractor', category: 'ITERATED MAPS / CHAOS', description: 'A point follows a pair of equations. Its visits become a luminous density field.', equation: 'x′ = sin(ay) + c cos(ax); y′ = sin(bx) + d cos(by)', explanation: 'Both new coordinates use the previous point simultaneously. The renderer counts visits to each grid cell, then colors logarithmic density. The default constants are c = 1 and d = 0.7; Space selects another preset. Changing a or b restarts accumulation. Some parameters settle to simple cycles instead of a strange attractor.', a: ['Parameter a', -3, 3, .01, -1.4], b: ['Parameter b', -3, 3, .01, 1.6], special: 'Next attractor preset', gesture: 'ARROWS ADJUST a / b · SPACE FOR PRESETS · P PAUSES ACCUMULATION', mode: 'clifford' }
+  'clifford-attractor': { n: 45, name: 'Clifford attractor', category: 'ITERATED MAPS / CHAOS', description: 'A point follows a pair of equations. Its visits become a luminous density field.', equation: 'x′ = sin(ay) + c cos(ax); y′ = sin(bx) + d cos(by)', explanation: 'Both new coordinates use the previous point simultaneously. The renderer counts visits to each grid cell, then colors logarithmic density. The default constants are c = 1 and d = 0.7; Space selects another preset. Changing a or b restarts accumulation. Some parameters settle to simple cycles instead of a strange attractor.', a: ['Parameter a', -3, 3, .01, -1.4], b: ['Parameter b', -3, 3, .01, 1.6], special: 'Next attractor preset', gesture: 'ARROWS ADJUST a / b · SPACE FOR PRESETS · P PAUSES ACCUMULATION', mode: 'clifford' },
+  'klein-bottle': { n: 46, name: 'Klein bottle', category: 'TOPOLOGY / NON-ORIENTABLE SURFACES', description: 'Follow a surface that has no globally distinct inside and outside.', equation: '(u, v) ∼ (u+2π, π−v); (u, v) ∼ (u, v+2π)', explanation: 'A Klein bottle is a closed, non-orientable surface. Its familiar bottle shape is an immersion into three dimensions: the neck passes through the wall, while the abstract surface does not join at that crossing. Neck width changes the shape; Surface reveal opens a cutaway. Space cycles glass, solid, and wireframe views. The fully revealed mesh identifies its end with a reversed parameter direction. Local shading is two-sided because no consistent global normal exists.', reference: 'https://www.math.union.edu/~dpvc/TFB/Art/PAC-9603/tour/klein/klein.html', a: ['Neck width', .65, 1.25, .01, 1], b: ['Surface reveal', .2, 1, .01, 1], special: 'Glass / solid / wireframe', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
+  'torus': { n: 47, name: 'Torus', category: 'TOPOLOGY / SURFACES OF REVOLUTION', description: 'Two circular directions, one hole. Change the radii and follow the surface.', equation: 'r(u,v) = ((R+r cos v) cos u, r sin v, (R+r cos v) sin u)', explanation: 'A circle of radius r revolved around an axis at distance R produces a torus. The two sliders change its ring radius R and tube radius r, always keeping R greater than r so the hole remains open. Unlike the Klein bottle, this surface is orientable. Both are closed surfaces with Euler characteristic zero. Space cycles solid, wireframe, and glass views.', a: ['Ring radius R', 1.2, 2.4, .01, 1.7], b: ['Tube radius r', .2, 1.1, .01, .65], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -28,6 +31,27 @@ export function hopfS3(eta, phi, t) { return [Math.cos(eta) * Math.cos(t), Math.
 export function hopfMap([x, y, z, w]) { return [2 * (x * z + y * w), 2 * (y * z - x * w), x * x + y * y - z * z - w * w]; }
 export function hopfPoint(eta, phi, t) { const [x, y, z, w] = hopfS3(eta, phi, t); return [x / (1 - w), y / (1 - w), z / (1 - w)]; }
 export function torusPoint(t, p, q, component = 0) { const d = gcd(p, q), theta = p / d * t, phi = q / d * t + TAU * component / p, radius = 1.6 + .65 * Math.cos(phi); return [radius * Math.cos(theta), radius * Math.sin(theta), .65 * Math.sin(phi)]; }
+// Classic bottle immersion: adapted from Three.js ParametricFunctions.klein.
+// Copyright three.js authors (MIT); full notice in math/threejs-LICENSE.txt.
+export function kleinPoint(u, v, width = 1) {
+  const c = Math.cos(u), sn = Math.sin(u), radius = width * (2 - c);
+  const x = 3 * c * (1 + sn) + radius * (u < Math.PI ? c * Math.cos(v) : Math.cos(v + Math.PI));
+  const vertical = -8 * sn - (u < Math.PI ? radius * sn * Math.cos(v) : 0);
+  return [x * .27, vertical * .21 + .15, -radius * Math.sin(v) * .27];
+}
+export function torusSurfacePoint(u, v, ring = 1.7, tube = .65) { const radius = ring + tube * Math.cos(v); return [radius * Math.cos(u), tube * Math.sin(v), radius * Math.sin(u)]; }
+export function parametricSurface(slug, a, b) {
+  if (!['klein-bottle', 'torus'].includes(slug)) throw new Error('Unknown parametric surface');
+  const klein = slug === 'klein-bottle', full = !klein || b >= 1, nu = 72, nv = 36, vertices = [], faces = [], grid = [];
+  const rows = full ? nu : nu + 1, columns = full ? nv : nv + 1;
+  for (let i = 0; i < rows; i++) for (let j = 0; j < columns; j++) { const u = i / nu * TAU, v = j / nv * TAU * (klein ? b : 1); vertices.push(klein ? kleinPoint(u, v, a) : torusSurfacePoint(u, v, a, b)); }
+  function at(i, j) { if (!full) return i * columns + j; if (i === nu) { i = 0; if (klein) j = (nv / 2 - j + nv) % nv; } return i * nv + j % nv; }
+  for (let i = 0; i < nu; i++) for (let j = 0; j < nv; j++) { const p = at(i, j), q = at(i + 1, j), r = at(i + 1, j + 1), t = at(i, j + 1); faces.push([p, q, r], [p, r, t]); }
+  for (let i = 0; i < nu; i += 4) grid.push(Array.from({ length: nv + 1 }, (_, j) => at(i, j)));
+  for (let j = 0; j < nv; j += 3) grid.push(Array.from({ length: nu + 1 }, (_, i) => at(i, j)));
+  return { vertices, faces, grid, full };
+}
+
 export function gyroid(x, y, z) { return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x); }
 export function gyroidGradient(x, y, z) { return [Math.cos(x) * Math.cos(y) - Math.sin(z) * Math.sin(x), Math.cos(y) * Math.cos(z) - Math.sin(x) * Math.sin(y), Math.cos(z) * Math.cos(x) - Math.sin(y) * Math.sin(z)]; }
 export function tetraTriangles(points, values, level) {
@@ -87,6 +111,7 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
     else if (slug === 'gyroid-field') model = gyroidMesh(s.a, Math.round(s.b));
+    else if (['klein-bottle', 'torus'].includes(slug)) model = parametricSurface(slug, s.a, s.b);
     key = next; imageKey = '';
   }
   function step(s) { prepare(s); if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
@@ -96,6 +121,7 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
     else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
     else if (slug === 'torus-knots') { s.a = s.a >= 9 ? 2 : s.a + 1; }
+    else if (['klein-bottle', 'torus'].includes(slug)) s.surfaceStyle = ((s.surfaceStyle ?? 0) + 1) % 3;
     else if (slug === 'gyroid-field') s.a = s.a === 0 ? .6 : -s.a;
     else s.direction *= -1;
     prepare(s);
@@ -124,7 +150,23 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
       const rotate = ([x, y, z]) => { const xx = x * cy - z * sy, zz = x * sy + z * cy; return [xx, y * cp - zz * sp, y * sp + zz * cp]; };
       const project = p => { const [x, y, z] = rotate(p), f = unit * .8 * s.zoom / Math.max(1.5, 5.8 + z); return [W * .5 + x * f, H * .42 + y * f, z]; };
       const path = (points, color, width = 1, fill = false) => { ctx.beginPath(); points.forEach((p, i) => i ? ctx.lineTo(p[0], p[1]) : ctx.moveTo(p[0], p[1])); if (fill) { ctx.closePath(); ctx.fillStyle = color; ctx.fill(); } else { ctx.strokeStyle = color; ctx.lineWidth = width; ctx.lineCap = 'round'; ctx.stroke(); } };
-      if (slug === 'gyroid-field') {
+      if (['klein-bottle', 'torus'].includes(slug)) {
+        const klein = slug === 'klein-bottle', style = ((s.surfaceStyle ?? 0) + (klein ? 2 : 0)) % 3; // 0 solid, 1 wire, 2 glass.
+        const projected = model.vertices.map(project), triangles = model.faces.map(face => {
+          const [a, b, c] = face.map(i => model.vertices[i]), ab = b.map((v, i) => v - a[i]), ac = c.map((v, i) => v - a[i]);
+          const normal = rotate([ab[1] * ac[2] - ab[2] * ac[1], ab[2] * ac[0] - ab[0] * ac[2], ab[0] * ac[1] - ab[1] * ac[0]]);
+          return { face, normal, height: (a[1] + b[1] + c[1]) / 3, depth: face.reduce((sum, i) => sum + projected[i][2], 0) / 3 };
+        }).sort((a, b) => b.depth - a.depth);
+        if (style !== 1) {
+          ctx.globalAlpha = style === 2 ? .24 : 1;
+          for (const triangle of triangles) { const n = triangle.normal, light = Math.abs((n[0] * .3 - n[1] * .55 + n[2] * .8) / Math.max(1e-9, Math.hypot(...n))); const color = `hsl(${(klein ? 210 : 25) + hue + triangle.height * 24},72%,${25 + light * 43}%)`; path(triangle.face.map(i => projected[i]), color, 1, true); }
+        }
+        ctx.globalAlpha = style === 0 ? .32 : .7;
+        if (style !== 0) for (const trace of model.grid) path(trace.map(i => projected[i]), `hsl(${(klein ? 185 : 42) + hue},80%,75%)`, Math.max(.35, unit / 1100));
+        ctx.globalAlpha = 1;
+        const styles = ['solid', 'wireframe', 'glass'];
+        status = klein ? `${model.full ? 'Closed, non-orientable surface · χ = 0' : 'Cutaway view · open surface'} · ${styles[style]} · 3-D self-intersection` : `R ${s.a.toFixed(2)} · r ${s.b.toFixed(2)} · hole radius ${(s.a - s.b).toFixed(2)} · orientable · χ = 0 · ${styles[style]}`;
+      } else if (slug === 'gyroid-field') {
         const triangles = model.map(t => ({ points: t.points.map(project), normal: rotate(t.normal), value: t.value })).sort((a, b) => b.points.reduce((sum, p) => sum + p[2], 0) - a.points.reduce((sum, p) => sum + p[2], 0));
         for (const t of triangles) { const n = t.normal, light = Math.abs((n[0] * .3 - n[1] * .5 + n[2] * .8) / Math.max(.001, Math.hypot(...n))), color = `hsl(${175 + hue + t.value * 40},58%,${20 + light * 47}%)`; path(t.points, color, 1, true); }
         status = `${model.length.toLocaleString()} triangles · level ${s.a.toFixed(2)} · ${Math.round(s.b)} periodic cell${s.b === 1 ? '' : 's'} per axis · nodal approximation`;

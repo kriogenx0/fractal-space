@@ -2,7 +2,8 @@ Fractal Space / Mathematical experiments
 Copyright (c) 2026 Alex Vaos. MIT License; see LICENSE.txt.
 
 These are new JavaScript/Canvas implementations of mathematical constructions.
-No third-party source code, artwork, photographs or shader code is copied.
+The classic Klein bottle parametrization adapts a Three.js MIT example;
+its attribution is below. No third-party artwork or shader code is included.
 The directly served math-scenes.js and math.js are the complete source.
 Regenerate the actual-renderer previews with node scripts/check-math.mjs --write.
 
@@ -103,3 +104,49 @@ The system/light/dark site theme covers all UI, equations, and help. Artwork
 colors stay independent. Reduced-motion users receive a paused initial state,
 including precomputed simulation/attractor snapshots; manual controls work.
 PNG save captures the actual canvas. No external rendering dependency is used.
+
+
+Klein bottle and torus (2026-10-28)
+----------------------------------
+The Klein bottle uses the classic piecewise bottle immersion from Three.js
+ParametricFunctions.klein, algebraically reorganized, scaled and reoriented
+here. Copyright three.js authors, MIT. Full original notice is distributed
+in math/threejs-LICENSE.txt. Reference inspected 2026-10-28:
+https://github.com/mrdoob/three.js/blob/dev/examples/jsm/geometries/ParametricFunctions.js
+Only the small parametrization is adapted; no Three.js library is needed.
+Our mesh generation, controls, lighting, and rendering are new.
+
+Before display scaling, with t=neck width, r=t*(2-cos u):
+x=3 cos(u)(1+sin(u)) + r cos(u)cos(v), for 0<=u<pi;
+x=3 cos(u)(1+sin(u)) + r cos(v+pi), for pi<=u<=2pi.
+z=-8 sin(u) - r sin(u)cos(v), for 0<=u<pi;
+z=-8 sin(u), for pi<=u<=2pi.
+y=-r sin(v).
+The 3-D image self-intersects: crossing sheets do not join in the abstract
+surface. Boundary identifications are (0,v)~(2pi,pi-v) and (u,0)~(u,2pi).
+This reversal is what distinguishes the Klein bottle from the torus.
+Its non-orientability prevents a consistent global normal; shading is local
+and double-sided. This piecewise bottle shape is a visualization of the
+abstract surface, not a smooth isometric embedding. Surface reveal below
+one opens the parameter sheet into a cutaway; it is then no longer closed.
+Background: Thomas F. Banchoff / Surfaces Beyond the Third Dimension,
+https://www.math.union.edu/~dpvc/TFB/Art/PAC-9603/tour/klein/klein.html
+No images or animations from that exhibition are copied.
+
+Torus: ((R+r cos v)cos u, r sin v, (R+r cos v)sin u),
+u,v in [0,2pi]. R ranges 1.2..2.4; r ranges .2..1.1, so R>r always.
+The hole radius is R-r. Both parameter directions are identified without
+reversal. This is an orientable ring torus; horn and spindle cases are
+intentionally outside the controls' range.
+
+Each full surface has 72x36 vertices and 5,184 triangles. Seam vertices are
+identified by their parameter-space gluing, not by spatial coincidence.
+Tests check every edge has two incident faces and V-E+F=0, and traverse the
+face adjacency to verify orientability for the torus and its obstruction
+for the Klein bottle. Cutaways have boundary edges and are labeled open.
+
+Display: depth-sorted Canvas triangles, local lighting, and a parameter grid.
+Space cycles surface styles: Klein starts in glass, torus in solid. Glass
+uses translucent painter's-algorithm triangles and is an illustrative view,
+not an exact order-independent transparency solution at intersecting sheets.
+Parameters, manual rotation, and view switching work while paused.

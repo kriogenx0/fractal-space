@@ -113,8 +113,8 @@ this project's MIT grant does not relicense Node.js, Nginx, Alpine, or fonts.
 
 Mathematical references
 -----------------------
-The six experiments in dist/math-scenes.js are original implementations,
-licensed under MIT. Their numerical formulas and limitations are documented
+The mathematical experiments in dist/math-scenes.js are MIT licensed.
+The Klein bottle parametrization adapts a Three.js example, as noted below. Numerical formulas and limitations are documented
 in dist/math-notes.txt. Background references include Niles Johnson's Hopf
 fibration explanation, Zachary Treisman's mathematical notes, Karl Sims's
 Gray-Scott tutorial, and Alan H. Schoen's 1970 NASA minimal-surfaces report.
@@ -123,3 +123,13 @@ https://nilesjohnson.net/hopf.html
 https://nilesjohnson.net/hopf-articles/Treisman_Guide-to-Hopf-fibration.pdf
 https://www.karlsims.com/rd.html
 https://ntrs.nasa.gov/citations/19700020472
+
+Klein bottle parametrization — Three.js (MIT)
+-------------------------------------------
+The classic kleinPoint routine in dist/math-scenes.js adapts the equations
+from Three.js ParametricFunctions.klein. Copyright three.js authors.
+The complete upstream MIT notice is preserved in
+ dist/math/threejs-LICENSE.txt.
+https://github.com/mrdoob/three.js/blob/dev/examples/jsm/geometries/ParametricFunctions.js
+Mesh topology, surface rendering and controls are new implementations.
+No Three.js runtime, textures, or other artwork is bundled.
