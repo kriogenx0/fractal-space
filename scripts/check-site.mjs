@@ -36,6 +36,10 @@ const index = readFileSync(join(root, 'index.html'), 'utf8');
 const cards = [...index.matchAll(/<a class="work-card" href="([^"]+)"/g)].map(match => match[1]);
 assert(cards.length > 0, 'No experiment cards found.');
 assert.equal(new Set(cards).size, cards.length, 'Duplicate experiment cards.');
+assert.equal(cards[0], 'fractal.html?work=mandelbulb', 'Mandelbulb stays first');
+assert(!cards.includes('wild.html?work=dream-strata'), 'Dream Strata stays out of the main index');
+assert.deepEqual(cards.slice(-2), ['levitated.html?work=invader-fractal', 'tandava.html'], 'Invader and Tandava close the index');
+assert(index.includes(`INDEX / ${String(cards.length).padStart(3, '0')} EXPERIMENTS`), 'Index count matches its cards');
 const legacy = readFileSync(join(root, 'app.js'), 'utf8').match(/const workSlugs=\[([^\]]+)\]/)?.[1].match(/'([^']+)'/g)?.map(s => s.slice(1, -1)) ?? [];
 const fractals = [...readFileSync(join(root, 'fractal.js'), 'utf8').matchAll(/^ '([^']+)':\{n:/gm)].map(match => match[1]);
 const wild = [...readFileSync(join(root, 'wild-scenes.js'), 'utf8').matchAll(/^  '([^']+)':/gm)].map(match => match[1]);
@@ -60,3 +64,5 @@ await import('./check-theme.mjs');
 await import('./check-levitated-studies.mjs');
 
 await import('./check-levitated-player.mjs');
+
+await import('./check-levitated-archive.mjs');

@@ -1,10 +1,12 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Browser UI for the Levitated adaptations. Original algorithms: Jared Tarbell.
+import { archiveSlugs, createArchiveStudy } from './archive-experiments.js';
 import { works, createPacking, createIK, drawPacking, drawIK } from './experiments.js';
 import { createDLA, drawDLA, createGarden, drawGarden, createWorm, drawWorm, createLorenz, drawLorenz, createOrbits, drawOrbits, createSeaThing, drawSeaThing } from './studies.js';
 const $ = q => document.querySelector(q), requested = new URLSearchParams(location.search).get('work');
 const slug = works[requested] ? requested : 'invader-fractal', work = works[slug], slugs = Object.keys(works);
 const canvas = $('#art'), ctx = canvas.getContext('2d'), reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const archiveMode = archiveSlugs.includes(slug);
 const packing = slug === 'invader-fractal', ik = slug === 'iterative-ik', clamp = (v, lo, hi) => Math.max(lo, Math.min(hi, v));
 let seed = 1, model, a = work.a[4], b = work.b[4], selected = -1, paused = reduced, dirty = true, visible = !document.hidden, last = performance.now(), accumulator = 0, drag = -1, lastDraw = 0, colorIndex = 0, press = null;
 const held = new Set(), colors = ['#20231f', '#b23f2b', '#3d437a'], cursor = [300, 140];
@@ -13,9 +15,12 @@ $('#edition').textContent = `EXPERIMENT ${work.number} / LEVITATED PORT`;
 $('#original-credit').textContent = `Original experiment: Jared Tarbell / Levitated, ${work.year ?? 2003}`;
 document.title = `${work.name} — Levitated / Fractal Space`;
 $('#original').href = `https://levitated.net/daily/${work.originalPage ?? work.original}.html`; $('#original-source').href = `levitated/${work.original}.zip`;
+if (work.recreation) $('#adaptation-summary').textContent = 'A Levitated experiment re-created for Canvas, with modern controls.';
+if (work.recreation) $('#port-note').textContent = 'A Canvas recreation of the author’s published algorithm descriptions. Graphics and controls are newly implemented; see the port notes for differences.';
 $('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'tandava.html' : `levitated.html?work=${slugs[slugs.indexOf(slug) + 1]}`;
 canvas.setAttribute('aria-label', `${work.name}. ${work.hint}. R starts a new variation.`);
 function tick() {
+  if (archiveMode) { dirty = model.step(a, b) || dirty; return; }
   if ((packing && !model.queue.length) || (slug === 'dla' && model.particles.length >= model.limit) || (slug === 'ca-worm' && (model.depth >= 3000 || model.rows.length >= 320)) || (slug === 'root-gardener' && model.nodes.every(n => n.phase >= 1 && !n.auto))) return;
   if (packing) model.step(Math.round(b));
   else if (ik) model.step(a, drag >= 0 ? drag : held.size ? selected : -1);
@@ -28,20 +33,21 @@ function tick() {
   dirty = true;
 }
 function reset() {
-  model = packing ? createPacking(seed, a) : ik ? createIK(seed, Math.round(b)) : slug === 'dla' ? createDLA(seed) : slug === 'root-gardener' ? createGarden(seed) : slug === 'ca-worm' ? createWorm(seed, Math.round(a)) : slug === 'deep-lorenz' ? createLorenz(seed) : slug === 'orbiting-networks' ? createOrbits(seed) : createSeaThing(seed);
+  model = archiveMode ? createArchiveStudy(slug, seed, a, b) : packing ? createPacking(seed, a) : ik ? createIK(seed, Math.round(b)) : slug === 'dla' ? createDLA(seed) : slug === 'root-gardener' ? createGarden(seed) : slug === 'ca-worm' ? createWorm(seed, Math.round(a)) : slug === 'deep-lorenz' ? createLorenz(seed) : slug === 'orbiting-networks' ? createOrbits(seed) : createSeaThing(seed);
   selected = -1; accumulator = 0;
-  const warmup = packing ? (reduced ? 750 : 0) : ik ? 0 : slug === 'dla' ? (reduced ? 140 : 20) : slug === 'root-gardener' ? 200 : slug === 'ca-worm' ? (reduced ? 320 : 15) : slug === 'deep-lorenz' ? 120 : slug === 'sea-thing' ? 100 : 0;
+  const warmup = archiveMode ? model.warmup * (reduced ? 3 : 1) : packing ? (reduced ? 750 : 0) : ik ? 0 : slug === 'dla' ? (reduced ? 140 : 20) : slug === 'root-gardener' ? 200 : slug === 'ca-worm' ? (reduced ? 320 : 15) : slug === 'deep-lorenz' ? 120 : slug === 'sea-thing' ? 100 : 0;
   for (let i = 0; i < warmup; i++) tick(); dirty = true;
 }
 function updateParameter(key, value) {
   const range = work[key], v = clamp(value, range[1], range[2]);
   if (key === 'a') a = v; else b = v;
-  $('#param-'+key).value = v; $('#value-'+key).textContent = v.toFixed(range[3] === 1 || range[3] === 100 ? 0 : 2);
+  $('#param-'+key).value = v; $('#value-'+key).textContent = v.toFixed(range[3] >= 1 ? 0 : 2);
+  if (archiveMode && model.configure(a, b) && paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick();
   if ((packing && key === 'a') || (ik && key === 'b') || (slug === 'ca-worm' && key === 'a')) reset(); dirty = true;
 }
 for (const [key, range] of [['a', work.a], ['b', work.b]]) {
   const input = $('#param-'+key); input.min = range[1]; input.max = range[2]; input.step = range[3]; input.value = range[4]; $('#label-'+key).textContent = range[0];
-  input.oninput = () => updateParameter(key, +input.value); $('#value-'+key).textContent = range[4].toFixed(range[3] === 1 || range[3] === 100 ? 0 : 2);
+  input.oninput = () => updateParameter(key, +input.value); $('#value-'+key).textContent = range[4].toFixed(range[3] >= 1 ? 0 : 2);
 }
 function pauseUI() { $('#pause').textContent = paused ? 'Resume' : 'Pause'; $('#pause').setAttribute('aria-pressed', String(paused)); }
 function pause() { paused = !paused; held.clear(); pauseUI(); dirty = true; } pauseUI();
@@ -49,6 +55,7 @@ $('#pause').onclick = pause; $('#reset').onclick = () => { seed++; reset(); };
 $('#color').onclick = () => { colorIndex = (colorIndex + 1) % colors.length; dirty = true; };
 $('#color').hidden = slug === 'orbiting-networks';
 function action() {
+  if (archiveMode) { const changes = model.action(); if (changes) for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); dirty = true; return; }
   if (packing) { if (selected < 0 && model.items.length) selected = 0; model.refill(selected); selected = -1; if (paused) model.step(6000); }
   else if (ik) model.pulse(Math.max(0, selected));
   else if (slug === 'dla') model.seedAt(...cursor);
@@ -67,7 +74,8 @@ function draw() {
   if (!ctx) return;
   ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.fillStyle = work.background ?? '#fff'; ctx.fillRect(0, 0, canvas.width, canvas.height); ctx.setTransform(scale, 0, 0, scale, ox, oy);
   const color = colors[colorIndex]; let status;
-  if (packing) { drawPacking(ctx, model, selected, color); status = `${model.items.length} creatures · ${model.queue.length ? 'still finding space' : 'canvas filled'}`; }
+  if (archiveMode) { model.draw(ctx, a, b, colorIndex); status = model.status(); }
+  else if (packing) { drawPacking(ctx, model, selected, color); status = `${model.items.length} creatures · ${model.queue.length ? 'still finding space' : 'canvas filled'}`; }
   else if (ik) { drawIK(ctx, model, selected, color); status = `${model.nodes.length} nodes · click to connect another`; }
   else if (slug === 'dla') { drawDLA(ctx, model, color, document.activeElement === canvas ? cursor : null); status = `${model.particles.length} attached particles · ${model.particles.length >= model.limit ? 'growth limit reached — start a new reef' : '96 wandering particles'}`; }
   else if (slug === 'root-gardener') { drawGarden(ctx, model, selected, color); status = `${model.nodes.length} limbs · click a tip to nourish its branch`; }
@@ -82,7 +90,8 @@ function nearest(points, x, y, max = Infinity) { let index = -1, distance = max;
 canvas.onpointerdown = e => {
   const [x, y] = point(e); if (x < 0 || y < 0 || x > 600 || y > 337) return;
   canvas.focus({ preventScroll: true }); canvas.setPointerCapture(e.pointerId); cursor[0] = x; cursor[1] = y; press = { id: e.pointerId, time: performance.now(), x, y };
-  if (packing) { selected = model.items.findIndex(n => x >= n.x && x < n.x + n.size && y >= n.y && y < n.y + n.size); if (selected >= 0) action(); }
+  if (archiveMode) { model.click(x, y); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); }
+  else if (packing) { selected = model.items.findIndex(n => x >= n.x && x < n.x + n.size && y >= n.y && y < n.y + n.size); if (selected >= 0) action(); }
   else if (ik) { selected = nearest(model.nodes, x, y, 12); if (selected < 0) selected = model.add(x, y); drag = selected; if (selected >= 0) { model.nodes[selected].x = x; model.nodes[selected].y = y; model.constrain(selected); } }
   else if (slug === 'root-gardener') { selected = nearest(model.poses(), x, y); action(); }
   else if (slug === 'sea-thing') { selected = nearest(model.nodes.map(n => ({ x: n.x + model.camera.x, y: n.y + model.camera.y })), x, y, 28); if (selected >= 0) { model.detach(selected); dirty = true; } }
@@ -103,7 +112,8 @@ canvas.onkeydown = e => {
   if (e.metaKey || e.ctrlKey || e.altKey) return;
   if (e.key.startsWith('Arrow')) {
     e.preventDefault(); const dx = +(e.key === 'ArrowRight') - +(e.key === 'ArrowLeft'), dy = +(e.key === 'ArrowDown') - +(e.key === 'ArrowUp');
-    if (ik) held.add(e.key);
+    if (archiveMode) { const key = dx ? 'a' : 'b'; updateParameter(key, (dx ? a : b) + (dx || dy) * work[key][3]); }
+    else if (ik) held.add(e.key);
     else if (!e.repeat && (packing || slug === 'root-gardener' || slug === 'sea-thing')) { const count = packing ? model.items.length : model.nodes.length; if (count) selected = (Math.max(0, selected) + (dx || dy) + count) % count; }
     else if (slug === 'ca-worm') updateParameter(dx ? 'a' : 'b', dx ? a + dx : b + dy * .5);
     else if (slug === 'deep-lorenz') updateParameter(dx ? 'a' : 'b', dx ? a + dx * .1 : b + dy * 100);
@@ -111,6 +121,7 @@ canvas.onkeydown = e => {
     dirty = true;
   } else if (!e.repeat) { const k = e.key.toLowerCase(); if (k === ' ') { e.preventDefault(); action(); } if (k === 'p') pause(); if (k === 'r') { seed++; reset(); } }
 };
+canvas.addEventListener('wheel', e => { if (slug !== 'golden-spiral') return; e.preventDefault(); updateParameter('b', b * Math.exp(-e.deltaY * .002)); }, { passive: false });
 window.addEventListener('keyup', e => held.delete(e.key));
 $('#fullscreen').onclick = async () => { try { if (document.fullscreenElement) await document.exitFullscreen(); else if ($('#stage').requestFullscreen) await $('#stage').requestFullscreen(); else $('#fullscreen').textContent = 'Unavailable'; } catch { $('#fullscreen').textContent = 'Unavailable'; } };
 $('#save').onclick = () => { draw(); canvas.toBlob(blob => { if (!blob) return; const url = URL.createObjectURL(blob), link = document.createElement('a'); link.href = url; link.download = `levitated-${slug}-${seed}.png`; link.click(); setTimeout(() => URL.revokeObjectURL(url), 1500); }); };

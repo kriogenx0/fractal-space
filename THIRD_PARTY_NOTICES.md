@@ -25,7 +25,16 @@ terms and author notices:
 - dist/thumbnails/sea-thing.svg
 - scripts/check-levitated.mjs
 - scripts/check-levitated-studies.mjs
+- dist/thumbnails/box-fitting.svg
+- dist/thumbnails/quarter-round.svg
+- dist/thumbnails/seeds.svg
+- dist/thumbnails/golden-spiral.svg
+- dist/thumbnails/city-lines.svg
+- dist/thumbnails/triangulation.svg
+- dist/thumbnails/isoblocks.svg
+- dist/thumbnails/mycelium.svg
 - scripts/check-levitated-player.mjs
+- scripts/check-levitated-archive.mjs
 
 Original experiments: Copyright (C) 2001–2003 Jared Tarbell / Levitated.
 Each archive retains its original copyright year and GPL notice.
@@ -42,6 +51,24 @@ https://levitated.net/daily/levCAWorm.html
 https://levitated.net/daily/levDeepLorenz.html
 https://levitated.net/daily/levOrbitingNetworks.html
 https://levitated.net/daily/levSeaThing.html
+
+Additional behavioral recreations: Box Fitting, Quarter Round Mosaic, Seeds,
+Golden Spiral, City Lines, Triangulation, Isoblocks, and Mycelium. These follow
+Jared Tarbell’s published algorithm descriptions with new geometry, palettes,
+controls, and Canvas rendering. Their new implementations and previews are
+also GPL-3.0-only. They are labeled as recreations in the player; see the
+port notes for differences and original Flash source links. The unmodified original
+Flash ZIP files and their notices are bundled separately from this new code;
+archive-checksums.json records their verified SHA-256 hashes.
+
+https://levitated.net/daily/levBoxFitting.html
+https://levitated.net/daily/levQuarterRound.html
+https://levitated.net/daily/levSeeds.html
+https://levitated.net/daily/levGoldenSpiral.html
+https://levitated.net/daily/levCityLines.html
+https://levitated.net/daily/levTriangulation.html
+https://levitated.net/daily/levIsoblocks.html
+https://levitated.net/daily/levMyco.html
 
 References and externally loaded resources
 -----------------------------------------

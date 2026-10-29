@@ -15,7 +15,7 @@ are distributed under GPL version 3 (see COPYING.txt); the original notices
 are preserved beside the original source downloads.
 
 Corresponding source for these adaptations is the unminified, directly served
-experiments.js, studies.js, player.js, and style.css in this directory, together with
+experiments.js, studies.js, archive-experiments.js, player.js, and style.css in this directory, together with
 ../levitated.html. No compilation, Flash plug-in, or external library is needed.
 Serve the dist directory through any HTTP server to run the adaptations.
 
@@ -93,3 +93,73 @@ levSeaThing.zip 0ff8f4dc3d09fb75c0a20006b934afcca5b57381293225c00c3519105016270b
 Source archive URL pattern: https://levitated.net/daily/NAME.zip
 Page URL pattern: https://levitated.net/daily/NAME.html
 Deep Lorenz uses levDeepLorenz.html and levLorenzDeep.zip.
+
+Further behavioral recreations, 2026-10-28
+----------------------------------------
+The following eight works were re-created from the author’s published
+algorithm descriptions. Their original archive license notices were checked
+and grant the GNU GPL. These new implementations are GPL-3.0-only. Original
+Flash code was not used to implement this batch. The original ZIP files and
+their individual notices are preserved unchanged beside these recreations.
+Source download links use those local copies. The player labels these as recreations.
+
+- Box Fitting: random samples seed squares that expand by two pixels per
+  step and stop at neighbors or the field boundary. New exact rectangle
+  collision tests prevent the overlaps described in the original. The 16
+  vertical color bands use a new procedural palette; photo-derived colors
+  and final slight rotations are not reproduced.
+- Quarter Round Mosaic: shuffled grid insertion, neighbor color averaging
+  and groups of four quarter circles. Tile geometry, palette and insertion
+  order are newly implemented. Grid size and fill pace are adjustable.
+- Seeds: angular phyllotaxis at the published 137.5-degree default, with a
+  square-root radial distribution. New seed shapes, colors and controls
+  expose divergence angle and population.
+- Golden Spiral: triangles, squares and pentagons recursively scaled by the
+  reciprocal golden ratio. Polygon placement is a new geometric construction;
+  this is not an extraction of the original Flash transforms. Scroll and
+  zoom controls approach the limiting center; Space selects the next polygon.
+- City Lines: ten variable-height platform traces grow, push backward and
+  fade. Oscillator constants, timing, line colors and rendering are new.
+- Triangulation: recursively choose an interior point D and draw DA, DB, DC,
+  partitioning ABC into three children, up to the published depth limit 8.
+  New positive barycentric weights keep all split points inside each parent.
+- Isoblocks: a bounded grid walker places cubes or grows an existing one;
+  cubes are isometrically projected, depth-sorted and colored by x. Projection,
+  growth rates, faces and palettes are new; original face labels are omitted.
+- Mycelium: place-and-test circular colonies spread, stop at occupied areas,
+  and can be revived by clicking inactive nodes. The default budget is the
+  published 22 spores/second. Collision geometry, branch sizes and palettes
+  are new. New colonies can also be planted in empty space.
+
+All eight share theme-aware controls, pause, reduced motion, touch/keyboard
+input, PNG export, bounded work, and procedurally generated previews.
+
+Original pages and corresponding Flash source downloads:
+https://levitated.net/daily/levBoxFitting.html
+https://levitated.net/daily/levBoxFitting.zip
+https://levitated.net/daily/levQuarterRound.html
+https://levitated.net/daily/levQuarterRound.zip
+https://levitated.net/daily/levSeeds.html
+https://levitated.net/daily/levSeeds.zip
+https://levitated.net/daily/levGoldenSpiral.html
+https://levitated.net/daily/levGoldenSpiral.zip
+https://levitated.net/daily/levCityLines.html
+https://levitated.net/daily/levCityLines.zip
+https://levitated.net/daily/levTriangulation.html
+https://levitated.net/daily/levTriangulation.zip
+https://levitated.net/daily/levIsoblocks.html
+https://levitated.net/daily/levIsoblocks.zip
+https://levitated.net/daily/levMyco.html
+https://levitated.net/daily/levMyco.zip
+
+Further original archive SHA-256 checksums:
+levBoxFitting.zip 3e62bb303ee3034a43f732cb6ca71155a7c6551276ad385df7885a17657800c3
+levQuarterRound.zip 2adb447080f335ca8a87d1e19730d2928659f69cef16a631acaa122117fa21c7
+levSeeds.zip 47a77b5f13d6c484a4740e12d17143670282688896913ca57915436c27eef4ab
+levGoldenSpiral.zip 5d17bddb4a92e26eccf892444e58eb3e15ab24f18cb6d038fc9807ed7e8dd45c
+levCityLines.zip 87a04c05bae04b0e721fbab1b71ee5190ff631fe024b8613262c2685b337a569
+levTriangulation.zip 2ede5fe92b339c1ba650609f10c4d9322264adb6ac29b5027c681bb6018f393e
+levIsoblocks.zip fa4c632f82c4534afff62bc6b0abc01c6c327a7a08c5b20fcc79801f90824cde
+levMyco.zip 84a7e9a01b442f64c659399d0dc0031ab787009c2c8567e99eca12ca11164693
+
+Machine-readable checksums: archive-checksums.json

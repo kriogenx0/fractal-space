@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The index now includes 23 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 30 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -86,15 +86,19 @@ To regenerate the four Canvas previews after changing their geometry, run `node 
 
 ## Levitated ports
 
-Eight Levitated experiments—Invader Fractal, Iterative IK, DLA, Root Gardener, Cellular Automata Worm, Deep Lorenz, Orbiting Networks, and Sea Thing—are source-based Canvas adaptations of Jared Tarbell’s 2001–2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. Each supports touch/keyboard controls, reduced motion, pause, PNG export, and the site theme. Regenerate previews with `node scripts/check-levitated.mjs --write` and `node scripts/check-levitated-studies.mjs --write`.
+The first eight Levitated experiments—Invader Fractal, Iterative IK, DLA, Root Gardener, Cellular Automata Worm, Deep Lorenz, Orbiting Networks, and Sea Thing—are source-based Canvas adaptations of Jared Tarbell’s 2001–2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. Each supports touch/keyboard controls, reduced motion, pause, PNG export, and the site theme. Regenerate previews with `node scripts/check-levitated.mjs --write` and `node scripts/check-levitated-studies.mjs --write`.
 
 ### Tandava reference parity
 
-The standalone experiment now follows the reference’s animation loop on every animation frame, uses its exact 0.05 pointer easing per frame, and keeps the sky unchanged on mobile height-only resizes. Grain uses the reference’s 0.09 overlay opacity. Existing depth/drift controls remain at reference values by default. The Tandava card is pinned first in the index.
+The standalone experiment now follows the reference’s animation loop on every animation frame, uses its exact 0.05 pointer easing per frame, and keeps the sky unchanged on mobile height-only resizes. Grain uses the reference’s 0.09 overlay opacity. Existing depth/drift controls remain at reference values by default. Mandelbulb stays first in the index. Dream Strata is excluded from the main list. Invader Fractal and Tandava parallax are the final two cards.
 
 ## License
 
 Original Fractal Space code and documentation are available under the [MIT License](LICENSE), Copyright (c) 2026 Alex Vaos. The Levitated adaptations, their generated previews, and their verification script are excluded from this MIT grant and retain their GPL terms. See [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) for the exact scope, source credits, and external-resource notices. The website serves the license and notices at `/licenses.html`.
+
+## More Levitated recreations
+
+Box Fitting, Quarter Round Mosaic, Seeds, Golden Spiral, City Lines, Triangulation, Isoblocks, and Mycelium follow the author’s published algorithm descriptions. Their geometry, palettes, rendering, and controls are new implementations, documented in `dist/levitated/README.txt`; the player labels these as behavioral recreations. Unmodified original Flash archives and GPL notices are bundled for reference, with checksums verified by the test suite. Render their previews with `node scripts/check-levitated-archive.mjs --write`.
 
 ## Site appearance
 

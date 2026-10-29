@@ -1,0 +1,42 @@
+[
+  {
+    "name": "levBoxFitting",
+    "sha256": "3e62bb303ee3034a43f732cb6ca71155a7c6551276ad385df7885a17657800c3",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levQuarterRound",
+    "sha256": "2adb447080f335ca8a87d1e19730d2928659f69cef16a631acaa122117fa21c7",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levSeeds",
+    "sha256": "47a77b5f13d6c484a4740e12d17143670282688896913ca57915436c27eef4ab",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levGoldenSpiral",
+    "sha256": "5d17bddb4a92e26eccf892444e58eb3e15ab24f18cb6d038fc9807ed7e8dd45c",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levCityLines",
+    "sha256": "87a04c05bae04b0e721fbab1b71ee5190ff631fe024b8613262c2685b337a569",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levTriangulation",
+    "sha256": "2ede5fe92b339c1ba650609f10c4d9322264adb6ac29b5027c681bb6018f393e",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levIsoblocks",
+    "sha256": "fa4c632f82c4534afff62bc6b0abc01c6c327a7a08c5b20fcc79801f90824cde",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levMyco",
+    "sha256": "84a7e9a01b442f64c659399d0dc0031ab787009c2c8567e99eca12ca11164693",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  }
+]
