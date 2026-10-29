@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 56 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 57 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -111,10 +111,10 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 ## Mathematical explorations
 
 The collection prioritizes mathematical constructions: fractals, chaos,
-topology, implicit surfaces, and emergent systems. Eighteen MIT-licensed
+topology, implicit surfaces, and emergent systems. Nineteen MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
 player: Newton basins, Hopf fibers, Torus knots, Gyroid,
-Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, Double pendulum, Orbital gravity, Interference pool, Rössler attractor, Magnetic pendulums, and Orbit ink.
+Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, Schwarz lantern, Sierpiński triangle, Koch snowflake, Double pendulum, Orbital gravity, Interference pool, Rössler attractor, Magnetic pendulums, Orbit ink, and Fibonacci sculpture.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
 numerical approximations, controls, references, and implementation details.
@@ -211,3 +211,12 @@ P pauses rotation while drawing remains available. U, Space or Cmd/Ctrl-Z
 undo; Clear drawing is undoable; R resets the view. Colors apply to new
 strokes. PNG capture saves the current view. Starts empty, including with
 reduced motion. The drawing is capped at 12,000 points / 128 strokes.
+
+## Fibonacci sculpture
+
+Fibonacci-sized squares tile a rectangle; full extrusion turns them into
+cubes with edge lengths 1,1,2,3,5,8,... . A lifted quarter-circle spiral
+connects the cube tops. Choose 1–12 terms, step with Space, and flatten the
+sculpture with Extrusion. Number labels and a live consecutive-term ratio
+make the sequence visible. Drag/arrows orbit; scroll/pinch zooms; P pauses.
+The view fits each construction while preserving relative dimensions.

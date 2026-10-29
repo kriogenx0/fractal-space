@@ -362,3 +362,42 @@ next gesture cannot join unrelated points. Automatic rotation pauses under
 P, Help, visibility suspension and reduced-motion defaults; manual drawing,
 depth changes, undo and orbit remain available. R resets the view without
 erasing geometry. The Clear button is undoable. PNG saves the current view.
+
+
+Fibonacci sculpture (2026-10-29)
+------------------------------
+Original MIT implementation. F1=F2=1, Fn=Fn-1+Fn-2 for n>=3; the view uses
+1..12 terms, ending at F12=144. The ratio Fn/Fn-1 tends to phi=(1+sqrt(5))/2.
+At one term the ratio is absent because F0=0. The readout shows the current
+ratio, phi, and their absolute difference without implying a finite ratio
+is exactly phi.
+
+Place the first unit square at (0,0), then attach each new square around
+the existing rectangle in directions right, up, left, down. Each new side
+is the next Fibonacci number. Footprints are interior-disjoint and fill the
+rectangle: sum(Fi^2)=Fn*Fn+1. At full extrusion all three cube edge lengths
+are Fi, so volume is Fi^3. Fractional extrusion gives height Fi*extrusion;
+zero extrusion renders the square tiling as a double-sided planar surface.
+
+Each square contains a quarter circle of radius Fi. Arc center corners
+cycle top-right, top-left, bottom-left, bottom-right. The starting angle is
+pi+i*pi/2, traversed counterclockwise through pi/2. Adjacent arc endpoints
+coincide in the footprint. The 3-D path runs at each cube's height with
+vertical connectors between arcs. These quarter circles form a Fibonacci
+spiral approximation associated with the exact logarithmic golden spiral.
+The lifted path and extrusion are this artwork's spatial interpretation.
+
+The orthographic camera normalizes by the bounding-box half-diagonal,
+keeping each displayed construction within a sphere of radius 2.4. Changing
+term count refits the view; all relative lengths stay exact. Translucent
+faces are depth sorted; the spiral and numeric labels overlay the geometry
+for readability. Labels below 17 pixels or overlapping a larger term are omitted;
+the full sequence remains in the status readout. Space adds a term, wrapping
+from twelve back to one. Camera, color and extrusion changes preserve the
+cached footprint geometry. Pause and reduced motion stop automatic rotation
+while every manual control and PNG export stays available.
+
+Mathematical reference: Eric W. Weisstein, Fibonacci Number, MathWorld:
+https://mathworld.wolfram.com/FibonacciNumber.html
+Golden spiral reference: https://mathworld.wolfram.com/GoldenSpiral.html
+No source code, prose, or images from these references are copied.
