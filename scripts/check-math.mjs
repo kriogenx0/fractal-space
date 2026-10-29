@@ -62,6 +62,15 @@ for (const [n, m] of [[4, 2], [12, 18], [8, 160], [40, 160]]) {
 }
 const ratio = (n, m) => math.schwarzArea(n, m) / (TAU * 1.5 * 3); assert(Math.abs(ratio(200, 200) - 1) < .0001); assert(Math.abs(ratio(200, 200 ** 2) - Math.sqrt(1 + Math.PI ** 4 / 16)) < .001); assert(ratio(40, 40 ** 3) > ratio(20, 20 ** 3) * 1.9, 'Over-refining the bands makes area diverge');
 
+const area2D = ([a, b, c]) => Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) / 2;
+for (let depth = 0; depth <= 8; depth++) {
+  const triangle = math.sierpinskiTriangle(depth), outerArea = area2D(triangle.outer); assert.equal(triangle.leaves.length, 3 ** depth); assert.equal(triangle.levels.flat().length, (3 ** depth - 1) / 2);
+  const total = triangle.leaves.reduce((sum, t) => sum + area2D(t), 0); assert(Math.abs(total / outerArea - (3 / 4) ** depth) < 1e-10);
+  for (const leaf of triangle.leaves) { assert(Math.abs(area2D(leaf) / outerArea - (1 / 4) ** depth) < 1e-12); for (const point of leaf) assert(point.every(Number.isFinite)); }
+  assert.equal(math.sierpinskiProgress(depth, 0).area, 1); assert.equal(math.sierpinskiProgress(depth, 1).area, (3 / 4) ** depth);
+  if (depth) { const info = math.sierpinskiProgress(depth, .5 / depth); assert(Math.abs(info.area - (1 - .5 ** 2 / 4)) < 1e-12); }
+}
+for (const [width, height] of [[390, 844], [1600, 900]]) { const span = math.mathPlaneSpan(width, height, 2.5); for (const [x, y] of math.sierpinskiTriangle(0).outer) { const px = width * .5 + x * height / span, py = height * .42 - y * height / span; assert(px > 0 && px < width && py > 0 && py < height, 'The initial triangle fits mobile and desktop canvases'); } }
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -86,4 +95,4 @@ for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
   for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: ten math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, finite desktop/mobile previews.');
+console.log('PASS: eleven math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, finite desktop/mobile previews.');

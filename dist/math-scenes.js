@@ -11,7 +11,8 @@ export const catalog = {
   'klein-bottle': { n: 46, name: 'Klein bottle', category: 'TOPOLOGY / NON-ORIENTABLE SURFACES', description: 'Follow a surface that has no globally distinct inside and outside.', equation: '(u, v) ∼ (u+2π, π−v); (u, v) ∼ (u, v+2π)', explanation: 'A Klein bottle is a closed, non-orientable surface. Its familiar bottle shape is an immersion into three dimensions: the neck passes through the wall, while the abstract surface does not join at that crossing. Neck width changes the shape; Surface reveal opens a cutaway. Space cycles glass, solid, and wireframe views. The fully revealed mesh identifies its end with a reversed parameter direction. Local shading is two-sided because no consistent global normal exists.', reference: 'https://www.math.union.edu/~dpvc/TFB/Art/PAC-9603/tour/klein/klein.html', a: ['Neck width', .65, 1.25, .01, 1], b: ['Surface reveal', .2, 1, .01, 1], special: 'Glass / solid / wireframe', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'torus': { n: 47, name: 'Torus', category: 'TOPOLOGY / SURFACES OF REVOLUTION', description: 'Two circular directions, one hole. Change the radii and follow the surface.', equation: 'r(u,v) = ((R+r cos v) cos u, r sin v, (R+r cos v) sin u)', explanation: 'A circle of radius r revolved around an axis at distance R produces a torus. The two sliders change its ring radius R and tube radius r, always keeping R greater than r so the hole remains open. Unlike the Klein bottle, this surface is orientable. Both are closed surfaces with Euler characteristic zero. Space cycles solid, wireframe, and glass views.', a: ['Ring radius R', 1.2, 2.4, .01, 1.7], b: ['Tube radius r', .2, 1.1, .01, .65], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
   'mobius-strip': { n: 48, name: 'Möbius strip', category: 'TOPOLOGY / ONE-SIDED SURFACES', description: 'A half-turn joins the ends of a ribbon. Follow its only edge all the way home.', equation: 'r(u,v) = ((R+v cos(hu/2)) cos u, v sin(hu/2), (R+v cos(hu/2)) sin u)', explanation: 'A Möbius strip is a non-orientable surface with one boundary loop. Its ends join with the width coordinate reversed: (0,v) is identified with (2π,−v). The width slider changes the ribbon; Half-turns selects 1, 3, or 5, all odd. The bright tracer follows the boundary and returns after two trips around the center. Space cycles solid, wireframe, and glass views. The tracer and rotation pause together; manual controls still work.', a: ['Ribbon half-width', .15, .85, .01, .55], b: ['Half-turns h', 1, 5, 2, 1], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
-  'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' }
+  'schwarz-lantern': { n: 49, name: 'Schwarz lantern', category: 'GEOMETRY / SCHWARZ’S POLYHEDRON', description: 'A cylinder assembled from triangles—and a warning that finer meshes can have worse area estimates.', equation: 'A = 2mn r sin(π/n) √((H/m)² + r²(1−cos(π/n))²)', explanation: 'Schwarz’s polyhedron, or Schwarz lantern, stacks staggered polygon rings on a cylinder. The controls set n vertices per ring and m bands; there are 2mn triangular faces. The live area ratio compares their summed area with the cylinder’s lateral area 2πrH, excluding end caps. More bands can increase error even though the vertices lie on the cylinder. When both counts grow, convergence requires m/n² to tend to zero. Space cycles solid, wireframe, and glass views.', reference: 'https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf', a: ['Vertices per ring n', 4, 40, 1, 12], b: ['Vertical bands m', 2, 160, 1, 18], special: 'Solid / wireframe / glass', gesture: 'DRAG / ARROWS TO ORBIT · SCROLL TO ZOOM · SPACE CHANGES SURFACE', mode: 'orbit' },
+  'sierpinski-triangle': { n: 50, name: 'Sierpiński triangle', category: 'FRACTALS / RECURSIVE SUBDIVISION', description: 'Three smaller triangles survive each cut. Follow a simple rule toward infinite detail.', equation: 'Nₙ = 3ⁿ; sₙ = 2⁻ⁿ; Aₙ/A₀ = (3/4)ⁿ; D = log 3 / log 2', explanation: 'Join the midpoints of an equilateral triangle and remove the central triangle; repeat on the three survivors. Recursion depth sets the target generation. Construction progress reveals each round of cuts, interpolating the next central holes as you move the slider. Space advances a full generation, wrapping back to the initial triangle. The remaining area is (3/4)ⁿ after n complete generations. The infinite limiting set has dimension log 3 / log 2; every finite rendering is an approximation.', a: ['Recursion depth', 0, 8, 1, 6], b: ['Construction progress', 0, 1, .01, 1], special: 'Next construction step', gesture: 'DRAG / ARROWS TO PAN · SCROLL TO ZOOM · SPACE STEPS CONSTRUCTION', mode: 'plane', planeCenterY: .42, planeWidth: 2.5 }
 };
 const TAU = Math.PI * 2;
 export const clamp = (v, low, high) => Math.max(low, Math.min(high, v));
@@ -75,6 +76,20 @@ export function schwarzLantern(n = 12, m = 18) {
   return { vertices, faces, grid: [...edges.values()], radius, height, area: schwarzArea(n, m, radius, height), cylinderArea: TAU * radius * height, full: true };
 }
 
+export function mathPlaneSpan(width, height, fitWidth = 0) { return Math.max(3.4, fitWidth * height / Math.max(1, width)); }
+
+export function sierpinskiProgress(depth, progress) {
+  const phase = depth * clamp(progress, 0, 1), generation = Math.min(depth, Math.floor(phase + 1e-10)), fraction = generation >= depth ? 0 : clamp(phase - generation, 0, 1);
+  return { generation, fraction, area: (3 / 4) ** generation * (1 - fraction * fraction / 4), dimension: Math.log(3) / Math.log(2) };
+}
+export function sierpinskiTriangle(depth = 6) {
+  if (!Number.isInteger(depth) || depth < 0 || depth > 8) throw new Error('Triangle depth must be an integer from 0 to 8');
+  const outer = [[0, 2 / Math.sqrt(3)], [-1, -1 / Math.sqrt(3)], [1, -1 / Math.sqrt(3)]], levels = []; let leaves = [outer];
+  const midpoint = (a, b) => [(a[0] + b[0]) / 2, (a[1] + b[1]) / 2];
+  for (let level = 0; level < depth; level++) { const next = [], holes = []; for (const [a, b, c] of leaves) { const ab = midpoint(a, b), bc = midpoint(b, c), ca = midpoint(c, a); holes.push([ab, bc, ca]); next.push([a, ab, ca], [ab, b, bc], [ca, bc, c]); } levels.push(holes); leaves = next; }
+  return { depth, outer, levels, leaves, progress: sierpinskiProgress(depth, 1) };
+}
+
 export function gyroid(x, y, z) { return Math.sin(x) * Math.cos(y) + Math.sin(y) * Math.cos(z) + Math.sin(z) * Math.cos(x); }
 export function gyroidGradient(x, y, z) { return [Math.cos(x) * Math.cos(y) - Math.sin(z) * Math.sin(x), Math.cos(y) * Math.cos(z) - Math.sin(x) * Math.sin(y), Math.cos(z) * Math.cos(x) - Math.sin(y) * Math.sin(z)]; }
 export function tetraTriangles(points, values, level) {
@@ -129,10 +144,11 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   let model, key = '', imageKey = '', surface, surfaceCtx, status = '', preset = 0;
   const mode = catalog[slug].mode;
   function prepare(s) {
-    const next = `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
+    const next = slug === 'sierpinski-triangle' ? `triangle:${s.a}` : `${s.seed}:${s.a}:${s.b}:${mode === 'clifford' ? preset : ''}`;
     if (next === key) return;
     if (mode === 'reaction') { if (!model || !key.startsWith(`${s.seed}:`)) { model = createReaction(144, 96, s.seed); for (let i = 0; i < 600; i++) model.step(s.a, s.b); } }
     else if (mode === 'clifford') { const constants = [[1, .7], [-1.4, -1.2], [1.1, 1]][preset % 3]; model = createClifford(s.seed, s.a, s.b, ...constants); model.step(80000); }
+    else if (slug === 'sierpinski-triangle') model = sierpinskiTriangle(Math.round(s.a));
     else if (slug === 'gyroid-field') model = gyroidMesh(s.a, Math.round(s.b));
     else if (slug === 'mobius-strip') model = mobiusSurface(s.a, Math.round(s.b));
     else if (slug === 'schwarz-lantern') model = schwarzLantern(Math.round(s.a), Math.round(s.b));
@@ -142,7 +158,8 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function step(s) { prepare(s); if (mode === 'reaction') { for (let i = 0; i < 6; i++) model.step(s.a, s.b); imageKey = ''; return true; } if (mode === 'clifford') { const changed = model.step(); if (changed) imageKey = ''; return changed; } return mode === 'orbit'; }
   function plant(s, px, py) { prepare(s); if (mode !== 'reaction') return; const r = rasterRect(); if (px < r.x || px > r.x + r.w || py < r.y || py > r.y + r.h) return; model.plant(clamp((px - r.x) / r.w * model.width, 0, model.width - 1), clamp((py - r.y) / r.h * model.height, 0, model.height - 1)); imageKey = ''; }
   function special(s) {
-    if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
+    if (slug === 'sierpinski-triangle') { const depth = Math.round(s.a), next = Math.floor(depth * s.b + 1e-8) + 1; s.b = depth === 0 || next > depth ? 0 : next / depth; }
+    else if (mode === 'plane') { s.center = [0, 0]; s.zoom = 1; }
     else if (mode === 'reaction') { const regimes = [[.055, .062], [.0367, .0649], [.03, .062], [.0545, .062]]; preset = (preset + 1) % regimes.length; [s.a, s.b] = regimes[preset]; s.seed++; }
     else if (mode === 'clifford') { const settings = [[-1.4, 1.6], [1.7, 1.7], [-1.7, 1.8]]; preset = (preset + 1) % settings.length; [s.a, s.b] = settings[preset]; s.seed++; }
     else if (slug === 'torus-knots') { s.a = s.a >= 9 ? 2 : s.a + 1; }
@@ -160,7 +177,14 @@ export function createMathScene(canvas, slug, makeSurface = () => document.creat
   function draw(s) {
     prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), hue = s.palette * 65;
     ctx.fillStyle = '#070c17'; ctx.fillRect(0, 0, W, H);
-    if (mode === 'plane') {
+    if (slug === 'sierpinski-triangle') {
+      const scale = H / mathPlaneSpan(W, H, 2.5) * s.zoom, project = ([x, y]) => [W * .5 + (x - s.center[0]) * scale, H * .42 - (y - s.center[1]) * scale], info = sierpinskiProgress(model.depth, s.b);
+      model.progress = info;
+      function triangle(points, color) { ctx.beginPath(); points.forEach((p, i) => { const q = project(p); if (i) ctx.lineTo(...q); else ctx.moveTo(...q); }); ctx.closePath(); ctx.fillStyle = color; ctx.fill(); }
+      triangle(model.outer, `hsl(${180 + hue},72%,65%)`);
+      for (let level = 0; level < model.depth; level++) { const fraction = level < info.generation ? 1 : level === info.generation ? info.fraction : 0; if (fraction <= 0) break; for (const hole of model.levels[level]) { const center = [0, 1].map(axis => hole.reduce((sum, p) => sum + p[axis], 0) / 3), points = fraction === 1 ? hole : hole.map(p => p.map((value, axis) => center[axis] + (value - center[axis]) * fraction)); triangle(points, '#070c17'); } }
+      status = `Generation ${info.generation}${info.fraction > 1e-8 ? ' → ' + (info.generation + 1) : ''} / ${model.depth} · retained area ${(info.area * 100).toFixed(3)}% · limit dimension ${info.dimension.toFixed(5)}`;
+    } else if (mode === 'plane') {
       const width = Math.min(440, Math.max(160, Math.round(W / 3))), height = Math.max(100, Math.round(width * H / W)), span = 3.4 / s.zoom;
       const image = pixels(width, height, `${key}:${s.palette}:${s.zoom}:${s.center}:${W}:${H}`, (x, y) => { const sample = newtonSample(s.center[0] + (x / width - .5) * span * W / H, s.center[1] + (.5 - y / height) * span, Math.round(s.a), s.b); return sample.root < 0 ? [7, 12, 23] : rgb(sample.root * 360 / s.a + hue + 15, clamp(.72 - sample.iterations * .013, .14, .72)); });
       ctx.imageSmoothingEnabled = true; ctx.drawImage(image, 0, 0, W, H); status = `zⁿ − 1 · n = ${Math.round(s.a)} · λ = ${s.b.toFixed(2)} · zoom ×${s.zoom.toFixed(2)}`;

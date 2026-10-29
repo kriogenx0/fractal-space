@@ -203,3 +203,28 @@ expose the repeated passages. This is illustrative transparency, not
 order-independent transparency at every overlap. The level-set equation
 remains a nodal approximation rather than the exact minimal gyroid.
 Controls, pause, reduced motion and PNG export apply to every view.
+
+
+Sierpiński triangle (2026-10-29)
+------------------------------
+Original MIT-licensed midpoint-subdivision implementation, with no external
+code or assets. Begin with an equilateral triangle of side 2 and area sqrt(3).
+Join edge midpoints, remove the central triangle, and recurse on the three
+survivors. At depth n there are 3^n retained triangles, each scaled by 2^-n,
+and total remaining area (3/4)^n times the starting area. The infinite limit
+has Hausdorff dimension log(3)/log(2). Finite images are approximations, not
+a claim that a filled finite-depth triangle mesh has non-integer dimension.
+
+Depth is capped at 8 (6,561 leaves and 3,280 central holes). Construction
+progress p sets phase n*p. Completed generations remove their full holes;
+the next generation's holes scale about their centroids by the fractional
+phase f. During that interpolation the remaining area fraction is
+(3/4)^floor(n*p) * (1 - f^2/4), with no extra cut at the completed target.
+Space advances to an exact integer generation; it wraps to the filled
+initial triangle after the target. Depth zero avoids any division by zero.
+
+The 2-D view uses the shared complex-plane pan/zoom controller with its own
+vertical center. Zoom is anchored under the cursor; progress and colors do
+not rebuild the deterministic recursion model. Tests verify leaf counts,
+area conservation, shrink factors, intermediate areas and construction
+steps, including reduced motion and zero/maximum depth.
