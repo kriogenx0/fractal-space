@@ -45,6 +45,11 @@ terms and author notices:
 - dist/thumbnails/gathering-line.svg
 - dist/thumbnails/riley-stack.svg
 - scripts/check-levitated-kinetic.mjs
+- scripts/check-levitated-geometric.mjs
+- dist/thumbnails/ca-twist.svg
+- dist/thumbnails/trema-field.svg
+- dist/thumbnails/folding-pentagons.svg
+- dist/thumbnails/double-helix.svg
 
 Original experiments: Copyright (C) 2001–2003 Jared Tarbell / Levitated.
 Each archive retains its original copyright year and GPL notice.
@@ -141,3 +146,17 @@ lantern construction reference: John M. Sullivan / Matteo Petrera,
 Geometry II, TU Berlin (2010), exercise sheet 1, Exercise 2.
 https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf
 No reference text, diagrams, source code, or other assets are bundled.
+
+Geometric behavioral recreations
+--------------------------------
+Cellular Automata Twist, Trema Field, Folding Pentagons and Double Helix
+follow Jared Tarbell’s published descriptions. New Canvas code, controls
+and previews are GPL-3.0-only. Original archives and individual notices
+are preserved; geometric-checksums.json records their SHA-256 hashes.
+The original page dates span 2001–2003; all four archive notices say 2002.
+Trema Field credits Benoit Mandelbrot’s middle-third construction.
+See dist/levitated/README.txt for the new geometry and rendering choices.
+https://levitated.net/daily/levCATwist.html
+https://levitated.net/daily/levTremaFieldWhite.html
+https://levitated.net/daily/levFoldingPentagons.html
+https://levitated.net/daily/levDoubleHelix.html

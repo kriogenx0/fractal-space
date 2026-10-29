@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 57 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 61 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -220,3 +220,7 @@ connects the cube tops. Choose 1–12 terms, step with Space, and flatten the
 sculpture with Extrusion. Number labels and a live consecutive-term ratio
 make the sequence visible. Drag/arrows orbit; scroll/pinch zooms; P pauses.
 The view fits each construction while preserving relative dimensions.
+
+## More Levitated geometry
+
+Cellular Automata Twist, Trema Field, Folding Pentagons, and Double Helix are new Canvas recreations of Jared Tarbell’s published descriptions. They add a 16-bit rule-110 cylinder, middle-third cuts represented by circular areas, a shrinking edge-linked pentagon puzzle, and clickable three-bead helix rungs. All use the shared themed player, touch/keyboard controls, pause, reduced motion and PNG export. Original GPL archives, notices and SHA-256 checksums are preserved alongside the GPL-3.0-only recreations. See `dist/levitated/README.txt` for construction choices and differences. Generate their previews with `node scripts/check-levitated-geometric.mjs --write`.

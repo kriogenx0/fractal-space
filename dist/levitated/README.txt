@@ -15,7 +15,7 @@ are distributed under GPL version 3 (see COPYING.txt); the original notices
 are preserved beside the original source downloads.
 
 Corresponding source for these adaptations is the unminified, directly served
-experiments.js, studies.js, archive-experiments.js, kinetic-experiments.js, player.js, and style.css in this directory, together with
+experiments.js, studies.js, archive-experiments.js, kinetic-experiments.js, geometric-experiments.js, player.js, and style.css in this directory, together with
 ../levitated.html. No compilation, Flash plug-in, or external library is needed.
 Serve the dist directory through any HTTP server to run the adaptations.
 
@@ -228,3 +228,55 @@ levAttractorSets.zip efe801824294e936272d934ee83546e673ea9e0532ab3a8abc0e40f69f3
 levRotationalT.zip 6d7296c9c7b8cc0691f2a70764f16f1167707d61468d6b84366886c77f4f6924
 levGatheringLine.zip 571ea2c9e6dbc5abc852102d720ce4752b1ad57876ff38ec8fe2a58854b073c1
 levRileyStack.zip e298e0dc576415d9c0c32d106a755537d849e472c4e76d3a7079bcddf4110fc7
+
+
+Geometric behavioral recreations, 2026-10-29
+------------------------------------------
+Four new Canvas implementations follow the author's published descriptions,
+not extracted Flash code. The original ZIPs are unmodified; their individual
+notices and geometric-checksums.json are bundled alongside them. All four
+archives say Copyright (C) 2002 Jared Tarbell, although the web pages date
+Folding Pentagons and Double Helix to 2001 and CA Twist to 2003. New code,
+previews, and verification are GPL-3.0-only.
+
+- Cellular Automata Twist: periodic 16-bit elementary CA, initially rule 110,
+  with a randomized seed row. Lit bits wrap a rotating cylinder, old rows
+  fade and are removed after 88 generations. New perspective, fixed-step
+  timing, cylindrical cell geometry, adjustable twist and rule controls.
+  Cursor x controls signed rotation speed, cursor y tilts the cylinder.
+  Clicking chooses a new seed/rule; the initial history is calculated even
+  with reduced motion, then stays still until the user resumes animation.
+- Trema Field / Mandelbrot Trema Generator: recursively remove each middle
+  third from [0,1], keeping both survivors. Each removed interval becomes
+  a circular black cut. The new 2-D mapping places circles at seeded random
+  coordinates, with disk area proportional to the interval length
+  (radius = 190 * sqrt(length) * cut scale). This embedding and the 120-cut
+  reveal per tick are new choices, not claims about the original geometry.
+  At depth 12, the first 4000 of 4095 gaps are shown, breadth-first.
+  Recursion/scale controls and regeneration are new; the original offered
+  no interaction. The original credits Benoit Mandelbrot.
+- Folding Pentagons: a decreasing regular-pentagon chain. Each smaller
+  child's edge 0 is centered on a selected parent edge. Hovering or tapping
+  cycles that joint through five attachment sides; descendants move with
+  it. Changed joints have red center dots. The new baseline alternates
+  attachment sides to form an extended chain; Space clears all changes.
+  Starting folds, scale/count controls, instant folding, automatic framing
+  and touch support are new. The original's exact layout is not reproduced.
+- Double Helix: opposite strands joined by three-object rungs; clicking a
+  bead expands/collapses its rung. New analytic helix coordinates, depth
+  sorting, perspective, geometric beads/diamond details, pointer tilt and
+  count/turn controls replace Flash fragment buttons and string pointers.
+  Expansion changes strand radius. This recreates the described interaction,
+  not the original fragment-button artwork or its internal object model.
+
+All use the themed player with keyboard controls, pause, reduced motion,
+fullscreen and PNG export. Paused geometric animation stays frozen during
+interaction; Trema may fill its new finite field after a deliberate change.
+New source: geometric-experiments.js. Generate previews with:
+node scripts/check-levitated-geometric.mjs --write
+
+Original pages and archives (both .html and .zip) at:
+https://levitated.net/daily/levCATwist
+https://levitated.net/daily/levTremaFieldWhite
+https://levitated.net/daily/levFoldingPentagons
+https://levitated.net/daily/levDoubleHelix

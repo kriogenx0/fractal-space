@@ -74,3 +74,5 @@ await import('./check-levitated-kinetic.mjs');
 await import('./check-math.mjs');
 
 await import('./check-math-player.mjs');
+
+await import('./check-levitated-geometric.mjs');

@@ -1,0 +1,22 @@
+[
+  {
+    "name": "levCATwist",
+    "sha256": "4a05f29f740a5c2317687baeafb8dc234f9d2776ef57a7cbd48a0c42c9d3cdb0",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levTremaFieldWhite",
+    "sha256": "708eade295d4a75114c784f67ce651e2c68d9d8d683b8390040a5c8dcd5997dd",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levFoldingPentagons",
+    "sha256": "6d943e7c455f7f5be8946c54912d30c4c742d826f79d2523867f564e4802a760",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levDoubleHelix",
+    "sha256": "5d2c909768c838f5aa8f07df2d5c553821c79a5b5f740c6c3e8dac9b3612b6ce",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  }
+]

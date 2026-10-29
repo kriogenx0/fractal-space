@@ -4,8 +4,9 @@ import { archiveSlugs as earlierSlugs, createArchiveStudy as earlierStudy } from
 import { works, createPacking, createIK, drawPacking, drawIK } from './experiments.js';
 import { createDLA, drawDLA, createGarden, drawGarden, createWorm, drawWorm, createLorenz, drawLorenz, createOrbits, drawOrbits, createSeaThing, drawSeaThing } from './studies.js';
 import { kineticSlugs, createKineticStudy } from './kinetic-experiments.js';
-const archiveSlugs = [...earlierSlugs, ...kineticSlugs];
-const createArchiveStudy = (slug, ...args) => kineticSlugs.includes(slug) ? createKineticStudy(slug, ...args) : earlierStudy(slug, ...args);
+import { geometricSlugs, createGeometricStudy } from './geometric-experiments.js';
+const archiveSlugs = [...earlierSlugs, ...kineticSlugs, ...geometricSlugs];
+const createArchiveStudy = (slug, ...args) => geometricSlugs.includes(slug) ? createGeometricStudy(slug, ...args) : kineticSlugs.includes(slug) ? createKineticStudy(slug, ...args) : earlierStudy(slug, ...args);
 const $ = q => document.querySelector(q), requested = new URLSearchParams(location.search).get('work');
 const slug = works[requested] ? requested : 'invader-fractal', work = works[slug], slugs = Object.keys(works);
 const canvas = $('#art'), ctx = canvas.getContext('2d'), reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -45,7 +46,7 @@ function updateParameter(key, value) {
   const range = work[key], v = clamp(value, range[1], range[2]);
   if (key === 'a') a = v; else b = v;
   $('#param-'+key).value = v; $('#value-'+key).textContent = v.toFixed(range[3] >= 1 ? 0 : 2);
-  if (archiveMode && model.configure(a, b) && paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick();
+  if (archiveMode && model.configure(a, b) && paused && model.warmWhilePaused !== false) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick();
   if ((packing && key === 'a') || (ik && key === 'b') || (slug === 'ca-worm' && key === 'a')) reset(); dirty = true;
 }
 for (const [key, range] of [['a', work.a], ['b', work.b]]) {
@@ -58,7 +59,7 @@ $('#pause').onclick = pause; $('#reset').onclick = () => { seed++; reset(); };
 $('#color').onclick = () => { colorIndex = (colorIndex + 1) % colors.length; dirty = true; };
 $('#color').hidden = slug === 'orbiting-networks';
 function action() {
-  if (archiveMode) { const changes = model.action(); if (changes) for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); dirty = true; return; }
+  if (archiveMode) { const changes = model.action(); if (changes) for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused && model.warmWhilePaused !== false) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); dirty = true; return; }
   if (packing) { if (selected < 0 && model.items.length) selected = 0; model.refill(selected); selected = -1; if (paused) model.step(6000); }
   else if (ik) model.pulse(Math.max(0, selected));
   else if (slug === 'dla') model.seedAt(...cursor);
@@ -93,7 +94,7 @@ function nearest(points, x, y, max = Infinity) { let index = -1, distance = max;
 canvas.onpointerdown = e => {
   const [x, y] = point(e); if (x < 0 || y < 0 || x > 600 || y > 337) return;
   canvas.focus({ preventScroll: true }); canvas.setPointerCapture(e.pointerId); cursor[0] = x; cursor[1] = y; press = { id: e.pointerId, time: performance.now(), x, y };
-  if (archiveMode) { const changes = model.click(x, y); if (changes && typeof changes === 'object') for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); }
+  if (archiveMode) { const changes = model.click(x, y); if (changes && typeof changes === 'object') for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused && model.warmWhilePaused !== false) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); }
   else if (packing) { selected = model.items.findIndex(n => x >= n.x && x < n.x + n.size && y >= n.y && y < n.y + n.size); if (selected >= 0) action(); }
   else if (ik) { selected = nearest(model.nodes, x, y, 12); if (selected < 0) selected = model.add(x, y); drag = selected; if (selected >= 0) { model.nodes[selected].x = x; model.nodes[selected].y = y; model.constrain(selected); } }
   else if (slug === 'root-gardener') { selected = nearest(model.poses(), x, y); action(); }
