@@ -113,7 +113,7 @@ Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Tran
 The collection prioritizes mathematical constructions: fractals, chaos,
 topology, implicit surfaces, and emergent systems. Ten MIT-licensed
 experiments live in `dist/math-scenes.js`, with a shared `math.html` / `math.js`
-player: Newton basins, Hopf fibers, Torus knots, Gyroid field,
+player: Newton basins, Hopf fibers, Torus knots, Gyroid,
 Reaction–diffusion, Clifford attractor, Klein bottle, Torus, Möbius strip, and Schwarz lantern.
 Each displays its equation and
 has a short explanation under Help. See `dist/math-notes.txt` for formulas,
@@ -151,3 +151,11 @@ and band counts expose the area-convergence paradox. Both support orbit,
 zoom, surface styles, precise parameters, pause and reduced motion.
 Tests verify boundary loops, seam reversal, odd twist controls, triangle
 area against its independent formula, and different convergence regimes.
+
+## Gyroid views
+
+The existing Gyroid experiment (`math.html?work=gyroid-field`) is directly
+after Mandelbulb in the index. Its level and repeat controls are preserved;
+Space cycles solid, wireframe and glass without changing the geometry.
+The page explains the trigonometric nodal approximation and open crop
+boundaries. Checks cover every view and geometry updates while paused.

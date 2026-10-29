@@ -191,3 +191,15 @@ TU Berlin, exercise sheet 1 (2010), Exercise 2, The Schwarz lantern:
 https://page.math.tu-berlin.de/~sullivan/L/10S/Geo2/ex1.pdf
 Its notation swaps the names of the two counts compared with this player;
 our n always means vertices around each ring, m always means bands.
+
+
+Gyroid views (2026-10-29)
+------------------------
+Gyroid (existing route gyroid-field) now cycles solid, wireframe and glass
+with Space or the surface button. All three use the same sampled level set;
+view changes preserve both c and the repeat count. Wireframe shows the
+actual triangle mesh; glass uses translucent depth-sorted triangles to
+expose the repeated passages. This is illustrative transparency, not
+order-independent transparency at every overlap. The level-set equation
+remains a nodal approximation rather than the exact minimal gyroid.
+Controls, pause, reduced motion and PNG export apply to every view.
