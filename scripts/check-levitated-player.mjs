@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 const load = async name => import(`data:text/javascript;base64,${Buffer.from(readFileSync(`dist/levitated/${name}.js`, 'utf8')).toString('base64')}`);
-const base = await load('experiments'), studies = await load('studies'), archive = await load('archive-experiments');
+const base = await load('experiments'), studies = await load('studies'), archive = await load('archive-experiments'), kinetic = await load('kinetic-experiments');
 const source = readFileSync('dist/levitated/player.js', 'utf8').replace(/^import .*$/gm, '') + '\nglobalThis.inspect=()=>({model,selected,a,b,paused,slug});';
 const html = readFileSync('dist/levitated.html', 'utf8'), ids = [...html.matchAll(/id="([^"]+)"/g)].map(m => m[1]);
 function player(slug, reduced = false, width = 600) {
@@ -14,7 +14,7 @@ function player(slug, reduced = false, width = 600) {
   const document = { hidden: false, activeElement: null, fullscreenElement: null, title: '', querySelector(query) { assert(query.startsWith('#') && elements[query.slice(1)], `Element exists: ${query}`); return elements[query.slice(1)]; }, addEventListener(type, fn) { events[type] = fn; }, createElement() { return { click() { saved = true; } }; }, exitFullscreen: async () => { document.fullscreenElement = null; } };
   const canvas = elements.art; Object.assign(canvas, { getContext: () => ctx, getBoundingClientRect: () => ({ left: 0, top: 0, width, height: width * 337 / 600 }), focus() { document.activeElement = canvas; }, setPointerCapture() {}, addEventListener(type, fn) { events[type] = fn; }, toBlob(fn) { fn({}); } });
   elements.stage.requestFullscreen = async () => { document.fullscreenElement = elements.stage; };
-  const sandbox = { ...base, ...studies, ...archive, document, location: { search: `?work=${slug}` }, URLSearchParams, matchMedia: () => ({ matches: reduced }), performance: { now: () => clock }, devicePixelRatio: 1, ResizeObserver: class { observe() {} }, requestAnimationFrame: fn => callback = fn, URL: { createObjectURL: () => 'blob:preview', revokeObjectURL() {} }, setTimeout: fn => fn(), window: { addEventListener(type, fn) { events[type] = fn; } } };
+  const sandbox = { ...base, ...studies, ...archive, ...kinetic, earlierSlugs: archive.archiveSlugs, earlierStudy: archive.createArchiveStudy, document, location: { search: `?work=${slug}` }, URLSearchParams, matchMedia: () => ({ matches: reduced }), performance: { now: () => clock }, devicePixelRatio: 1, ResizeObserver: class { observe() {} }, requestAnimationFrame: fn => callback = fn, URL: { createObjectURL: () => 'blob:preview', revokeObjectURL() {} }, setTimeout: fn => fn(), window: { addEventListener(type, fn) { events[type] = fn; } } };
   runInNewContext(source, sandbox);
   function frame() { clock += 40; callback(clock); }
   function pointer(x, y) { return { clientX: x / 600 * width, clientY: y / 600 * width, pointerId: 1 }; }
@@ -31,6 +31,8 @@ for (const [slug, work] of Object.entries(base.works)) for (const reduced of [fa
   await ui.elements.fullscreen.onclick(); assert.equal(ui.document.fullscreenElement, ui.elements.stage);
   ui.elements.reset.onclick(); ui.frame(); assert(ui.elements.count.textContent.length > 0);
 }
+const bits = player('bit-field', true); const population = bits.state().a; bits.click(200, 150); assert.equal(bits.state().a, population + 80); assert.equal(bits.state().model.data.points.length, population + 80);
+const tentacles = player('tentacles', true); const swimmers = tentacles.state().model.data.creatures.length; tentacles.click(300, 169); assert.equal(tentacles.state().model.data.creatures.length, swimmers + 1);
 const golden = player('golden-spiral'); const beforeZoom = golden.state().b; let prevented = false; golden.events.wheel({ deltaY: -100, preventDefault() { prevented = true; } }); assert(prevented && golden.state().b > beforeZoom, 'Wheel zooms toward the spiral center'); golden.elements.action.onclick(); assert.equal(golden.state().a, 5, 'Next polygon advances the side count');
 const planting = player('mycelium', true); const colonyCount = planting.state().model.data.nodes.length; planting.click(35, 35); assert(planting.state().model.data.nodes.length > colonyCount, 'Planting a colony works with motion paused');
 const dla = player('dla'); const particles = dla.state().model.particles.length; dla.click(100, 120); assert.equal(dla.state().model.particles.length, particles + 1, 'Pointer plants one DLA seed');

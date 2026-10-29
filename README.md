@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 30 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 38 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -103,3 +103,7 @@ Box Fitting, Quarter Round Mosaic, Seeds, Golden Spiral, City Lines, Triangulati
 ## Site appearance
 
 Every page follows the system’s light/dark preference and has a Theme menu for System, Light, or Dark. Explicit choices persist across navigation and synchronize across tabs. A blocked storage API does not prevent switching themes. The shared theme applies before styles load and covers navigation, controls, help dialogs, credits, error states, and license text. Canvas artworks, PNG exports, and thumbnails retain their original colors, including Levitated’s white drawing fields and Tandava’s dark sky.
+
+## Kinetic Levitated recreations
+
+Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Transformation, Gathering Line, and Riley Stack add eight new interactive Canvas interpretations. Their original GPL archives and notices, source credits, and behavioral differences are documented in `dist/levitated/README.txt`. Regenerate previews with `node scripts/check-levitated-kinetic.mjs --write`. Mandelbulb remains first; Dream Strata stays out of the main list; Invader Fractal and Tandava remain last.

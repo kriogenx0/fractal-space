@@ -1,0 +1,42 @@
+[
+  {
+    "name": "levFlagellum",
+    "sha256": "278678502e2f43fb861580c49d91e506b59a5d6807ce5d28971cd556d2a3b85c",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levBitField",
+    "sha256": "8bdeece4379efa156c2e187f59819a6812b6487bca8fb0b132c4724f3458575f",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levMonkeyTree",
+    "sha256": "136f8ecb440f1ba94a1b09cb1665add892c82b20e119631fd7f731bfb73601c8",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levOilyStratum",
+    "sha256": "d396440d09d423f7e0b8f78dbf4e76e18c59cafadea08d82bb76858a44934339",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levAttractorSets",
+    "sha256": "efe801824294e936272d934ee83546e673ea9e0532ab3a8abc0e40f69f3fea37",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levRotationalT",
+    "sha256": "6d7296c9c7b8cc0691f2a70764f16f1167707d61468d6b84366886c77f4f6924",
+    "copyright": "Copyright (C) 2002 Jared Tarbell"
+  },
+  {
+    "name": "levGatheringLine",
+    "sha256": "571ea2c9e6dbc5abc852102d720ce4752b1ad57876ff38ec8fe2a58854b073c1",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  },
+  {
+    "name": "levRileyStack",
+    "sha256": "e298e0dc576415d9c0c32d106a755537d849e472c4e76d3a7079bcddf4110fc7",
+    "copyright": "Copyright (C) 2003 Jared Tarbell"
+  }
+]

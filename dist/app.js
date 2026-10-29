@@ -59,6 +59,6 @@ const initialWork=Math.max(0,workSlugs.indexOf(requestedWork));
 document.querySelector(`[data-mode="${initialWork}"]`).click();
 document.getElementById('page-title').textContent=['Silk / wind','Impossible water','Afterimage','Electric horizon'][initialWork];
 document.getElementById('page-description').textContent=works[initialWork].detail;
-document.getElementById('detail-number').textContent=`EXPERIMENT 0${initialWork+1} / 30`;
+document.getElementById('detail-number').textContent=`EXPERIMENT 0${initialWork+1} / 38`;
 document.getElementById('next-work').href=initialWork===3?"fractal.html?work=mandelbulb":`experiment.html?work=${workSlugs[initialWork+1]}`;
 document.title=`${document.getElementById('page-title').textContent} — Fractal Space`;

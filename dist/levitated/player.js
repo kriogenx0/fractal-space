@@ -1,8 +1,11 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Browser UI for the Levitated adaptations. Original algorithms: Jared Tarbell.
-import { archiveSlugs, createArchiveStudy } from './archive-experiments.js';
+import { archiveSlugs as earlierSlugs, createArchiveStudy as earlierStudy } from './archive-experiments.js';
 import { works, createPacking, createIK, drawPacking, drawIK } from './experiments.js';
 import { createDLA, drawDLA, createGarden, drawGarden, createWorm, drawWorm, createLorenz, drawLorenz, createOrbits, drawOrbits, createSeaThing, drawSeaThing } from './studies.js';
+import { kineticSlugs, createKineticStudy } from './kinetic-experiments.js';
+const archiveSlugs = [...earlierSlugs, ...kineticSlugs];
+const createArchiveStudy = (slug, ...args) => kineticSlugs.includes(slug) ? createKineticStudy(slug, ...args) : earlierStudy(slug, ...args);
 const $ = q => document.querySelector(q), requested = new URLSearchParams(location.search).get('work');
 const slug = works[requested] ? requested : 'invader-fractal', work = works[slug], slugs = Object.keys(works);
 const canvas = $('#art'), ctx = canvas.getContext('2d'), reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -90,7 +93,7 @@ function nearest(points, x, y, max = Infinity) { let index = -1, distance = max;
 canvas.onpointerdown = e => {
   const [x, y] = point(e); if (x < 0 || y < 0 || x > 600 || y > 337) return;
   canvas.focus({ preventScroll: true }); canvas.setPointerCapture(e.pointerId); cursor[0] = x; cursor[1] = y; press = { id: e.pointerId, time: performance.now(), x, y };
-  if (archiveMode) { model.click(x, y); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); }
+  if (archiveMode) { const changes = model.click(x, y); if (changes && typeof changes === 'object') for (const [key, value] of Object.entries(changes)) updateParameter(key, value); if (paused) for (let i = 0; i < Math.max(40, model.warmup * 3); i++) tick(); }
   else if (packing) { selected = model.items.findIndex(n => x >= n.x && x < n.x + n.size && y >= n.y && y < n.y + n.size); if (selected >= 0) action(); }
   else if (ik) { selected = nearest(model.nodes, x, y, 12); if (selected < 0) selected = model.add(x, y); drag = selected; if (selected >= 0) { model.nodes[selected].x = x; model.nodes[selected].y = y; model.constrain(selected); } }
   else if (slug === 'root-gardener') { selected = nearest(model.poses(), x, y); action(); }
@@ -100,6 +103,7 @@ canvas.onpointerdown = e => {
 };
 canvas.onpointermove = e => {
   const p = point(e); cursor[0] = clamp(p[0], 0, 600); cursor[1] = clamp(p[1], 0, 337);
+  if (archiveMode) model.pointer?.(...cursor);
   if (ik && drag >= 0) { const n = model.nodes[drag]; n.x = cursor[0]; n.y = cursor[1]; model.constrain(drag); }
   if (slug === 'deep-lorenz' && press) { updateParameter('a', a + (p[0] - press.x) * .01); press.x = p[0]; }
   dirty = true;

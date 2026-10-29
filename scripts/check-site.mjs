@@ -66,3 +66,5 @@ await import('./check-levitated-studies.mjs');
 await import('./check-levitated-player.mjs');
 
 await import('./check-levitated-archive.mjs');
+
+await import('./check-levitated-kinetic.mjs');

@@ -36,6 +36,16 @@ terms and author notices:
 - scripts/check-levitated-player.mjs
 - scripts/check-levitated-archive.mjs
 
+- dist/thumbnails/tentacles.svg
+- dist/thumbnails/bit-field.svg
+- dist/thumbnails/monkey-tree.svg
+- dist/thumbnails/oily-stratum.svg
+- dist/thumbnails/attractor-sets.svg
+- dist/thumbnails/rotational-transformation.svg
+- dist/thumbnails/gathering-line.svg
+- dist/thumbnails/riley-stack.svg
+- scripts/check-levitated-kinetic.mjs
+
 Original experiments: Copyright (C) 2001–2003 Jared Tarbell / Levitated.
 Each archive retains its original copyright year and GPL notice.
 The original archives contain an unversioned GNU GPL grant. The JavaScript
@@ -69,6 +79,23 @@ https://levitated.net/daily/levCityLines.html
 https://levitated.net/daily/levTriangulation.html
 https://levitated.net/daily/levIsoblocks.html
 https://levitated.net/daily/levMyco.html
+
+Further behavioral recreations: Tentacles, Bit Field, Monkey Tree, Oily Stratum, Attractor Sets, Rotational Transformation, Gathering Line, Riley Stack.
+These newly implemented Canvas studies follow the published descriptions;
+original archives and GPL notices are bundled unchanged. Checksums are in
+kinetic-checksums.json. Tentacles credits Robert Hodgin / Flight-404 for
+the original code exchange. Bit Field credits Keith Peters / Bit-101 for
+the original perspective techniques. Riley Stack credits Bridget Riley as
+the artistic reference and Peters Wave as the original algorithmic basis.
+No photographs, paintings, or Flash timeline graphics are copied.
+https://levitated.net/daily/levFlagellum.html
+https://levitated.net/daily/levBitField.html
+https://levitated.net/daily/levMonkeyTree.html
+https://levitated.net/daily/levOilyStratum.html
+https://levitated.net/daily/levAttractorSets.html
+https://levitated.net/daily/levRotationalT.html
+https://levitated.net/daily/levGatheringLine.html
+https://levitated.net/daily/levRileyStack.html
 
 References and externally loaded resources
 -----------------------------------------

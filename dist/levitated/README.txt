@@ -15,7 +15,7 @@ are distributed under GPL version 3 (see COPYING.txt); the original notices
 are preserved beside the original source downloads.
 
 Corresponding source for these adaptations is the unminified, directly served
-experiments.js, studies.js, archive-experiments.js, player.js, and style.css in this directory, together with
+experiments.js, studies.js, archive-experiments.js, kinetic-experiments.js, player.js, and style.css in this directory, together with
 ../levitated.html. No compilation, Flash plug-in, or external library is needed.
 Serve the dist directory through any HTTP server to run the adaptations.
 
@@ -163,3 +163,68 @@ levIsoblocks.zip fa4c632f82c4534afff62bc6b0abc01c6c327a7a08c5b20fcc79801f90824cd
 levMyco.zip 84a7e9a01b442f64c659399d0dc0031ab787009c2c8567e99eca12ca11164693
 
 Machine-readable checksums: archive-checksums.json
+
+
+Kinetic behavioral recreations, 2026-10-28
+----------------------------------------
+Eight further experiments follow the author's published descriptions. These
+are new Canvas implementations, not translations of the original Flash code.
+The untouched source archives and their original notices are bundled for
+reference; kinetic-checksums.json records their SHA-256 hashes. New code and
+previews are GPL-3.0-only; the player labels each work as a recreation.
+
+- Tentacles / levFlagellum: 27-node swimmers with an oscillating second node
+  and constrained trailing joints. Steering, body drawing, colors, timing,
+  boundaries, and spawning controls are new. The original page credits a
+  code exchange with Robert Hodgin / Flight-404; that credit is preserved.
+- Bit Field: particles levitate in, hold position, and levitate out; cursor x
+  rotates their 3-D field, clicks increase population. Perspective projection,
+  lifetimes, layout and colors are new. The original credits Keith Peters /
+  Bit-101 for published perspective techniques; that credit is preserved.
+- Monkey Tree: recursively substitute every segment with a scaled, rotated
+  generator, up to six substitutions. Generator coordinates are new and
+  randomized, with adjustable aperture. Automatic framing and limits keep
+  the full curve visible. The original cites Mandelbrot's Monkey's Tree.
+- Oily Stratum: cursor-controlled cohesion and size of merging shapes. A new
+  inverse-square metaball field, triangle contour clipping and four color
+  layers replace Flash layer compositing; dynamics and contours differ.
+- Attractor Sets (2001): rotating rings seek shared values. The new simplified
+  force acts between ring centers using color-set similarity. It does not
+  optimize every color-node position as the original description suggests.
+  Rotation, connections, separation and boundaries are new.
+- Rotational Transformation (2001): nested circle outlines scale by 1.02,
+  starting at 137.5 degrees. Offset placement, animated phase and procedural
+  colors are newly implemented; automatic fitting keeps large nests visible.
+- Gathering Line: nodes seek a moving target, hold, then fall and fade away.
+  Default grip is 90 ticks / three seconds. Autonomous target motion, pointer
+  drawing, fixed-step movement and node limits are new; default insertion
+  rate is 60 nodes/second instead of the original approximate 30.
+- Riley Stack: new sinusoidal stacked bands inspired by the original's
+  homage to Bridget Riley and its Peters Wave foundation. New cursor warp,
+  band density, phase, colors and geometry replace the original arrangement.
+  No Bridget Riley photographs, paintings, or other image assets are copied.
+
+All use the shared themed player, touch/keyboard controls, pause, reduced
+motion and PNG export. Cursor effects remain usable while animation is paused.
+New source: kinetic-experiments.js. Render previews with:
+node scripts/check-levitated-kinetic.mjs --write
+
+Original pages and archives (both .html and .zip) at:
+https://levitated.net/daily/levFlagellum
+https://levitated.net/daily/levBitField
+https://levitated.net/daily/levMonkeyTree
+https://levitated.net/daily/levOilyStratum
+https://levitated.net/daily/levAttractorSets
+https://levitated.net/daily/levRotationalT
+https://levitated.net/daily/levGatheringLine
+https://levitated.net/daily/levRileyStack
+
+Original archive SHA-256 checksums:
+levFlagellum.zip 278678502e2f43fb861580c49d91e506b59a5d6807ce5d28971cd556d2a3b85c
+levBitField.zip 8bdeece4379efa156c2e187f59819a6812b6487bca8fb0b132c4724f3458575f
+levMonkeyTree.zip 136f8ecb440f1ba94a1b09cb1665add892c82b20e119631fd7f731bfb73601c8
+levOilyStratum.zip d396440d09d423f7e0b8f78dbf4e76e18c59cafadea08d82bb76858a44934339
+levAttractorSets.zip efe801824294e936272d934ee83546e673ea9e0532ab3a8abc0e40f69f3fea37
+levRotationalT.zip 6d7296c9c7b8cc0691f2a70764f16f1167707d61468d6b84366886c77f4f6924
+levGatheringLine.zip 571ea2c9e6dbc5abc852102d720ce4752b1ad57876ff38ec8fe2a58854b073c1
+levRileyStack.zip e298e0dc576415d9c0c32d106a755537d849e472c4e76d3a7079bcddf4110fc7
