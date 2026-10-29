@@ -11,3 +11,5 @@
 !scripts/check-levitated.mjs
 !scripts/check-tandava-controller.mjs
 !scripts/check-theme.mjs
+!scripts/check-levitated-studies.mjs
+!scripts/check-levitated-player.mjs

@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The index now includes 17 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The index now includes 23 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel; Dream strata layers floating monuments and moons with cursor-driven parallax. All four use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -86,7 +86,7 @@ To regenerate the four Canvas previews after changing their geometry, run `node 
 
 ## Levitated ports
 
-Invader Fractal and Iterative IK are source-based Canvas adaptations of Jared Tarbell’s 2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. DLA also has a GPL-noticed archive and is a candidate for a later port; it is not implemented yet. Regenerate previews with `node scripts/check-levitated.mjs --write`.
+Eight Levitated experiments—Invader Fractal, Iterative IK, DLA, Root Gardener, Cellular Automata Worm, Deep Lorenz, Orbiting Networks, and Sea Thing—are source-based Canvas adaptations of Jared Tarbell’s 2001–2003 Flash works. Their original source archives include a GNU GPL grant. Unchanged upstream archives, author notices, full GPL v3 text, unminified port source, and adaptation notes ship under `dist/levitated/`; the experiment pages link to all of them. See `dist/levitated/README.txt` for provenance, behavior changes, and checksums. Each supports touch/keyboard controls, reduced motion, pause, PNG export, and the site theme. Regenerate previews with `node scripts/check-levitated.mjs --write` and `node scripts/check-levitated-studies.mjs --write`.
 
 ### Tandava reference parity
 

@@ -56,3 +56,7 @@ await import('./check-parallax.mjs');
 await import('./check-levitated.mjs');
 
 await import('./check-theme.mjs');
+
+await import('./check-levitated-studies.mjs');
+
+await import('./check-levitated-player.mjs');

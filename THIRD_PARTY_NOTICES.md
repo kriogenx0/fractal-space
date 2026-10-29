@@ -17,17 +17,31 @@ terms and author notices:
 - dist/levitated/** (including the original source archives and notices)
 - dist/thumbnails/invader-fractal.svg
 - dist/thumbnails/iterative-ik.svg
+- dist/thumbnails/dla.svg
+- dist/thumbnails/root-gardener.svg
+- dist/thumbnails/ca-worm.svg
+- dist/thumbnails/deep-lorenz.svg
+- dist/thumbnails/orbiting-networks.svg
+- dist/thumbnails/sea-thing.svg
 - scripts/check-levitated.mjs
+- scripts/check-levitated-studies.mjs
+- scripts/check-levitated-player.mjs
 
-Original experiments: Copyright (C) 2003 Jared Tarbell / Levitated.
+Original experiments: Copyright (C) 2001–2003 Jared Tarbell / Levitated.
+Each archive retains its original copyright year and GPL notice.
 The original archives contain an unversioned GNU GPL grant. The JavaScript
 adaptations are distributed under GPL-3.0-only; full text is in
  dist/levitated/COPYING.txt.
-Original notices: dist/levitated/levInvaderFractal-notice.txt and
- dist/levitated/levIterativeIK-notice.txt.
+Original notices: dist/levitated/*-notice.txt (one per original archive).
 Source, changes, and archive checksums: dist/levitated/README.txt.
 https://levitated.net/daily/levInvaderFractal.html
 https://levitated.net/daily/levIterativeIK.html
+https://levitated.net/daily/levDLA.html
+https://levitated.net/daily/levRootGardener.html
+https://levitated.net/daily/levCAWorm.html
+https://levitated.net/daily/levDeepLorenz.html
+https://levitated.net/daily/levOrbitingNetworks.html
+https://levitated.net/daily/levSeaThing.html
 
 References and externally loaded resources
 -----------------------------------------
