@@ -492,3 +492,13 @@ height z = 0.6 sqrt(1-1/F) in the visible region. The shader-like Canvas
 raster has a maximum long edge of 400 samples. Damped center motion and
 local cursor attraction are artistic heuristics, not a volume-conserving
 fluid simulation. A maximum of 32 floating drops bounds work.
+
+Spectrum analyzer (original MIT): browser AnalyserNode float frequency data,
+FFT sizes 1024–16384, bin spacing sampleRate/FFTsize; peak estimation uses
+three-bin parabolic interpolation in dB. Log bands cover 20 Hz–min(20 kHz,
+Nyquist), excluding DC, and display each band's maximum bin. RMS level is
+20 log10(RMS amplitude) dBFS with a display floor at -120 dBFS, not SPL.
+Spectral magnitudes depend on the browser's Blackman window and smoothing.
+A 64-frame waterfall and 96 frequency bands bound rendering work.
+Reference: https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode
+Reference: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia

@@ -183,3 +183,6 @@ dist/math-notes.txt. No third-party implementation code is used.
 
 Liquid cursor in dist/liquid-cursor.js is an original MIT-licensed implicit
 surface and Canvas renderer. No third-party implementation code is used.
+
+Spectrum analyzer in dist/spectrum-engine.js and dist/spectrum.js is an original
+MIT-licensed Web Audio implementation. No third-party implementation code is used.

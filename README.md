@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 65 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 66 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -282,9 +282,17 @@ Ball drop adds exact constant-gravity flight and collision-time rebounds, with E
 
 Liquid cursor is an original Canvas implicit-surface experiment. The cursor and floating drops share a metaball field, with click/tap planting, keyboard control, reflective shading, and bounded population/raster work.
 
-The index filters (All, Math, Art, Fractals, Geometry, Physics, Levitated) use
+The index filters (All, Math, Art, Fractals, Geometry, Physics, Sound, Levitated) use
 space-separated `data-tags` on each card. Tags can overlap, and filtering keeps
 the authored card order. A `?tag=physics` URL opens a filtered view; All removes
 the tag. Native buttons expose their selected state and a live result count.
 Without JavaScript the full collection stays visible. Shared theme colors apply
 to the filter row in both light and dark mode.
+
+Spectrum analyzer (`spectrum.html`) adds an original Web Audio instrument: microphone,
+local audio-file playback, and a quiet test oscillator with four wave shapes. Analysis
+uses logarithmic peak bands from float FFT data and a waveform, with a bounded 64-frame
+waterfall. Readouts show estimated strongest frequency, RMS dBFS, and FFT bin spacing.
+No audio is recorded or uploaded. Stop, hiding the tab, and page exit stop sources and
+release microphone tracks, including permission requests that resolve after cancellation.
+The microphone output path is always silent. The analyzer is not a calibrated SPL meter.

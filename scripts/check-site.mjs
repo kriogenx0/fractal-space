@@ -49,7 +49,7 @@ const mathematics = [...readFileSync(join(root, 'math-scenes.js'), 'utf8').match
 for (const work of mathematics) assert(cards.includes(`math.html?work=${work}`), 'Every mathematical work is discoverable');
 for (const href of cards) {
   const url = new URL(href, 'https://site.invalid/');
-  if (url.pathname === '/tandava.html') continue;
+  if (['/tandava.html', '/spectrum.html'].includes(url.pathname)) continue;
   const work = url.searchParams.get('work');
   const known = url.pathname === '/math.html' ? mathematics : url.pathname === '/levitated.html' ? levitated : url.pathname === '/fractal.html' ? fractals : url.pathname === '/wild.html' ? wild : legacy;
   assert(known.includes(work), `Card points to an unknown experiment: ${href}`);
@@ -91,3 +91,5 @@ await import('./check-ball-drop.mjs');
 await import('./check-liquid.mjs');
 
 await import('./check-index-filters.mjs');
+
+await import('./check-spectrum.mjs');

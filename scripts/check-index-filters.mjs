@@ -5,7 +5,7 @@ import { runInNewContext } from 'node:vm';
 const html = readFileSync('dist/index.html', 'utf8'), source = readFileSync('dist/index-filters.js', 'utf8');
 const cards = [...html.matchAll(/<a class="work-card" href="([^"]+)"([^>]*)>/g)].map(([, href, attributes]) => ({ href, tags: attributes.match(/data-tags="([^"]+)"/)?.[1], attributes }));
 const filters = [...html.matchAll(/<button type="button" data-filter="([^"]+)" aria-pressed="([^"]+)" aria-controls="experiments">([^<]+)<\/button>/g)].map(([, key, pressed, label]) => ({ key, pressed, label }));
-assert.deepEqual(filters.map(f => f.key), ['all', 'math', 'art', 'fractal', 'geometry', 'physics', 'levitated']);
+assert.deepEqual(filters.map(f => f.key), ['all', 'math', 'art', 'fractal', 'geometry', 'physics', 'sound', 'levitated']);
 assert.equal(filters.filter(f => f.pressed === 'true').length, 1); assert.equal(filters[0].pressed, 'true');
 assert(html.includes('aria-label="Filter experiments" hidden'), 'Controls are progressively enhanced');
 assert(html.includes('id="filter-count" role="status" aria-live="polite" aria-atomic="true"'));
@@ -22,7 +22,7 @@ function browser(href = 'https://fractalspace.org/') {
   runInNewContext(source, { URL, document: { querySelector: q => q === '#index-filters' ? group : count, querySelectorAll: () => items }, window: { location, history, addEventListener: (event, fn) => events[event] = fn } });
   return { buttons, group, count, items, location, visible: () => items.filter(c => !c.hidden).map(c => c.href), click(key) { buttons.find(b => b.dataset.filter === key).listeners.click(); }, navigate(url, event = 'popstate') { location.href = url; events[event](); } };
 }
-const ui = browser(); assert(!ui.group.hidden); assert.equal(ui.visible().length, 65);
+const ui = browser(); assert(!ui.group.hidden); assert.equal(ui.visible().length, 66);
 for (const { key } of filters) {
   ui.click(key);
   const selected = ui.buttons.filter(b => b.attributes['aria-pressed'] === 'true'); assert.equal(selected.length, 1); assert.equal(selected[0].dataset.filter, key);
@@ -32,9 +32,9 @@ for (const { key } of filters) {
   const url = new URL(ui.location.href); assert.equal(url.searchParams.get('tag'), key === 'all' ? null : key);
   assert.deepEqual(browser(url.href).visible(), expected, 'Shared URLs restore the selected collection');
 }
-ui.click('all'); assert.equal(ui.count.textContent, 'INDEX / 065 EXPERIMENTS'); assert.equal(ui.visible()[0], 'fractal.html?work=mandelbulb'); assert.deepEqual(ui.visible().slice(-2), ['levitated.html?work=invader-fractal', 'tandava.html']); assert(!ui.visible().some(href => href.includes('dream-strata')));
+ui.click('all'); assert.equal(ui.count.textContent, 'INDEX / 066 EXPERIMENTS'); assert.equal(ui.visible()[0], 'fractal.html?work=mandelbulb'); assert.deepEqual(ui.visible().slice(-2), ['levitated.html?work=invader-fractal', 'tandava.html']); assert(!ui.visible().some(href => href.includes('dream-strata')));
 const shared = browser('https://fractalspace.org/?campaign=sample&tag=physics#experiments'); assert(shared.visible().includes('math.html?work=ball-drop')); assert(!shared.visible().includes('math.html?work=klein-bottle')); shared.click('all'); const url = new URL(shared.location.href); assert.equal(url.searchParams.get('campaign'), 'sample'); assert.equal(url.hash, '#experiments'); assert.equal(url.searchParams.get('tag'), null);
-for (const tag of ['unknown', 'toString', '__proto__', '']) assert.equal(browser('https://fractalspace.org/?tag=' + tag).visible().length, 65, 'Unknown tags safely show All');
+for (const tag of ['unknown', 'toString', '__proto__', '']) assert.equal(browser('https://fractalspace.org/?tag=' + tag).visible().length, 66, 'Unknown tags safely show All');
 shared.navigate('https://fractalspace.org/?tag=geometry'); assert(shared.visible().includes('math.html?work=klein-bottle')); shared.navigate('https://fractalspace.org/?tag=art', 'pageshow'); assert(shared.visible().includes('math.html?work=orbit-ink')); assert.equal(shared.buttons.find(b => b.dataset.filter === 'art').attributes['aria-pressed'], 'true', 'Restored pages synchronize buttons and result count');
 const css = readFileSync('dist/style.css', 'utf8'); assert(css.includes('.index-filters[hidden],.work-card[hidden]{display:none}'), 'Filtered anchors leave both layout and tab order'); assert(css.includes('min-height:44px'), 'Filter buttons retain touch-sized targets'); assert(css.includes('color:var(--ui-muted,var(--ink))'), 'Filters use the shared contrast-tested theme palette');
 console.log('PASS: all index tags, overlapping collections, accessible filter/count markup, stable card order, shareable URLs, back/forward/page restoration, invalid tags, unfiltered fallback, and themed mobile controls.');
