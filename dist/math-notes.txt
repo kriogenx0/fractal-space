@@ -568,3 +568,16 @@ positions are held for comparison. Canvas framing includes the full cycloid
 dip; dragging freezes the current view scale until release/cancel. The
 reference uses more tracks; ours compares cycloid, straight, and this parabola.
 Reference: https://www.myphysicslab.com/roller/brachistochrone-en.html
+
+Grass / wind (original MIT artwork): seeded tapered polygon blades are
+projected from a 3D ground plane. Tip-bend coordinates follow bounded,
+damped springs with a 60 Hz maximum integration step, substepping display
+deltas capped at 0.05 s. A radial screen-space brush includes a bounded
+movement bias; nearby blades spring back after the pointer leaves. A slow
+spatial breeze combines with Gaussian traveling gust fronts. The first gust
+arrives after 2.5–4.3 seconds, followed by seeded 7–13 second start intervals;
+at most three fronts are retained. Pause freezes the exact current pose.
+Paused brushing, parameter edits and manual gust previews recompute a static
+pose without advancing time. Blades bend and lower heuristically; this is
+an artistic elastic animation, not an aerodynamic or vegetation solver.
+No external images, textures, source code or libraries are used at runtime.

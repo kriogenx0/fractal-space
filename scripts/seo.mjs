@@ -23,6 +23,7 @@ function catalog(file, name = 'catalog') {
 }
 const directSlugs = { spectrum: 'spectrum-analyzer', 'orbit-breach': 'orbit-breach', tandava: 'tandava-parallax' };
 const editorial = {
+  'grass-wind': 'Brush a field of responsive 3D grass. Move your cursor or touch-drag to bend the blades, watch occasional wind gusts sweep through, and change the meadow’s season.',
   'standing-resonance': 'Tune an interactive standing wave. Explore string harmonics, stationary nodes, damping, phase lag, and a live resonance-response curve.',
   'brachistochrone-race': 'Race a cycloid, a straight line, and a parabola between shared endpoints. Change gravity and geometry to explore the mathematics of fastest descent.',
   'chladni-study': 'Explore idealized Chladni nodal patterns. Mix square cosine modes, stir grains toward their nodal lines, and switch between sand and crisp contours.',

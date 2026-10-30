@@ -101,3 +101,5 @@ await import('./check-wave-studies.mjs');
 await import('./check-resonance-race.mjs');
 
 await import('./check-experiment-info.mjs');
+
+await import('./check-grass.mjs');

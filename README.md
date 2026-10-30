@@ -78,7 +78,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 71 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 72 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -361,3 +361,17 @@ controls/help; the large title card and gesture banner no longer cover the
 canvas. Reopening Info snapshots the current measurements. Desktop title
 cards remain available, and the helper preserves the original layout if its
 required markup is missing. The dialog scrolls with a sticky close button.
+
+### Grass / wind
+
+`wild.html?work=grass-wind` is an original grass-field artwork with perspective
+3D blades. Cursor movement and touch-drag push a local brush through the
+meadow; bounded damped springs leave a wake and restore the blades. Seeded
+wind fronts pass through occasionally, with Space/Send a gust for a manual
+one. Wind strength and Cursor reach are adjustable. R replants the meadow;
+Color cycles five seasonal skies and palettes. P/reduced motion freezes time
+while manual brushing and gust previews remain available. Hide controls gives
+an uninterrupted field, and Save frame exports PNG. The fixed camera keeps
+brushing separate from orbit gestures. The planting is bounded to 2200 blades
+when opened in portrait and 3600 in landscape, retained across resizing.
+This is an artistic elastic/wind model, without aerodynamic calibration.

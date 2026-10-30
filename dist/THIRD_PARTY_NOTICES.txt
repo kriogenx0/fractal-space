@@ -200,3 +200,7 @@ Standing-wave resonance and Brachistochrone race in dist/resonance-race.js
 are original MIT-licensed JavaScript implementations by Alex Vaos. oPhysics,
 PhET and myPhysicsLab references and model differences are documented in
 dist/math-notes.txt. No source-site code, graphics or assets are bundled.
+
+Grass / wind in dist/grass-field.js is an original MIT-licensed artwork and
+Canvas renderer by Alex Vaos. Its seeded geometry, elastic animation, wind
+fields and procedural previews contain no third-party source or assets.

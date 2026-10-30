@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "grass-wind",
+      "source": "thumbnails/grass-wind.svg",
+      "sourceSHA256": "b71011042717ebab7fdbf84baff80a18054e41abe575e2e94935908a44b43456",
+      "image": "social/grass-wind.jpg",
+      "imageSHA256": "e6296e542ccbab1b5639535717ce1e4035040780d7c76bdea416a1998a6b83de"
+    },
+    {
       "slug": "standing-resonance",
       "source": "thumbnails/standing-resonance.svg",
       "sourceSHA256": "9eb768e0176888aa18696869529c8ee5a33bf9f0faceebe104a037973fd13f66",

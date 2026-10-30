@@ -18,3 +18,8 @@
   .canvas-page.has-experiment-info .mobile-work-name{display:block;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:1.4;letter-spacing:0;font-weight:500}
   .canvas-page.has-experiment-info .back span{display:none}
 }
+
+#art[data-mode="grass"]{cursor:crosshair}
+@media(max-width:700px){#art[data-mode="grass"]~.hud .panel .actions{grid-column:1/-1}}
+#art[data-mode="grass"]~.hud .bottom-line>span{white-space:nowrap;overflow:hidden;text-overflow:ellipsis;min-width:0}
+#art[data-mode="grass"]~.hud .bottom-line a{flex-shrink:0;white-space:nowrap}

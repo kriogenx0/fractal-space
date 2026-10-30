@@ -2,8 +2,10 @@
 import { readFileSync, writeFileSync } from 'node:fs';
 import assert from 'node:assert/strict';
 const source = readFileSync('dist/wild-scenes.js', 'utf8');
-const { catalog, createScene } = await import(`data:text/javascript;base64,${Buffer.from(source).toString('base64')}`);
-function recorder(width, height) {
+const grassModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/grass-field.js')).toString('base64')}`;
+export const wild = await import(`data:text/javascript;base64,${Buffer.from(source.replaceAll("'./grass-field.js'", JSON.stringify(grassModule))).toString('base64')}`);
+const { catalog, createScene } = wild;
+export function recorder(width, height) {
   const shapes = [], defs = []; let path = '', special = null, calls = 0;
   const finite = args => { for (const n of args) assert(Number.isFinite(n), `Non-finite Canvas coordinate: ${n}`); calls++; };
   const attr = value => {
@@ -33,8 +35,8 @@ function recorder(width, height) {
 }
 for (const [slug, work] of Object.entries(catalog)) {
   const base = { time: 8, a: work.a[4], b: work.b[4], pointer: [.12, -.1], yaw: .3, pitch: .38, zoom: 1, palette: 0, seed: 1, direction: 1, travel: 0, alternate: false };
-  const thumbnail = recorder(1000, 625); createScene(thumbnail.canvas, slug).draw(base);
-  if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, thumbnail.svg());
+  const thumbnail = recorder(1000, 625), scene = createScene(thumbnail.canvas, slug); for (let i = 0; i < (work.previewSteps ?? 0); i++) scene.step(base, 1 / 60); scene.draw(base);
+  if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, slug === 'grass-wind' ? thumbnail.svg().replace(/-?\d+\.\d{4,}/g, v => String(+Number(v).toFixed(3))) : thumbnail.svg());
   let drawings = 0;
   for (const [width, height] of [[390, 844], [1600, 900]]) {
     for (const extreme of [false, true]) {

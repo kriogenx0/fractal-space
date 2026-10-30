@@ -6,7 +6,7 @@ proposed experiments below are ideas, not claims that a source has been ported.
 
 ## Current baseline
 
-- 71 public experiments, including 28 Levitated adaptations/recreations.
+- 72 public experiments, including 28 Levitated adaptations/recreations.
 - Spectrum analyzer shipped in `f0c4123`: microphone, local files, test tones,
   logarithmic spectrum, waveform, waterfall, measurements, freeze, and PNG export.
   Docker checks and CI passed; 95 live pages/assets matched the release.
@@ -14,6 +14,8 @@ proposed experiments below are ideas, not claims that a source has been ported.
 - Orbit Breach adds the first polygon game, with three arenas/difficulties,
   keyboard/touch steering, pause, and local best times. Real-device playtesting
   remains open in FS-014.
+- Grass / wind adds cursor/touch brushing, spring recovery, occasional wind
+  fronts, manual gusts, five palettes, and paused/reduced-motion interaction.
 - Liquid cursor, terrain, ripple plane, ball drop, topology constructions,
   pendulums, orbital gravity, Fibonacci sculpture, and rotating 3D drawing exist.
 - Index filters, the Sound/Games tags, site themes, expanded parameters, SEO metadata,
