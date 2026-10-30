@@ -1,5 +1,7 @@
 # Fractal Space
 
+Open work and candidate experiments: [project backlog](docs/backlog.md).
+
 An index of interactive browser artworks, built with JavaScript, Canvas 2D, and WebGL. Click a thumbnail to open an experiment. Everything under `dist/` is checked-in application source, not disposable build output.
 
 ## Local development
