@@ -16,7 +16,7 @@ $('#reference').hidden = !work.reference; if (work.reference) $('#reference').hr
 $('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'fractal.html?work=mandelbulb' : `math.html?work=${slugs[slugs.indexOf(slug) + 1]}`;
 if (mode === 'ink') { $('#shuffle').textContent = 'Clear drawing'; $('#shuffle').setAttribute('title', 'Clear drawing; Undo can restore it'); $('#palette').textContent = 'Ink color ◐'; $('#palette').setAttribute('title', 'Change the next stroke’s color'); }
 if (slug === 'mountain-terrain') { $('#shuffle').textContent = 'New terrain ↻'; $('#shuffle').setAttribute('title', 'Generate a different seeded landscape (R)'); }
-if (slug === 'ball-drop') { $('#shuffle').textContent = 'Drop again ↓'; $('#shuffle').setAttribute('title', 'Repeat this release (R)'); }
+if (slug === 'ball-drop') { $('#shuffle').textContent = 'Drop again ↻'; $('#shuffle').setAttribute('title', 'Repeat this release (R)'); }
 if (slug === 'ripple-plane') { $('#shuffle').textContent = 'Clear water'; $('#shuffle').setAttribute('title', 'Remove all ripples (R)'); }
 canvas.setAttribute('data-work', slug);
 document.title = `${work.name} — Fractal Space`; canvas.setAttribute('data-mode', mode); canvas.setAttribute('aria-label', `${work.name}. ${$('#help-text').textContent}`);
