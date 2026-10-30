@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "ball-drop",
+      "source": "thumbnails/ball-drop.svg",
+      "sourceSHA256": "411a68bc6cd897db03976021ef581b284c0767f7810a0f286dbae86ca3936ce2",
+      "image": "social/ball-drop.jpg",
+      "imageSHA256": "911286459cc9a6c6be3775f1865cc27844f224d29c2339f67f85bf8c80092f9d"
+    },
+    {
       "slug": "ripple-plane",
       "source": "thumbnails/ripple-plane.svg",
       "sourceSHA256": "b66c5226a9c0fdee2c5bf72f8a7842e61f88fd367be45bc59b20a935cfba03a6",
@@ -32,9 +39,9 @@
     {
       "slug": "trema-field",
       "source": "thumbnails/trema-field.svg",
-      "sourceSHA256": "76f12f4f32997b8c8733aa44680f23ffcaf4e69005d4b6fe828590622e596ff9",
+      "sourceSHA256": "9490699565e5a0324358bd10365ea5576db37c75719edc456889b74f905c8119",
       "image": "social/trema-field.jpg",
-      "imageSHA256": "aca03335d31a25374728900c1f3569fe76ce29d7edf9f8e02e181203af69f87d"
+      "imageSHA256": "1bc245241081fbc007b887ef63504f7941461ab485754a1581812690e7bfe626"
     },
     {
       "slug": "folding-pentagons",

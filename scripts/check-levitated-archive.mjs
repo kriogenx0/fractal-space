@@ -37,6 +37,6 @@ for (const slug of archiveSlugs) {
   const ticks = slug === 'quarter-round' ? 200 : slug === 'city-lines' ? 500 : slug === 'mycelium' ? 650 : slug === 'box-fitting' ? 250 : slug === 'isoblocks' ? 350 : 180;
   for (let i = 0; i < ticks; i++) preview.step(a, b); preview.draw(image.ctx, a, b); assert(image.count() > 2, `${slug} creates artwork`);
   if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
-  for (const limit of [1, 2]) { const ea = w.a[limit], eb = w.b[limit], model = createArchiveStudy(slug, 3, ea, eb); for (let i = 0; i < 40; i++) model.step(ea, eb); const r = recorder(); model.draw(r.ctx, ea, eb, 2); model.click(300, 169); model.action(); assert(model.status().length > 0); }
+  for (const ae of [1, 2]) for (const be of [1, 2]) { const ea = w.a[ae], eb = w.b[be], model = createArchiveStudy(slug, 3, ea, eb); for (let i = 0; i < 40; i++) model.step(ea, eb); const r = recorder(); model.draw(r.ctx, ea, eb, 2); model.click(300, 169); model.action(); assert(model.status().length > 0); }
 }
 console.log('PASS: eight archive recreations — non-overlapping box growth, complete mosaic grids, phyllotaxis, golden scaling, bounded city lines, triangle area preservation, 3-D grid bounds, colony revival, and finite previews.');

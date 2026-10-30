@@ -22,6 +22,7 @@ function catalog(file, name = 'catalog') {
   return runInNewContext(`(${literal})`, Object.create(null), { timeout: 1000 });
 }
 const editorial = {
+  'ball-drop': 'Drop a ball under Earth, Moon, Mars, Jupiter, or custom gravity. Adjust rebound, release height, and playback speed to explore free fall and energy loss.',
   'ripple-plane': 'Drop water onto an interactive 3D plane. Watch ripples travel outward and interfere, then adjust wave height, speed, damping, and droplet size.',
   'mountain-terrain': 'Generate a random 3D mountain terrain. Adjust mountain height, valley depth, roughness, and landscape depth, then orbit its shaded, contour, or wireframe views.',
   'dream-strata': 'Explore a layered generative landscape in your browser. Move the cursor to shift floating monuments, suspended oceans, and distant moons.',
@@ -93,6 +94,15 @@ function preRender(template, work) {
     html = setContent(html, 'help-text', d.help ?? d.gesture ?? d.hint ?? work.description);
     if (d.extra) for (const [key, range] of Object.entries(d.extra)) { html = setContent(html, 'label-' + key, range[0]); html = html.replace(`<label id="extra-${key}" hidden>`, `<label id="extra-${key}">`); }
     if (d.a) html = setContent(html, 'label-a', d.a[0]); if (d.b) html = setContent(html, 'label-b', d.b[0]);
+    for (const [key, range] of Object.entries({ a: d.a, b: d.b, ...d.extra })) if (range) {
+      html = html.replace(new RegExp(`<input\\b[^>]*id="param-${key}"[^>]*>`), input => {
+        for (const [attribute, value] of [['min', range[1]], ['max', range[2]], ['step', range[3]], ['value', range[4]]]) {
+          const pattern = new RegExp(`\\b${attribute}="[^"]*"`);
+          input = pattern.test(input) ? input.replace(pattern, `${attribute}="${value}"`) : input.replace('>', ` ${attribute}="${value}">`);
+        }
+        return input;
+      });
+    }
     if (d.special) html = setContent(html, 'special', d.special);
   }
   if (work.family === 'levitated') {

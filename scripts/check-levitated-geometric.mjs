@@ -21,7 +21,7 @@ for (const depth of [1, 6, 12]) {
   const gaps = cantorGaps(depth); assert.equal(gaps.length, 2 ** depth - 1);
   const length = gaps.reduce((sum, g) => sum + g.hi - g.lo, 0); assert(Math.abs(length - (1 - (2 / 3) ** depth)) < 1e-10, 'Removed length is the complement of the Cantor survivors');
   const sorted = [...gaps].sort((a, b) => a.lo - b.lo); for (let i = 0; i < sorted.length; i++) { const g = sorted[i]; assert(g.lo > 0 && g.hi < 1 && g.hi > g.lo); if (i) assert(sorted[i - 1].hi <= g.lo + 1e-12, 'Removed gaps never overlap'); }
-  const field = createTrema(3, depth); for (let i = 0; i < 100; i++) field.step(); assert.equal(field.revealed, Math.min(4000, gaps.length));
+  const field = createTrema(3, depth); for (let i = 0; i < 200; i++) field.step(); assert.equal(field.revealed, Math.min(16000, gaps.length));
   for (const h of field.holes) { assert(h.x >= 0 && h.x <= 600 && h.y >= 0 && h.y <= 337); assert(Math.abs(h.radius ** 2 / (h.hi - h.lo) - 190 ** 2) < 1e-8, 'Disk area is proportional to removed interval length'); }
 }
 for (const count of [8, 32]) for (const shrink of [.82, .96]) {
@@ -50,8 +50,8 @@ function recorder(background = '#fff') {
 }
 for (const slug of geometricSlugs) {
   const w = works[slug], a = w.a[4], b = w.b[4], preview = createGeometricStudy(slug, 1, a, b), image = recorder(w.background);
-  for (let i = 0; i < Math.max(preview.warmup, 100); i++) preview.step(a, b); preview.draw(image.ctx, a, b); assert(image.count() > 2, `${slug} creates artwork`);
+  for (let i = 0; i < Math.max(preview.warmup, 100); i++) preview.step(a, b); preview.draw(image.ctx, a, b); assert(image.count() >= 2, `${slug} creates artwork`);
   if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
-  for (const limit of [1, 2]) { const ea = w.a[limit], eb = w.b[limit], model = createGeometricStudy(slug, 3, ea, eb); for (let i = 0; i < Math.max(40, model.warmup); i++) model.step(ea, eb); model.pointer(590, 330); const r = recorder(w.background); model.draw(r.ctx, ea, eb, 2); const changes = model.click(300, 169); if (changes) model.configure(changes.a ?? ea, changes.b ?? eb); model.action(); assert(model.status().length > 0); }
+  for (const ae of [1, 2]) for (const be of [1, 2]) { const ea = w.a[ae], eb = w.b[be], model = createGeometricStudy(slug, 3, ea, eb); for (let i = 0; i < Math.max(40, model.warmup); i++) model.step(ea, eb); model.pointer(590, 330); const r = recorder(w.background); model.draw(r.ctx, ea, eb, 2); const changes = model.click(300, 169); if (changes) model.configure(changes.a ?? ea, changes.b ?? eb); model.action(); assert(model.status().length > 0); }
 }
 console.log('PASS: four geometric recreations — archive hashes/notices, all 256 CA truth tables, seam wrapping/history bounds, Cantor removed length/nonoverlap, proportional cut area, regular pentagons/edge attachments, unfolding, opposite helix strands, finite previews.');

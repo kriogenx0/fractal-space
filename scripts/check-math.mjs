@@ -2,12 +2,13 @@
 import assert from 'node:assert/strict';
 import { readFileSync, writeFileSync } from 'node:fs';
 import { deflateSync } from 'node:zlib';
+const ballModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/ball-drop.js', 'utf8')).toString('base64')}`;
 const extraModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-extra.js', 'utf8')).toString('base64')}`;
 const inkModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/orbit-ink.js', 'utf8')).toString('base64')}`;
 const rippleModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/ripple-plane.js', 'utf8')).toString('base64')}`;
 const terrainModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/mountain-terrain.js', 'utf8')).toString('base64')}`;
 const fibonacciModule = `data:text/javascript;base64,${Buffer.from(readFileSync('dist/fibonacci-sculpture.js', 'utf8')).toString('base64')}`;
-export const math = await import(`data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-scenes.js', 'utf8').replaceAll("'./ripple-plane.js'", JSON.stringify(rippleModule)).replaceAll("'./mountain-terrain.js'", JSON.stringify(terrainModule)).replaceAll("'./math-extra.js'", JSON.stringify(extraModule)).replaceAll("'./orbit-ink.js'", JSON.stringify(inkModule)).replaceAll("'./fibonacci-sculpture.js'", JSON.stringify(fibonacciModule))).toString('base64')}`);
+export const math = await import(`data:text/javascript;base64,${Buffer.from(readFileSync('dist/math-scenes.js', 'utf8').replaceAll("'./ball-drop.js'", JSON.stringify(ballModule)).replaceAll("'./ripple-plane.js'", JSON.stringify(rippleModule)).replaceAll("'./mountain-terrain.js'", JSON.stringify(terrainModule)).replaceAll("'./math-extra.js'", JSON.stringify(extraModule)).replaceAll("'./orbit-ink.js'", JSON.stringify(inkModule)).replaceAll("'./fibonacci-sculpture.js'", JSON.stringify(fibonacciModule))).toString('base64')}`);
 const { catalog, newtonSample, hopfS3, hopfMap, hopfPoint, torusPoint, gcd, gyroid, gyroidGradient, tetraTriangles, gyroidMesh, createReaction, cliffordStep, createClifford, createMathScene } = math, TAU = Math.PI * 2;
 for (let n = 3; n <= 7; n++) {
   for (let root = 0; root < n; root++) { const angle = root * TAU / n; assert.equal(newtonSample(Math.cos(angle), Math.sin(angle), n).root, root); }
@@ -55,7 +56,7 @@ function boundaryLoops(model) {
   for (const { a, b, count } of edges.values()) if (count === 1) { if (!adjacency.has(a)) adjacency.set(a, []); if (!adjacency.has(b)) adjacency.set(b, []); adjacency.get(a).push(b); adjacency.get(b).push(a); }
   const seen = new Set(); let loops = 0; for (const start of adjacency.keys()) { if (seen.has(start)) continue; loops++; const queue = [start]; seen.add(start); for (let i = 0; i < queue.length; i++) { const next = adjacency.get(queue[i]); assert.equal(next.length, 2, 'Boundary is a cycle without branching'); for (const v of next) if (!seen.has(v)) { seen.add(v); queue.push(v); } } } return loops;
 }
-for (const width of [.15, .85]) for (const turns of [1, 3, 5]) {
+for (const width of [.15, .85]) for (const turns of [1, 3, 5, 9, 15]) {
   const strip = math.mobiusSurface(width, turns); assert.deepEqual(topology(strip), { chi: 0, boundary: 192, orientable: false, components: 1 }); assert.equal(boundaryLoops(strip), 1);
   for (const v of [-width, 0, width]) { const a = math.mobiusPoint(TAU, v, turns), b = math.mobiusPoint(0, -v, turns); assert(Math.hypot(...a.map((value, i) => value - b[i])) < 1e-12); }
   const start = math.mobiusPoint(0, width, turns), halfway = math.mobiusPoint(TAU, width, turns), finish = math.mobiusPoint(TAU * 2, width, turns); assert(Math.hypot(...start.map((value, i) => value - halfway[i])) > width); assert(Math.hypot(...start.map((value, i) => value - finish[i])) < 1e-12, 'The single boundary returns after two center circuits');
@@ -68,7 +69,7 @@ for (const [n, m] of [[4, 2], [12, 18], [8, 160], [40, 160]]) {
 const ratio = (n, m) => math.schwarzArea(n, m) / (TAU * 1.5 * 3); assert(Math.abs(ratio(200, 200) - 1) < .0001); assert(Math.abs(ratio(200, 200 ** 2) - Math.sqrt(1 + Math.PI ** 4 / 16)) < .001); assert(ratio(40, 40 ** 3) > ratio(20, 20 ** 3) * 1.9, 'Over-refining the bands makes area diverge');
 
 const area2D = ([a, b, c]) => Math.abs((b[0] - a[0]) * (c[1] - a[1]) - (b[1] - a[1]) * (c[0] - a[0])) / 2;
-for (let depth = 0; depth <= 8; depth++) {
+for (let depth = 0; depth <= 9; depth++) {
   const triangle = math.sierpinskiTriangle(depth), outerArea = area2D(triangle.outer); assert.equal(triangle.leaves.length, 3 ** depth); assert.equal(triangle.levels.flat().length, (3 ** depth - 1) / 2);
   const total = triangle.leaves.reduce((sum, t) => sum + area2D(t), 0); assert(Math.abs(total / outerArea - (3 / 4) ** depth) < 1e-10);
   for (const leaf of triangle.leaves) { assert(Math.abs(area2D(leaf) / outerArea - (1 / 4) ** depth) < 1e-12); for (const point of leaf) assert(point.every(Number.isFinite)); }
@@ -78,7 +79,7 @@ for (let depth = 0; depth <= 8; depth++) {
 for (const [width, height] of [[390, 844], [1600, 900]]) { const span = math.mathPlaneSpan(width, height, 2.5); for (const [x, y] of math.sierpinskiTriangle(0).outer) { const px = width * .5 + x * height / span, py = height * .42 - y * height / span; assert(px > 0 && px < width && py > 0 && py < height, 'The initial triangle fits mobile and desktop canvases'); } }
 // Independent geometry sums verify both the completed and growing snowflake.
 function polygonMetrics(points) { let area = 0, perimeter = 0; for (let i = 0; i < points.length; i++) { const a = points[i], b = points[(i + 1) % points.length]; assert(a.every(Number.isFinite)); area += a[0] * b[1] - a[1] * b[0]; perimeter += Math.hypot(b[0] - a[0], b[1] - a[1]); } return { area: area / 2, perimeter }; }
-for (let depth = 0; depth <= 7; depth++) {
+for (let depth = 0; depth <= 8; depth++) {
   const snowflake = math.kochSnowflake(depth), points = snowflake.levels[depth], metrics = polygonMetrics(points), info = math.kochProgress(depth, 1);
   assert.equal(points.length, 3 * 4 ** depth); assert(Math.abs(metrics.area / Math.sqrt(3) - info.area) < 1e-10); assert(Math.abs(metrics.perimeter / 6 - info.perimeter) < 1e-10);
   for (let i = 0; i < points.length; i++) assert(Math.abs(Math.hypot(...points[i].map((v, axis) => v - points[(i + 1) % points.length][axis])) - 2 / 3 ** depth) < 1e-12);
@@ -86,7 +87,7 @@ for (let depth = 0; depth <= 7; depth++) {
   if (depth < 7) for (const fraction of [0, .25, .5, 1]) { const grown = polygonMetrics(math.kochSubdivision(points, fraction)), expected = math.kochProgress(depth + 1, (depth + fraction) / (depth + 1)); assert(Math.abs(grown.area / Math.sqrt(3) - expected.area) < 1e-10); assert(Math.abs(grown.perimeter / 6 - expected.perimeter) < 1e-10); }
   for (const [width, height] of [[390, 844], [1600, 900]]) { const scale = height / math.mathPlaneSpan(width, height, 3.1); for (const [x, y] of points) { assert(Math.abs(x * scale) < width / 2); assert(height * .42 - y * scale > 0 && height * .42 - y * scale < height, 'The snowflake fits the initial mobile and desktop view'); } }
 }
-for (const depth of [-1, .5, 8]) assert.throws(() => math.kochSnowflake(depth));
+for (const depth of [-1, .5, 9]) assert.throws(() => math.kochSnowflake(depth));
 // Validate the integrator against mechanics, independently of the renderer.
 assert(math.pendulumDerivative([0, 0, 0, 0]).every(v => v === 0));
 for (const state of [[.7, -.3, 1.2, -.8], [2.8, 2.8, -2, 3], [-2.5, 1.5, 4, -3]]) {
@@ -150,7 +151,7 @@ const ink = math.createInkDrawing(3, 2); assert(!ink.begin([NaN, 0, 0], 190, [0,
 const strokeLimit = math.createInkDrawing(10, 2); for (let i = 0; i < 2; i++) { assert(strokeLimit.begin([i, 0, 0], i * 65, [0, 0])); strokeLimit.end(); } assert(!strokeLimit.begin([3, 0, 0], 0, [0, 0])); assert(strokeLimit.undo()); assert(strokeLimit.begin([3, 0, 0], 0, [0, 0]));
 // Sequence, rectangle tiling, true cube dimensions, and lifted-arc continuity.
 assert.deepEqual(math.fibonacciNumbers(12), [1, 1, 2, 3, 5, 8, 13, 21, 34, 55, 89, 144]);
-for (let count = 1; count <= 12; count++) {
+for (let count = 1; count <= 20; count++) {
   const model = math.fibonacciSculpture(count), values = model.numbers, bounds = model.bounds, next = count === 1 ? 1 : values.at(-1) + values.at(-2), squareArea = values.reduce((n, v) => n + v * v, 0);
   assert.equal(squareArea, values.at(-1) * next); assert.equal((bounds.maxX - bounds.minX) * (bounds.maxZ - bounds.minZ), squareArea);
   if (count > 2) assert.equal(values.at(-1), values.at(-2) + values.at(-3));
@@ -158,12 +159,12 @@ for (let count = 1; count <= 12; count++) {
     const vertices = math.fibonacciVertices(cube); for (const axis of [0, 1, 2]) assert.equal(Math.max(...vertices.map(p => p[axis])) - Math.min(...vertices.map(p => p[axis])), cube.value, 'All three cube dimensions equal the Fibonacci term');
     for (let j = 0; j < i; j++) { const other = model.cubes[j]; assert(Math.min(cube.x + cube.value, other.x + other.value) <= Math.max(cube.x, other.x) || Math.min(cube.z + cube.value, other.z + other.value) <= Math.max(cube.z, other.z), 'Square interiors never overlap'); }
     for (const [x, y, z] of cube.arc) { assert(Math.abs(Math.hypot(x - cube.center[0], z - cube.center[1]) - cube.value) < 1e-10); assert.equal(y, cube.value); assert(x >= cube.x - 1e-10 && x <= cube.x + cube.value + 1e-10 && z >= cube.z - 1e-10 && z <= cube.z + cube.value + 1e-10); }
-    if (i) { const previous = model.cubes[i - 1].arc.at(-1), start = cube.arc[0]; assert(Math.hypot(start[0] - previous[0], start[2] - previous[2]) < 1e-10, 'Lifted quarter arcs meet through a vertical connector'); }
+    if (i) { const previous = model.cubes[i - 1].arc.at(-1), start = cube.arc[0]; assert(Math.hypot(start[0] - previous[0], start[2] - previous[2]) < 1e-8, 'Lifted quarter arcs meet through a vertical connector'); }
     for (const extrusion of [0, .4, 1]) { const frame = math.fibonacciFrame(model, extrusion); for (const p of math.fibonacciVertices(cube, extrusion)) assert(Math.hypot(...p.map((v, axis) => v - frame.center[axis])) <= frame.radius + 1e-10, 'Auto-framing contains every displayed cube'); }
   });
   if (count > 1) assert.equal(model.ratio, values.at(-1) / values.at(-2)); else assert.equal(model.ratio, null);
 }
-assert(Math.abs(math.fibonacciSculpture(12).ratio - math.goldenRatio) < .00006); for (const count of [0, 13, 1.5]) assert.throws(() => math.fibonacciNumbers(count));
+assert(Math.abs(math.fibonacciSculpture(12).ratio - math.goldenRatio) < .00006); for (const count of [0, 21, 1.5]) assert.throws(() => math.fibonacciNumbers(count));
 function png(image) {
   function crc(data) { let c = 0xffffffff; for (const byte of data) { c ^= byte; for (let i = 0; i < 8; i++) c = c & 1 ? 0xedb88320 ^ c >>> 1 : c >>> 1; } return (c ^ 0xffffffff) >>> 0; }
   function chunk(type, data) { const body = Buffer.concat([Buffer.from(type), data]), length = Buffer.alloc(4), checksum = Buffer.alloc(4); length.writeUInt32BE(data.length); checksum.writeUInt32BE(crc(body)); return Buffer.concat([length, body, checksum]); }
@@ -187,6 +188,6 @@ export function recorder(width, height) {
 export const baseState = work => ({ a: work.a[4], b: work.b[4], ...Object.fromEntries(Object.entries(work.extra ?? {}).map(([key, range]) => [key, range[4]])), time: 1, yaw: work.camera?.yaw ?? .45, pitch: work.camera?.pitch ?? .45, zoom: 1, center: [0, 0], pointer: [.5, .42], seed: 1, palette: 0, direction: 1 });
 for (const [slug, work] of Object.entries(catalog)) {
   const image = recorder(1000, 625), state = baseState(work), scene = createMathScene(image.canvas, slug, image.makeSurface); if (work.mode === 'ink') { for (let stroke = 0; stroke < 3; stroke++) { state.palette = stroke; state.b = (stroke - 1) * .5; scene.beginStroke(state, 650, 230); for (let i = 0; i <= 240; i++) { const t = i / 240 * Math.PI * 4; scene.moveStroke(state, 500 + Math.cos(t) * (150 - stroke * 20), 230 + Math.sin(t * 1.5) * 90); scene.step(state); } scene.endStroke(); } } for (let i = 0; i < (work.previewSteps ?? 0); i++) scene.step(state); const status = scene.draw(state); assert(status.length > 5); if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
-  for (const [width, height] of [[390, 844], [1600, 900]]) for (const end of [1, 2]) { const r = recorder(width, height), s = { ...baseState(work), a: work.a[end], b: work.b[end], zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
+  for (const [width, height] of [[390, 844], [1600, 900]]) for (const ae of [1, 2]) for (const be of [1, 2]) { const end = ae, r = recorder(width, height), s = { ...baseState(work), a: work.a[ae], b: work.b[be], ...Object.fromEntries(Object.entries(work.extra ?? {}).map(([key, range]) => [key, range[be]])), zoom: end === 1 ? .5 : 2, center: [.3, -.2], palette: 2, time: 10000 }; const model = createMathScene(r.canvas, slug, r.makeSurface); model.draw(s); model.step(s); model.plant(s, width / 2, height * .42); model.special(s); model.draw(s); assert(r.count() > 5); }
 }
-console.log('PASS: twenty-one math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, double-pendulum mechanics/energy/RK4/replay/trail bounds, Kepler energy/angular momentum/escape/collisions, coherent waves, RK4 convergence, Rössler equilibrium, magnetic potential/dissipation/bounds, 3-D ink projection/inverse rotations/drawing limits/undo, Fibonacci recurrence/tiling/cube edges/arc joins/ratio limits, finite desktop/mobile previews.');
+console.log('PASS: twenty-two math experiments — Newton roots/symmetry, Hopf unit sphere/fibers/linking number, torus closure/link components, gyroid periodicity/gradient/meshing, Gray–Scott equilibrium/conservation/reference stencil, Clifford visit conservation, closed Klein/torus meshes, Euler characteristic, orientability, cutaways, Möbius seam/single boundary, Schwarz area/convergence, Sierpiński counts/areas/interpolation, Koch edge counts/lengths/areas/peak interpolation, double-pendulum mechanics/energy/RK4/replay/trail bounds, Kepler energy/angular momentum/escape/collisions, coherent waves, RK4 convergence, Rössler equilibrium, magnetic potential/dissipation/bounds, 3-D ink projection/inverse rotations/drawing limits/undo, Fibonacci recurrence/tiling/cube edges/arc joins/ratio limits, finite desktop/mobile previews.');

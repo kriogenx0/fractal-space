@@ -18,7 +18,7 @@ for (let i = 0; i < 3; i++) {
   assert.deepEqual(quiet, projectStar(star, { ...state, reduced: true, time: 999, pointer: [.5, -.5] }), 'Reduced motion removes autonomous and pointer motion');
   assert.equal(quiet.opacity, star.opacity, 'Reduced motion removes twinkling');
   assert.notEqual(quiet.y, projectStar(star, { ...state, reduced: true, scroll: 100 }).y, 'Reduced motion retains scroll-controlled depth');
-  for (const scroll of [-1e6, 1e6]) { const p = projectStar(star, { ...state, scroll, time: 10000, depth: 5, drift: 4 }); assert(p.x >= 0 && p.x < state.width); assert(p.y >= 0 && p.y < state.height); assert(p.opacity >= 0 && p.opacity <= 1); }
+  for (const scroll of [-1e6, 1e6]) { const p = projectStar(star, { ...state, scroll, time: 10000, depth: 12, drift: 10 }); assert(p.x >= 0 && p.x < state.width); assert(p.y >= 0 && p.y < state.height); assert(p.opacity >= 0 && p.opacity <= 1); }
 }
 assert.deepEqual(heroPose(350, 1000, false), { y: 63, opacity: .5 });
 assert.deepEqual(heroPose(10000, 1000, true), { y: 0, opacity: 1 });

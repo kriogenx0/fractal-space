@@ -47,7 +47,7 @@ for (let i = 0; i < 10; i++) twist.frame(); assert.equal(twist.state().model.dat
 twist.canvas.onpointermove({ clientX: 50, clientY: 50 }); twist.frame(); assert.equal(twist.state().model.data.angle, caAngle);
 twist.key('ArrowRight'); assert.equal(twist.state().model.data.rule, 111); assert.equal(twist.state().model.data.rows.length, 88);
 twist.click(300, 169); assert.equal(twist.state().model.data.rule, twist.state().a); assert.notEqual(twist.state().a, 111); assert.equal(twist.state().model.data.angle, caAngle);
-const trema = player('trema-field', true); assert.equal(trema.state().model.data.revealed, 4000); trema.elements['param-a'].value = 6; trema.elements['param-a'].oninput(); assert.equal(trema.state().model.data.revealed, 63, 'Paused recursion change builds the new finite field');
+const trema = player('trema-field', true); assert.equal(trema.state().model.data.revealed, 4095); trema.elements['param-a'].value = 6; trema.elements['param-a'].oninput(); assert.equal(trema.state().model.data.revealed, 63, 'Paused recursion change builds the new finite field');
 const pentagons = player('folding-pentagons', true), joint = geometric.pentagonPoses(pentagons.state().model.data.folds, pentagons.state().b)[0];
 pentagons.canvas.onpointermove({ clientX: joint.x, clientY: joint.y }); assert.equal(pentagons.state().model.data.folds[0], 1, 'Hover folds the actual first pentagon');
 pentagons.elements.action.onclick(); assert(pentagons.state().model.data.folds.every(v => v === 0), 'Unfold button restores all baseline joints');

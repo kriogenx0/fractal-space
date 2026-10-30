@@ -6,7 +6,7 @@ function lattice(x, z, seed) { let h = Math.imul(x, 374761393) ^ Math.imul(z, 66
 export function terrainNoise(x, z, seed = 1) { const ix = Math.floor(x), iz = Math.floor(z), u = smooth(x - ix), v = smooth(z - iz); return mix(mix(lattice(ix, iz, seed), lattice(ix + 1, iz, seed), u), mix(lattice(ix, iz + 1, seed), lattice(ix + 1, iz + 1, seed), u), v); }
 export function createTerrainField(seed = 1, roughness = .6, resolution = 64) {
   if (!Number.isInteger(resolution) || resolution < 8 || resolution > 96) throw new Error('Terrain resolution must be 8–96 cells');
-  const size = resolution + 1, samples = new Float64Array(size * size), persistence = .25 + clamp(roughness, 0, 1) * .43;
+  const size = resolution + 1, samples = new Float64Array(size * size), persistence = .25 + clamp(roughness, 0, 2) * .43;
   let minimum = Infinity, maximum = -Infinity;
   for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) {
     const x = (i / resolution - .5) * 5.4, z = (j / resolution - .5) * 4.4;

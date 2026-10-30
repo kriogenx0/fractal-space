@@ -467,3 +467,20 @@ Impact indicators retain at most 32 entries and disappear after one second;
 the full field retains their waves. At negligible displacement the solver
 rests. Surface lighting, faint grid, and impact rings are illustrative;
 there are no textures, copied source code, or external fluid dependencies.
+
+Extended controls (2026-10-29): torus radii include self-intersecting spindle
+surfaces and the horn limit; Möbius half-turns remain odd (1–15). Finite
+construction depths are 9 for Sierpiński triangles and 8 for Koch snowflakes.
+Fibonacci tilings support 20 terms; extrusion above 1 stretches cube heights.
+Terrain roughness reaches 2 with five finite octaves, normalized as before.
+Ripple speed 0–5 has a maximum Courant number of 0.625 on the finest grid,
+below the two-dimensional five-point stencil limit 1/sqrt(2).
+
+Ball drop (original MIT implementation): constant uniform gravity; no air drag
+or spin. Exact flight segments are joined at analytically computed floor
+collisions. Coefficient of restitution e rescales impact velocity; vertical
+energy and peak heights retain e^2 after each bounce. An outgoing velocity
+below 0.015 m/s is resolved as rest to end the inelastic collision accumulation.
+Earth 9.81, Moon 1.62, Mars 3.71, Jupiter 24.79 m/s^2 are approximate preset
+values; Jupiter uses equatorial reference gravity, not a solid surface.
+Planetary reference: https://ssd.jpl.nasa.gov/planets/phys_par.html

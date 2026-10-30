@@ -11,7 +11,7 @@ export function createRippleField(resolution = 64) {
   for (let j = 0; j < size; j++) for (let i = 0; i < size; i++) { const edge = Math.min(i, j, resolution - i, resolution - j); sponge[j * size + i] = 12 * Math.max(0, 1 - edge / 8) ** 2; }
   function drop(x, z, radius = .28, strength = .8) {
     if (![x, z, radius, strength].every(Number.isFinite) || Math.abs(x) > rippleExtent / 2 || Math.abs(z) > rippleExtent / 2) return false;
-    radius = clamp(radius, .15, .6); strength = clamp(strength, -1, 1);
+    radius = clamp(radius, .05, 1.2); strength = clamp(strength, -1, 1);
     const reach = radius * 4, gx = (x / rippleExtent + .5) * resolution, gz = (z / rippleExtent + .5) * resolution, cells = reach / spacing;
     for (let j = Math.max(1, Math.floor(gz - cells)); j <= Math.min(resolution - 1, Math.ceil(gz + cells)); j++) for (let i = Math.max(1, Math.floor(gx - cells)); i <= Math.min(resolution - 1, Math.ceil(gx + cells)); i++) {
       const dx = (i - gx) * spacing, dz = (j - gz) * spacing, q = (dx * dx + dz * dz) / (radius * radius);
@@ -24,9 +24,9 @@ export function createRippleField(resolution = 64) {
   }
   function step(speed = 1.15, damping = .35) {
     if (quiet) return false;
-    speed = clamp(speed, .4, 2.4); damping = clamp(damping, .05, 2);
+    speed = clamp(speed, 0, 5); damping = clamp(damping, 0, 6);
     const lambda2 = (speed * rippleDt / spacing) ** 2;
-    // Four substeps per 30 Hz display tick. Worst-case Courant number is .30.
+    // Four substeps per 30 Hz display tick. Worst-case Courant number is .625 (below 1/√2).
     for (let iteration = 0; iteration < 4; iteration++) {
       for (let j = 1; j < resolution; j++) for (let i = 1; i < resolution; i++) {
         const k = j * size + i, loss = (damping + sponge[k]) * rippleDt / 2, lap = height[k - 1] + height[k + 1] + height[k - size] + height[k + size] - 4 * height[k];

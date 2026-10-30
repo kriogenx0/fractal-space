@@ -32,7 +32,7 @@ export function createDLA(seed = 1) {
     return -1;
   }
   function step(stickiness = 1, pace = 4) {
-    for (let tick = 0; tick < Math.round(clamp(pace, 1, 12)) && particles.length < limit; tick++) for (let i = 0; i < walkers.length; i++) {
+    for (let tick = 0; tick < Math.round(clamp(pace, 1, 30)) && particles.length < limit; tick++) for (let i = 0; i < walkers.length; i++) {
       const w = walkers[i]; w.vx = clamp(w.vx + (Math.floor(rng() * 7) - 3) / 5, -5, 5); w.vy = clamp(w.vy + (Math.floor(rng() * 7) - 3) / 5, -5, 5);
       w.x += w.vx; w.y += w.vy; w.angle += rad(1); w.age++;
       const rx = 15 * Math.cos(w.angle), ry = 15 * Math.sin(w.angle);
@@ -77,7 +77,7 @@ export function createGarden(seed = 1) {
   }
   function step(speed = 1) {
     for (const n of nodes.slice()) {
-      n.phase = Math.min(1, n.phase + clamp(speed, .2, 3) / 20);
+      n.phase = Math.min(1, n.phase + clamp(speed, .1, 8) / 20);
       // The source uses a bundled easing function; this port uses smoothstep interpolation.
       const e = n.phase * n.phase * (3 - 2 * n.phase); n.core = n.from + (n.target - n.from) * e; n.angle = n.fromAngle + (n.targetAngle - n.fromAngle) * e;
       if (n.auto && n.phase === 1) { n.wait -= speed; if (n.wait <= 0) { n.auto = false; if (n.core > 20 && n.depth < 4) branch(nodes.indexOf(n), 1 + Math.floor(rng() * 4)); } }

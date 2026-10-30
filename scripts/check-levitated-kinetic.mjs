@@ -35,6 +35,6 @@ for (const slug of kineticSlugs) {
   const w = works[slug], a = w.a[4], b = w.b[4], preview = createKineticStudy(slug, 1, a, b), image = recorder();
   for (let i = 0; i < Math.max(preview.warmup, 100); i++) preview.step(a, b); preview.draw(image.ctx, a, b); assert(image.count() >= 1, `${slug} creates artwork`);
   if (process.argv.includes('--write')) writeFileSync(`dist/thumbnails/${slug}.svg`, image.svg());
-  for (const limit of [1, 2]) { const ea = w.a[limit], eb = w.b[limit], model = createKineticStudy(slug, 3, ea, eb); for (let i = 0; i < Math.max(40, model.warmup); i++) model.step(ea, eb); model.pointer(590, 330); const r = recorder(); model.draw(r.ctx, ea, eb, 2); model.click(300, 169); model.action(); assert(model.status().length > 0); }
+  for (const ae of [1, 2]) for (const be of [1, 2]) { const ea = w.a[ae], eb = w.b[be], model = createKineticStudy(slug, 3, ea, eb); for (let i = 0; i < Math.max(40, model.warmup); i++) model.step(ea, eb); model.pointer(590, 330); const r = recorder(); model.draw(r.ctx, ea, eb, 2); model.click(300, 169); model.action(); assert(model.status().length > 0); }
 }
 console.log('PASS: eight kinetic recreations — original archive hashes, 27-joint constraints, perspective orbit, continuous recursive substitution, additive metaballs, convergent attraction, 1.02 circle scaling, node lifetime bounds, and finite previews.');

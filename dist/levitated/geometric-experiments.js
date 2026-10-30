@@ -37,11 +37,11 @@ function drawTwist(ctx, model, twist, cursor, palette) {
 // Breadth-first middle-third removal; all significant gaps precede fine ones.
 export function cantorGaps(depth = 12) {
   let domains = [[0, 1]]; const gaps = [];
-  for (let level = 0; level < Math.round(clamp(depth, 1, 12)); level++) { const next = []; for (const [lo, hi] of domains) { const third = (hi - lo) / 3; gaps.push({ lo: lo + third, hi: hi - third, depth: level }); next.push([lo, lo + third], [hi - third, hi]); } domains = next; }
+  for (let level = 0; level < Math.round(clamp(depth, 1, 14)); level++) { const next = []; for (const [lo, hi] of domains) { const third = (hi - lo) / 3; gaps.push({ lo: lo + third, hi: hi - third, depth: level }); next.push([lo, lo + third], [hi - third, hi]); } domains = next; }
   return gaps;
 }
 export function createTrema(seed = 1, depth = 12) {
-  const rng = random(seed), holes = cantorGaps(depth).slice(0, 4000).map(gap => ({ ...gap, x: rng() * 600, y: rng() * 337, radius: 190 * Math.sqrt(gap.hi - gap.lo) }));
+  const rng = random(seed), holes = cantorGaps(depth).slice(0, 16000).map(gap => ({ ...gap, x: rng() * 600, y: rng() * 337, radius: 190 * Math.sqrt(gap.hi - gap.lo) }));
   return { holes, revealed: 0, step() { this.revealed = Math.min(this.holes.length, this.revealed + 120); } };
 }
 function drawTrema(ctx, model, size, palette) { ctx.fillStyle = '#faf9f5'; ctx.fillRect(0, 0, 600, 337); for (const h of model.holes.slice(0, model.revealed)) circle(ctx, h.x, h.y, h.radius * size, palette ? ink(210, 12, palette) : '#101317'); }
@@ -61,7 +61,7 @@ function fitChain(poses) {
   return poses.map(p => ({ ...point(p), radius: p.radius * scale, vertices: p.vertices.map(point), attachment: point(p.attachment) }));
 }
 export function pentagonPoses(folds, shrink) { return fitChain(pentagonChain(folds, shrink)); }
-export function createPentagons(seed = 1, count = 18) { const rng = random(seed), folds = Array.from({ length: Math.round(count) }, (_, i) => i > 1 && i < count - 1 && rng() < .24 ? 1 + Math.floor(rng() * 4) : 0); if (!folds.some(Boolean)) folds[3] = 1; return { folds, hovered: false, fold(i) { if (i >= 0 && i < folds.length - 1) folds[i] = (folds[i] + 1) % 5; }, unfold() { folds.fill(0); } }; }
+export function createPentagons(seed = 1, count = 18) { const rng = random(seed), folds = Array.from({ length: Math.round(count) }, (_, i) => i > 1 && i < count - 1 && rng() < .24 ? 1 + Math.floor(rng() * 4) : 0); if (!folds.some(Boolean)) folds[Math.min(3, folds.length - 2)] = 1; return { folds, hovered: false, fold(i) { if (i >= 0 && i < folds.length - 1) folds[i] = (folds[i] + 1) % 5; }, unfold() { folds.fill(0); } }; }
 function drawPentagons(ctx, model, shrink, palette) {
   const poses = pentagonPoses(model.folds, shrink);
   for (let i = 0; i < poses.length; i++) { const p = poses[i]; path(ctx, p.vertices, ink(190 + i * 7, 90 - i * .8, palette), 1, true); path(ctx, [...p.vertices, p.vertices[0]], ink(200 + i * 4, 30, palette), .8); if (i < poses.length - 1) path(ctx, [p, p.attachment], '#607583', .45); if (model.folds[i]) circle(ctx, p.x, p.y, 2.3, '#ce3e38'); }

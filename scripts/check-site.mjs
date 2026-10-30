@@ -83,3 +83,7 @@ await import('./check-seo.mjs');
 await import('./check-terrain.mjs');
 
 await import('./check-ripples.mjs');
+
+await import('./check-fractal-player.mjs');
+
+await import('./check-ball-drop.mjs');

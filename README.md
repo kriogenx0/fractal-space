@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 63 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 64 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -271,3 +271,11 @@ rotates and pinch zooms without dropping water. Arrows move a target, Space
 or Enter adds a drop, Shift + arrows orbits, and R clears the water. Pause
 freezes propagation while impacts and camera controls remain usable. Two
 initial ripples introduce the surface; Clear water starts a flat plane.
+
+### Extended parameter ranges
+
+The experiment controls expose wider domains while preserving their initial settings. Examples: Mandelbulb power 2–24 and 1–24 iterations; Julia detail 16–600; orbital gravity 0.05–8 and launch speed 0–4; terrain height 0–8, valley depth 0–6, roughness 0–2, and depth 0.1–6; ripple height 0–4, speed 0–5, damping 0–6, and droplet radius 0.05–1.2. Orbit ink can turn in either direction at up to 90°/s. Fibonacci sculptures support 20 terms and extrusion up to 3. Torus radii include horn and spindle surfaces. Levitated growth, population, geometry, and timing controls have also been widened.
+
+Construction progress and probabilities retain their 0–1 mathematical domain, and elementary cellular automata retain rules 0–255. Recursive geometry has finite generation limits to bound memory and drawing work; ripple speed remains below the wave solver’s stability limit at every supported grid resolution.
+
+Ball drop adds exact constant-gravity flight and collision-time rebounds, with Earth/Moon/Mars/Jupiter/zero-gravity presets, release height, restitution and playback controls.

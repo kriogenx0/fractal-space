@@ -1,7 +1,7 @@
 // MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt.
 export const goldenRatio = (1 + Math.sqrt(5)) / 2;
 export function fibonacciNumbers(count = 8) {
-  if (!Number.isInteger(count) || count < 1 || count > 12) throw new Error('Choose 1 to 12 Fibonacci terms');
+  if (!Number.isInteger(count) || count < 1 || count > 20) throw new Error('Choose 1 to 20 Fibonacci terms');
   const numbers = [1]; if (count > 1) numbers.push(1); while (numbers.length < count) numbers.push(numbers.at(-1) + numbers.at(-2)); return numbers;
 }
 export function fibonacciSculpture(count = 8) {
@@ -24,7 +24,7 @@ export function createFibonacciScene(canvas) {
   const ctx = canvas.getContext('2d', { alpha: false }); if (!ctx) throw new Error('Canvas 2D unavailable'); let model, count = 0;
   function prepare(s) { if (Math.round(s.a) !== count) { count = Math.round(s.a); model = fibonacciSculpture(count); } }
   function step(s) { prepare(s); return true; }
-  function special(s) { s.a = s.a >= 12 ? 1 : s.a + 1; prepare(s); }
+  function special(s) { s.a = s.a >= 20 ? 1 : s.a + 1; prepare(s); }
   function draw(s) {
     prepare(s); const W = canvas.width, H = canvas.height, unit = Math.min(W, H), frame = fibonacciFrame(model, s.b), hue = s.palette * 65;
     const yaw = s.yaw + s.time * .1 * s.direction, pitch = -s.pitch, cy = Math.cos(yaw), sy = Math.sin(yaw), cp = Math.cos(pitch), sp = Math.sin(pitch);
