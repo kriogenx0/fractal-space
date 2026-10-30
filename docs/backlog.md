@@ -6,17 +6,20 @@ proposed experiments below are ideas, not claims that a source has been ported.
 
 ## Current baseline
 
-- 66 public experiments, including 28 Levitated adaptations/recreations.
+- 67 public experiments, including 28 Levitated adaptations/recreations.
 - Spectrum analyzer shipped in `f0c4123`: microphone, local files, test tones,
   logarithmic spectrum, waveform, waterfall, measurements, freeze, and PNG export.
   Docker checks and CI passed; 95 live pages/assets matched the release.
   Audio-device behavior has automated mocks, not a completed real-browser test.
+- Orbit Breach adds the first polygon game, with three arenas/difficulties,
+  keyboard/touch steering, pause, and local best times. Real-device playtesting
+  remains open in FS-014.
 - Liquid cursor, terrain, ripple plane, ball drop, topology constructions,
   pendulums, orbital gravity, Fibonacci sculpture, and rotating 3D drawing exist.
-- Index filters, the Sound tag, site themes, expanded parameters, SEO metadata,
+- Index filters, the Sound/Games tags, site themes, expanded parameters, SEO metadata,
   share images, Docker/Make tasks, and GitHub App deployment are implemented.
 
-## P0 — Verify the new sound experiment
+## P0 — Verify the new interactive experiments
 
 - [ ] **FS-001 — Exercise actual browser audio inputs.**
   Test desktop Chrome, Firefox, and Safari, plus iOS Safari and Android Chrome
@@ -29,6 +32,12 @@ proposed experiments below are ideas, not claims that a source has been ported.
   frozen controls, high-density mobile labels, and PNG export.
   **Done when:** the browser/device results and any remaining limitations are
   recorded, and reproducible failures are fixed.
+
+- [ ] **FS-014 — Play-test Orbit Breach on real devices.** Check keyboard and
+  multi-touch response, readable gaps, collision feedback, window/tab pause,
+  reduced motion, and best times across all modes. Tune the difficulty ramp
+  from human play; the automated simulated player verifies reachability, not
+  how challenging or enjoyable the game feels.
 
 ## P1 — Continue the requested research and ports
 
@@ -93,6 +102,11 @@ individual designs have not yet been selected.
 - [ ] **FS-010 — More sound experiments.** Consider a scrolling spectrogram,
   harmonic/additive synthesis, Lissajous/phase plots, and audio-reactive fractals
   or terrain. Use the existing audio engine and explicit start/stop controls.
+
+- [ ] **FS-015 — More polygon games.** Choose another distinct mechanic:
+  polygon breakout with a rotating paddle, a reflection/laser maze, or a
+  geometric territory-capture game. Orbit Breach is already implemented;
+  these are proposed follow-ups.
 
 ## P2 — Collection maintenance
 

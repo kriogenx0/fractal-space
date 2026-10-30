@@ -502,3 +502,11 @@ Spectral magnitudes depend on the browser's Blackman window and smoothing.
 A 64-frame waterfall and 96 frequency bands bound rendering work.
 Reference: https://developer.mozilla.org/en-US/docs/Web/API/AnalyserNode
 Reference: https://developer.mozilla.org/en-US/docs/Web/API/MediaDevices/getUserMedia
+
+Orbit Breach (original MIT): regular polygon wall quads and a circular player
+hitbox at fixed radius. Collision checks convex containment and edge distance
+against the rendered coordinates. A fixed 240 Hz model uses bounded substeps
+(maximum 0.25 seconds per advance call); display deltas are capped at 0.05 s.
+At most 12 rings are retained. Seeded gap walks shift by at most two sectors;
+100-second simulated runs exercise reachability across all 9 arena/mode pairs.
+Reference inspiration: https://superhexagon.com/

@@ -78,7 +78,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 66 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 67 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -284,7 +284,7 @@ Ball drop adds exact constant-gravity flight and collision-time rebounds, with E
 
 Liquid cursor is an original Canvas implicit-surface experiment. The cursor and floating drops share a metaball field, with click/tap planting, keyboard control, reflective shading, and bounded population/raster work.
 
-The index filters (All, Math, Art, Fractals, Geometry, Physics, Sound, Levitated) use
+The index filters (All, Math, Art, Fractals, Geometry, Physics, Sound, Games, Levitated) use
 space-separated `data-tags` on each card. Tags can overlap, and filtering keeps
 the authored card order. A `?tag=physics` URL opens a filtered view; All removes
 the tag. Native buttons expose their selected state and a live result count.
@@ -298,3 +298,16 @@ waterfall. Readouts show estimated strongest frequency, RMS dBFS, and FFT bin sp
 No audio is recorded or uploaded. Stop, hiding the tab, and page exit stop sources and
 release microphone tracks, including permission requests that resolve after cancellation.
 The microphone output path is always silent. The analyzer is not a calibrated SPL meter.
+
+## Polygon games
+
+Orbit Breach (`orbit-breach.html`) is an original MIT-licensed polygon-survival
+game inspired by the basic play format of Terry Cavanagh's Super Hexagon.
+Five-, six-, and eight-sided arenas support Gentle, Normal, and Expert modes.
+Hold arrows/A/D, either touch button, or either half of the arena to steer.
+Space starts/pauses; P pauses/resumes and R starts a new run. Runs pause on
+window blur and tab hiding. Best times are local and separate for each mode,
+with an in-memory fallback if storage is blocked. Ambient arena rotation can
+be disabled and starts off with reduced motion. Collision and rendering share
+polygon coordinates; the 240 Hz simulation bounds work during long frames.
+`node scripts/check-orbit-breach.mjs --write` regenerates the actual preview.

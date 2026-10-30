@@ -186,3 +186,7 @@ surface and Canvas renderer. No third-party implementation code is used.
 
 Spectrum analyzer in dist/spectrum-engine.js and dist/spectrum.js is an original
 MIT-licensed Web Audio implementation. No third-party implementation code is used.
+
+Orbit Breach in dist/orbit-breach-engine.js and dist/orbit-breach.js is an
+original MIT-licensed game and Canvas renderer by Alex Vaos. Inspiration:
+Super Hexagon by Terry Cavanagh, https://superhexagon.com/.
