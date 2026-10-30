@@ -76,7 +76,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 64 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 65 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -279,3 +279,5 @@ The experiment controls expose wider domains while preserving their initial sett
 Construction progress and probabilities retain their 0–1 mathematical domain, and elementary cellular automata retain rules 0–255. Recursive geometry has finite generation limits to bound memory and drawing work; ripple speed remains below the wave solver’s stability limit at every supported grid resolution.
 
 Ball drop adds exact constant-gravity flight and collision-time rebounds, with Earth/Moon/Mars/Jupiter/zero-gravity presets, release height, restitution and playback controls.
+
+Liquid cursor is an original Canvas implicit-surface experiment. The cursor and floating drops share a metaball field, with click/tap planting, keyboard control, reflective shading, and bounded population/raster work.

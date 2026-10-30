@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "liquid-cursor",
+      "source": "thumbnails/liquid-cursor.svg",
+      "sourceSHA256": "cb0b9d319e8fa8c9c7ae6f4375383c12c630a64ef8e7ea6af933ced03c4e69d1",
+      "image": "social/liquid-cursor.jpg",
+      "imageSHA256": "5788f20ad0ea4e099d5bbb3e59217622d30a0327d061ab44c5a5c5d276252122"
+    },
+    {
       "slug": "ball-drop",
       "source": "thumbnails/ball-drop.svg",
       "sourceSHA256": "411a68bc6cd897db03976021ef581b284c0767f7810a0f286dbae86ca3936ce2",

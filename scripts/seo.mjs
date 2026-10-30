@@ -22,6 +22,7 @@ function catalog(file, name = 'catalog') {
   return runInNewContext(`(${literal})`, Object.create(null), { timeout: 1000 });
 }
 const editorial = {
+  'liquid-cursor': 'Become a liquid cursor among glossy floating droplets. Merge metaball surfaces, leave new drops, and adjust cohesion, cursor size, population, and drift.',
   'ball-drop': 'Drop a ball under Earth, Moon, Mars, Jupiter, or custom gravity. Adjust rebound, release height, and playback speed to explore free fall and energy loss.',
   'ripple-plane': 'Drop water onto an interactive 3D plane. Watch ripples travel outward and interfere, then adjust wave height, speed, damping, and droplet size.',
   'mountain-terrain': 'Generate a random 3D mountain terrain. Adjust mountain height, valley depth, roughness, and landscape depth, then orbit its shaded, contour, or wireframe views.',

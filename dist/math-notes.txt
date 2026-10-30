@@ -484,3 +484,11 @@ below 0.015 m/s is resolved as rest to end the inelastic collision accumulation.
 Earth 9.81, Moon 1.62, Mars 3.71, Jupiter 24.79 m/s^2 are approximate preset
 values; Jupiter uses equatorial reference gravity, not a solid surface.
 Planetary reference: https://ssd.jpl.nasa.gov/planets/phys_par.html
+
+Liquid cursor (original MIT implementation): scalar fields r^4/(d^2+0.02r^2)^2
+are summed, with the visible boundary at cohesion times the sum = 1. The
+cursor has the same field as every droplet. Analytic derivatives shade the
+height z = 0.6 sqrt(1-1/F) in the visible region. The shader-like Canvas
+raster has a maximum long edge of 400 samples. Damped center motion and
+local cursor attraction are artistic heuristics, not a volume-conserving
+fluid simulation. A maximum of 32 floating drops bounds work.

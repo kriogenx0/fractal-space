@@ -180,3 +180,6 @@ that image. No Sharp runtime or font files are bundled into the web app.
 Ball drop in dist/ball-drop.js is an original MIT-licensed constant-gravity
 and restitution model. Planetary gravity references are identified in
 dist/math-notes.txt. No third-party implementation code is used.
+
+Liquid cursor in dist/liquid-cursor.js is an original MIT-licensed implicit
+surface and Canvas renderer. No third-party implementation code is used.

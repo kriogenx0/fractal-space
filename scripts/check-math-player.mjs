@@ -123,3 +123,21 @@ drop.key('r'); drop.frame(); assert(drop.state().scene.data.time < .2, 'Replay r
 drop.canvas.onpointerdown(drop.pointer(500, 300)); drop.canvas.onpointerup(drop.pointer(500, 300)); drop.frame(); assert(dropState.c < 12); assert.equal(+drop.elements['param-c'].value, dropState.c); assert.equal(drop.state().scene.data.time, 0, 'Paused height changes do not advance the drop');
 drop.key('ArrowUp'); drop.frame(); assert.equal(drop.state().scene.data.releaseHeight, dropState.c); const oldHeight = dropState.c; drop.canvas.onpointercancel(drop.pointer(500, 300)); drop.canvas.onpointermove(drop.pointer(500, 80)); assert.equal(dropState.c, oldHeight, 'Canceled pointers stop changing height');
 drop.input('a', 0); drop.frame(); assert(drop.elements.measurement.textContent.includes('never at zero g')); drop.elements.save.onclick(); assert(drop.saved());
+
+for (const [width, height] of [[1000, 625], [390, 844]]) {
+  const ui = player('liquid-cursor', true, width, height), state = ui.state().state, model = ui.state().scene.data;
+  assert.equal(ui.elements['extra-c'].hidden, false); assert.equal(ui.elements['extra-d'].hidden, false); assert.equal(ui.elements.shuffle.textContent, 'New droplets ↻');
+  const point = ui.pointer(width * .6, height * .3); ui.canvas.onpointermove(point); ui.frame();
+  const mapped = math.liquidPoint(point.clientX, point.clientY, width, height); assert(Math.abs(model.cursor.x - mapped[0]) < 1e-10); assert.equal(model.age, 0, 'Hover works without advancing paused drift');
+  ui.canvas.onpointerdown(point); ui.canvas.onpointermove(ui.pointer(width * .65, height * .35)); ui.canvas.onpointerup(point); ui.frame(); assert.equal(model.bodies.length, 10, 'A drag leaves just one new drop'); assert.equal(+ui.elements['param-a'].value, 10);
+  const x = model.cursor.x; ui.key('ArrowRight'); assert(model.cursor.x > x); ui.key('Enter'); assert.equal(model.bodies.length, 11); assert.equal(state.a, 11);
+  const positions = JSON.stringify(model.bodies); ui.key(' '); ui.frame(); assert.notEqual(JSON.stringify(model.bodies), positions); assert.equal(model.age, 0);
+  ui.canvas.onpointerleave(); ui.frame(); assert.equal(model.cursor.active, false); ui.canvas.onpointermove(point); assert.equal(model.cursor.active, true);
+  const touch = { ...point, pointerType: 'touch' }; ui.canvas.onpointerdown(touch); ui.canvas.onpointerup(touch); assert.equal(model.cursor.active, false, 'Touch lift removes the cursor droplet');
+  ui.canvas.onpointermove(point); ui.canvas.onpointercancel(point); assert.equal(model.cursor.active, false); ui.canvas.onpointermove(point); ui.elements.help.onclick(); assert.equal(model.cursor.active, false); ui.elements['close-help'].onclick();
+  ui.input('a', 32); ui.frame(); ui.key('Enter'); assert.equal(model.bodies.length, 32); assert.equal(state.a, 32);
+  ui.input('b', .35); ui.input('c', 1.5); ui.input('d', 0); ui.frame(); assert.equal(model.cursor.radius, 1.5); ui.key('p'); ui.frame(); assert.equal(model.age, 0); ui.input('d', 3); ui.frame(); assert(model.age > 0);
+  ui.key('p'); const settings = [state.a, state.b, state.c, state.d], seed = state.seed; ui.key('r'); ui.frame(); assert.equal(state.seed, seed + 1); assert.notEqual(ui.state().scene.data, model); assert.deepEqual([state.a, state.b, state.c, state.d], settings);
+  ui.elements.save.onclick(); assert(ui.saved()); assert(ui.state().paused); assert.equal(ui.state().scene.data.age, 0);
+}
+console.log('PASS: liquid cursor hover/touch/keyboard, paused interaction, bounded click planting, population control sync, cursor leave/cancel/help, drift settings, reseeding, and PNG export.');

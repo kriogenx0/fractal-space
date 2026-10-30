@@ -16,3 +16,5 @@
 @media(max-width:700px) and (max-height:700px){.hud[data-extra-controls="true"] .work-title{bottom:auto;top:112px}.hud[data-extra-controls="true"] .work-title .math-equation{display:none}}
 
 #art[data-work="ripple-plane"]{cursor:crosshair}#art[data-work="ripple-plane"]:active{cursor:grabbing}
+
+#art[data-mode="liquid"],#art[data-mode="liquid"]:active{cursor:none}
