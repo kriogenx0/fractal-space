@@ -351,3 +351,13 @@ parabola time table come from energy conservation. The full cycloid dip is
 framed even when the track climbs back to the finish. These original MIT
 implementations cite oPhysics, PhET, and myPhysicsLab in the model notes.
 Both support paused/reduced-motion controls and PNG frame capture.
+
+### Mobile experiment information
+
+Math, fractal and wild canvas players show a compact experiment title in the
+header on phone widths (up to 700 px) and short landscape views. Description,
+equations and readings move into the Info dialog, alongside the existing
+controls/help; the large title card and gesture banner no longer cover the
+canvas. Reopening Info snapshots the current measurements. Desktop title
+cards remain available, and the helper preserves the original layout if its
+required markup is missing. The dialog scrolls with a sticky close button.

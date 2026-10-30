@@ -99,3 +99,5 @@ await import('./check-orbit-breach.mjs');
 await import('./check-wave-studies.mjs');
 
 await import('./check-resonance-race.mjs');
+
+await import('./check-experiment-info.mjs');

@@ -1,0 +1,20 @@
+/* MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt. */
+.mobile-work-name{display:none}
+.has-experiment-info .back{display:inline-flex;align-items:center;justify-content:center;min-width:44px;min-height:44px}
+.has-experiment-info #help{width:auto;min-width:44px;min-height:44px;height:auto;padding:8px 10px;border-radius:4px;font:500 11px/1.2 ui-sans-serif,system-ui,sans-serif}
+.has-experiment-info #help-dialog{overflow-wrap:anywhere}
+.has-experiment-info #info-equation,.has-experiment-info #info-measurement{font-family:ui-monospace,monospace;font-variant-numeric:tabular-nums}
+.has-experiment-info #close-help{position:sticky;top:0;right:auto;min-width:44px;min-height:44px;display:block;margin-left:auto;z-index:1;background:var(--ui-surface)}
+@media(max-width:700px){
+  /* Titles live in the header; all prose and readings are available in Info. */
+  .canvas-page.has-experiment-info .work-title,.canvas-page.has-experiment-info .gesture,.canvas-page.has-experiment-info #edition{display:none}
+  .canvas-page.has-experiment-info .mobile-work-name{display:block;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:1.4;letter-spacing:0;font-weight:500}
+  .canvas-page.has-experiment-info .back span{display:none}
+  .canvas-page.has-experiment-info .hud header{gap:10px}
+  .canvas-page.has-experiment-info #help-dialog{padding:20px 24px}
+}
+@media(max-height:500px) and (min-width:701px){
+  .canvas-page.has-experiment-info .work-title,.canvas-page.has-experiment-info .gesture,.canvas-page.has-experiment-info #edition{display:none}
+  .canvas-page.has-experiment-info .mobile-work-name{display:block;flex:1;min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-size:12px;line-height:1.4;letter-spacing:0;font-weight:500}
+  .canvas-page.has-experiment-info .back span{display:none}
+}
