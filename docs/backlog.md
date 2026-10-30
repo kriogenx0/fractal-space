@@ -124,6 +124,19 @@ individual designs have not yet been selected.
   canonical reports after new pages are discovered. This account-side state is
   not established by the repository's SEO tests.
 
+- [ ] **FS-016 — Adaptive rendering quality.** Some experiments stretch a small
+  internal render across the viewport: Liquid cursor caps its longest edge at
+  400 pixels; Newton basins caps width at 440 pixels; the Mandelbulb GPU canvas
+  caps its longest edge at 860 pixels. These performance limits can look blurry
+  or pixelated on large or high-density screens. Reaction–diffusion also has a
+  deliberately coarse simulation grid, which needs separate treatment from
+  display resolution.
+  **Done when:** measure the expensive renderers, use fast rendering during
+  interaction and progressively sharpen settled/paused views, and offer sharper
+  PNG exports where practical. Verify large/Retina screens and lower-power
+  devices; preserve simulation state and avoid unconditionally raising every
+  resolution cap. This is tracked work, not an implemented quality improvement.
+
 ## Requirements for every new experiment
 
 - Preserve index order: Mandelbulb first; new cards follow it; Dream Strata
