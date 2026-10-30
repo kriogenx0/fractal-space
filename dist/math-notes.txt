@@ -510,3 +510,31 @@ against the rendered coordinates. A fixed 240 Hz model uses bounded substeps
 At most 12 rings are retained. Seeded gap walks shift by at most two sectors;
 100-second simulated runs exercise reachability across all 9 arena/mode pairs.
 Reference inspiration: https://superhexagon.com/
+
+Chladni study (original MIT implementation): two equal-frequency cosine
+modes on the unit square form u = cos(m*pi*x)cos(n*pi*y) +
+beta*cos(n*pi*x)cos(m*pi*y). Indices 1–12 count half-waves. A finite
+marching-triangle contour mesh approximates u=0; separable products use
+exact straight nodes. Grain positions are seeded and projected toward the
+zero set using its analytic gradient, with bounded steps and local stirring.
+This is geometric relaxation, not a sand-contact simulation or a full elastic
+plate solver. The initial static preview is relaxed without advancing model
+time. Equal m/n with beta=-1 cancels the entire field. No microphone or audio
+is used. The distinction between the wave-equation and elastic-plate models
+is discussed in Linqi Shao, Modeling a Square Vibrating Plate (2018):
+https://uwaterloo.ca/computational-mathematics/sites/default/files/uploads/documents/linqi_shao_report_pdf_1.pdf
+
+Coupled oscillators (original MIT implementation): two unit masses, equal
+outer springs k, central spring kappa and velocity drag -2*gamma*v. With
+q+=(x1+x2)/2 and q-=(x1-x2)/2, the squared natural angular frequencies are
+k and k+2*kappa. Closed-form underdamped, critical and overdamped solutions
+supply positions/velocities without numerical integration. Controls restart
+from rest. Each energy bar includes its body's kinetic/outer-spring energy
+and half of the central spring's potential energy; the sum is the full
+mechanical energy. The twelve-unit graph is an exact solution curve, not
+sampled history. Dimensions, spring shapes, and display units are illustrative.
+The site reference motivating spring experiments was myPhysicsLab Double
+Spring; our symmetric wall–mass–mass–wall arrangement differs from its free
+right end. No source code or assets were copied from either reference.
+https://www.myphysicslab.com/springs/double-spring-en.html
+https://www.mit.edu/~ashrstnv/coupled-oscillators.html

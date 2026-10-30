@@ -23,6 +23,8 @@ function catalog(file, name = 'catalog') {
 }
 const directSlugs = { spectrum: 'spectrum-analyzer', 'orbit-breach': 'orbit-breach', tandava: 'tandava-parallax' };
 const editorial = {
+  'chladni-study': 'Explore idealized Chladni nodal patterns. Mix square cosine modes, stir grains toward their nodal lines, and switch between sand and crisp contours.',
+  'coupled-oscillators': 'Explore two coupled oscillators. Adjust spring coupling, damping, stiffness, and release offset to reveal beats, normal modes, and energy exchange.',
   'orbit-breach': 'Play Orbit Breach, a polygon survival game. Steer around the core, dodge incoming walls, choose five-, six-, or eight-sided arenas, and beat your local best time.',
   'spectrum-analyzer': 'Explore a live audio spectrum analyzer with microphone input, local audio files, test tones, a logarithmic frequency display, waveform, and 3D waterfall view.',
   'liquid-cursor': 'Become a liquid cursor among glossy floating droplets. Merge metaball surfaces, leave new drops, and adjust cohesion, cursor size, population, and drift.',

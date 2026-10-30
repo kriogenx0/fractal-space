@@ -6,7 +6,7 @@ proposed experiments below are ideas, not claims that a source has been ported.
 
 ## Current baseline
 
-- 67 public experiments, including 28 Levitated adaptations/recreations.
+- 69 public experiments, including 28 Levitated adaptations/recreations.
 - Spectrum analyzer shipped in `f0c4123`: microphone, local files, test tones,
   logarithmic spectrum, waveform, waterfall, measurements, freeze, and PNG export.
   Docker checks and CI passed; 95 live pages/assets matched the release.
@@ -88,14 +88,18 @@ proposed experiments below are ideas, not claims that a source has been ported.
 ## P2 — Proposed experiments to choose from
 
 These extend the user's interest in mathematical and physics experiments;
-individual designs have not yet been selected.
+checked items have shipped; unchecked designs remain candidates.
 
-- [ ] **FS-006 — Coupled oscillators and beats.** Two linked masses or pendulums,
-  adjustable coupling/damping, energy exchange, and an optional audible mapping.
+- [x] **FS-006 — Coupled oscillators and beats.** Shipped two linked unit masses,
+  coupling/damping/stiffness controls, three releases, exact normal modes,
+  displacement curves, and energy exchange. Optional audible mapping remains
+  a future sound experiment under FS-010; this experiment produces no audio.
 - [ ] **FS-007 — Standing waves and resonance.** An adjustable string or membrane
   with modes, nodes, drive frequency, and damping; a natural extension of sound.
-- [ ] **FS-008 — Chladni-style nodal patterns.** Visualize a vibrating plate's
-  mathematical modes; distinguish an idealized mode plot from simulated grains.
+- [x] **FS-008 — Chladni-style nodal patterns.** Shipped square cosine modes,
+  adjustable mix/population, vector nodal contours, seeded grain relaxation,
+  and local stirring. The explanation distinguishes idealized modes and
+  heuristic grains from a full elastic-plate/sand solver.
 - [ ] **FS-009 — Interacting orbital gravity.** Add mutual gravitational forces,
   masses, softening, collision behavior, and conservation readouts. Keep the
   current central-star experiment as a separate, simpler model.
@@ -107,6 +111,20 @@ individual designs have not yet been selected.
   polygon breakout with a rotating paddle, a reflection/laser maze, or a
   geometric territory-capture game. Orbit Breach is already implemented;
   these are proposed follow-ups.
+
+## Reference work shipped in this batch
+
+- **Coupled oscillators:** spring experiments motivated by myPhysicsLab's
+  [Double Spring](https://www.myphysicslab.com/springs/double-spring-en.html),
+  with the symmetric two-wall normal-mode arrangement documented in
+  [MIT-hosted notes](https://www.mit.edu/~ashrstnv/coupled-oscillators.html).
+  Our boundary conditions differ from Double Spring's free right end.
+- **Chladni study:** the cosine-mode model and its limits follow the discussion
+  in Linqi Shao's [Waterloo report](https://uwaterloo.ca/computational-mathematics/sites/default/files/uploads/documents/linqi_shao_report_pdf_1.pdf).
+  This is an original mathematical visualization, not a source-code port.
+- Both use original MIT-licensed JavaScript, with numerical and controller
+  checks and actual-renderer thumbnails. Real-device play/visual checks for
+  this batch remain part of FS-011.
 
 ## P2 — Collection maintenance
 

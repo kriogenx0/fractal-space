@@ -190,3 +190,8 @@ MIT-licensed Web Audio implementation. No third-party implementation code is use
 Orbit Breach in dist/orbit-breach-engine.js and dist/orbit-breach.js is an
 original MIT-licensed game and Canvas renderer by Alex Vaos. Inspiration:
 Super Hexagon by Terry Cavanagh, https://superhexagon.com/.
+
+Chladni study and Coupled oscillators in dist/wave-studies.js are original
+MIT-licensed JavaScript implementations by Alex Vaos. Mathematical references
+and model differences are documented in dist/math-notes.txt; no reference-site
+source code or assets are bundled. The Levitated GPL exceptions are unchanged.

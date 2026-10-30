@@ -18,3 +18,5 @@
 #art[data-work="ripple-plane"]{cursor:crosshair}#art[data-work="ripple-plane"]:active{cursor:grabbing}
 
 #art[data-mode="liquid"],#art[data-mode="liquid"]:active{cursor:none}
+
+#art[data-mode="sand"],#art[data-mode="coupled"]{cursor:crosshair}

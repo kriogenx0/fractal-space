@@ -78,7 +78,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 67 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 69 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -311,3 +311,23 @@ with an in-memory fallback if storage is blocked. Ambient arena rotation can
 be disabled and starts off with reduced motion. Collision and rendering share
 polygon coordinates; the 240 Hz simulation bounds work during long frames.
 `node scripts/check-orbit-breach.mjs --write` regenerates the actual preview.
+
+## Nodal patterns and coupled motion
+
+The collection includes 25 shared mathematical experiments. Chladni study
+(`math.html?work=chladni-study`) mixes cosine modes on a square, with seeded
+grains relaxed toward their zero set and a vector contour view. Drag to stir,
+use arrows for integer mode indices, Space to switch views, and R for new
+sand. This is an idealized mode visualization, not an elastic-plate or
+mechanical grain simulation.
+
+Coupled oscillators (`math.html?work=coupled-oscillators`) connects two unit
+masses between fixed walls. Coupling, damping, stiffness and release offset
+change the motion; One mass, In phase and Opposite releases expose beats and
+normal modes. Exact damped solutions supply position and energy, including
+critical/overdamped cases. Colored displacement curves show a twelve-unit
+window; bars allocate half of the coupling energy to each mass. Drag near
+mass 1 to release; R replays. Neither experiment produces audio. Both retain
+paused/reduced-motion controls, theme support and PNG export. Equations and
+reference credits are in `dist/math-notes.txt`; the implementation is original
+MIT-licensed code. `node scripts/check-math.mjs --write` regenerates previews.

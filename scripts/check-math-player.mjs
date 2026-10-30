@@ -141,3 +141,24 @@ for (const [width, height] of [[1000, 625], [390, 844]]) {
   ui.elements.save.onclick(); assert(ui.saved()); assert(ui.state().paused); assert.equal(ui.state().scene.data.age, 0);
 }
 console.log('PASS: liquid cursor hover/touch/keyboard, paused interaction, bounded click planting, population control sync, cursor leave/cancel/help, drift settings, reseeding, and PNG export.');
+
+for (const [width, height] of [[1000, 625], [390, 844]]) {
+  const ui = player('chladni-study', true, width, height), state = ui.state().state;
+  assert.equal(ui.elements['extra-c'].hidden, false); assert.equal(ui.elements['extra-d'].hidden, false);
+  const n = state.b, m = state.a; ui.key('ArrowRight'); ui.key('ArrowUp'); ui.frame(); assert.equal(state.a, m + 1); assert.equal(state.b, n + 1);
+  const data = ui.state().scene.data, geometry = data.segments; ui.key(' '); ui.frame(); assert.equal(ui.state().scene.data, data); assert.equal(data.view, 'Nodal lines'); assert.equal(data.segments, geometry);
+  ui.key(' '); ui.frame(); const l = math.chladniLayout(width, height), center = ui.pointer(l.x + l.side / 2, l.y + l.side / 2);
+  const before = JSON.stringify(data.particles); ui.canvas.onpointerdown(center); ui.canvas.onpointercancel(center); ui.frame(); assert.notEqual(JSON.stringify(data.particles), before); assert.equal(data.steps, 0);
+  const cancelled = JSON.stringify(data.particles); ui.canvas.onpointermove(ui.pointer(center.clientX + 10, center.clientY + 5)); assert.equal(JSON.stringify(data.particles), cancelled, 'Canceled drags stop stirring');
+  ui.input('a', 5); ui.input('b', 5); ui.input('c', -1); ui.frame(); assert(ui.elements.status.textContent.includes('Complete cancellation'));
+  ui.input('c', .5); ui.frame(); assert(!ui.elements.status.textContent.includes('Complete cancellation')); ui.key('Enter'); ui.key('r'); ui.frame(); assert.equal(ui.state().scene.data.steps, 0); ui.key('p'); ui.frame(); assert(ui.state().scene.data.steps > 0);
+  const spring = player('coupled-oscillators', true, width, height), s = spring.state().state;
+  assert.equal(spring.elements.measurement.hidden, false); const layout = math.coupledLayout(width, height), point = spring.pointer(layout.x + layout.scale * (-1.2 - .7 * .4), layout.y);
+  spring.canvas.onpointerdown(point); spring.canvas.onpointerup(point); spring.frame(); assert.equal(s.d, -.4); assert.equal(spring.elements['value-d'].textContent, '-0.40'); assert.equal(spring.state().scene.data.time, 0);
+  for (const name of ['In phase', 'Opposite', 'One mass']) { spring.key(' '); spring.frame(); assert.equal(spring.state().scene.data.release, name); assert.equal(spring.state().scene.data.time, 0); }
+  spring.key('ArrowRight'); spring.key('ArrowDown'); spring.frame(); assert(Math.abs(s.b - .01) < 1e-10); assert(Math.abs(s.a - .66) < 1e-10);
+  spring.key('p'); for (let i = 0; i < 10; i++) spring.frame(); assert(spring.state().scene.data.time > 0);
+  spring.key('p'); const t = spring.state().scene.data.time; spring.elements.save.onclick(); spring.frame(); assert.equal(spring.state().scene.data.time, t); assert(spring.saved());
+  spring.key('r'); spring.frame(); assert.equal(spring.state().scene.data.time, 0); assert.equal(s.d, -.4); assert(spring.state().paused);
+}
+console.log('PASS: nodal/spring mobile and desktop controls, integer mode keys, stirring/cancel, cancellation, release presets, paused edits/replay, energy readouts and PNG export.');
