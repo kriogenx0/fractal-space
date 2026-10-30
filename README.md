@@ -281,3 +281,10 @@ Construction progress and probabilities retain their 0–1 mathematical domain, 
 Ball drop adds exact constant-gravity flight and collision-time rebounds, with Earth/Moon/Mars/Jupiter/zero-gravity presets, release height, restitution and playback controls.
 
 Liquid cursor is an original Canvas implicit-surface experiment. The cursor and floating drops share a metaball field, with click/tap planting, keyboard control, reflective shading, and bounded population/raster work.
+
+The index filters (All, Math, Art, Fractals, Geometry, Physics, Levitated) use
+space-separated `data-tags` on each card. Tags can overlap, and filtering keeps
+the authored card order. A `?tag=physics` URL opens a filtered view; All removes
+the tag. Native buttons expose their selected state and a live result count.
+Without JavaScript the full collection stays visible. Shared theme colors apply
+to the filter row in both light and dark mode.

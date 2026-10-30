@@ -89,3 +89,5 @@ await import('./check-fractal-player.mjs');
 await import('./check-ball-drop.mjs');
 
 await import('./check-liquid.mjs');
+
+await import('./check-index-filters.mjs');

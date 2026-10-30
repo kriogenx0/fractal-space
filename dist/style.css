@@ -9,3 +9,12 @@ dialog a{text-decoration:underline;text-underline-offset:3px}@media(max-width:58
 .brand{font-size:28px;letter-spacing:-1.6px;white-space:nowrap}@media(max-width:580px){.brand{font-size:24px;letter-spacing:-1.3px}.index-tagline{max-width:95px;text-align:right}.detail-page nav{gap:10px}}
 
 .index-heading{flex-wrap:wrap;gap:12px}.index-heading h1{order:0}.index-heading>span{order:1;margin-left:auto}.index-description{order:2;flex-basis:100%;margin:0;font-size:13px;line-height:1.7;color:var(--ink);max-width:760px}
+
+/* Index filters: quiet text controls, using the shared light/dark palette. */
+.index-filters{display:flex;flex-wrap:wrap;gap:0 24px;margin:-8px 0 30px;border-bottom:1px solid var(--ui-line,var(--line))}
+.index-filters[hidden],.work-card[hidden]{display:none}
+.index-filters button{appearance:none;background:none;border:0;border-bottom:2px solid transparent;padding:11px 0;min-height:44px;color:var(--ui-muted,var(--ink));font-size:12px;line-height:1.5}
+.index-filters button:hover{color:var(--ui-ink,var(--ink))}
+.index-filters button[aria-pressed="true"]{color:var(--ui-ink,var(--ink));border-bottom-color:currentColor}
+.index-filters button:focus-visible{outline-offset:2px}
+@media(max-width:650px){.index-filters{column-gap:22px;margin-bottom:24px}.index-filters button{font-size:11px}}
