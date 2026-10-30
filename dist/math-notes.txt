@@ -538,3 +538,33 @@ Spring; our symmetric wall–mass–mass–wall arrangement differs from its fre
 right end. No source code or assets were copied from either reference.
 https://www.myphysicslab.com/springs/double-spring-en.html
 https://www.mit.edu/~ashrstnv/coupled-oscillators.html
+
+Standing-wave resonance (original MIT implementation): a single fixed-end
+string mode sin(n*pi*x/L), L=1, driven by a force with the same spatial shape.
+The natural frequency is n*c/(2L). With r=f/f_n and dimensionless damping zeta,
+the steady gain is 1/sqrt((1-r^2)^2+(2*zeta*r)^2); lag is
+atan2(2*zeta*r,1-r^2). Displacement is 0.02*M*sin(n*pi*x)*cos(2*pi*f*t),
+with the force leading by the reported lag. Thus the initial frame is a
+response crest, after transients. Envelope height is visually compressed
+with tanh(M/5); the reported gain remains uncompressed. The response chart
+uses log(1+M) on its vertical axis. Playback scales down above three cycles
+per real second to avoid temporal aliasing, preserving model frequencies.
+This is a selected-mode linear study, not an arbitrary plucked-string solver;
+no audio, stretching law, source-site graphics, or copied code is included.
+Reference: https://ophysics.com/waves6.html
+Broader reference: https://phet.colorado.edu/en/simulations/wave-on-a-string
+
+Brachistochrone race (original MIT implementation): a point slides from rest
+along each frictionless track under uniform gravity. Positive y measures
+vertical drop. Solve (theta-sin(theta))/(1-cos(theta))=X/Y by bisection for
+0<theta<2*pi, then a=Y/(1-cos(theta)). Cycloid time is theta*sqrt(a/g);
+straight-line time is sqrt(2*(X^2+Y^2)/(g*Y)). The test parabola uses x=X*u,
+y=Y*(2*u-u^2). Substitution u=z^2 gives the finite time integrand
+2*sqrt(X^2+4*Y^2*(1-z^2)^2)/sqrt(2*g*Y*(2-z^2)). Composite Simpson quadrature
+forms 1024 monotone intervals; inverse table interpolation finds position.
+Tracks share endpoints and energy v^2=2*g*y. Ball radii are illustrative:
+there is no rolling inertia, air resistance, friction, or rebound. Arrival
+positions are held for comparison. Canvas framing includes the full cycloid
+dip; dragging freezes the current view scale until release/cancel. The
+reference uses more tracks; ours compares cycloid, straight, and this parabola.
+Reference: https://www.myphysicslab.com/roller/brachistochrone-en.html

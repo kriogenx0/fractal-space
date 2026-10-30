@@ -6,7 +6,7 @@ proposed experiments below are ideas, not claims that a source has been ported.
 
 ## Current baseline
 
-- 69 public experiments, including 28 Levitated adaptations/recreations.
+- 71 public experiments, including 28 Levitated adaptations/recreations.
 - Spectrum analyzer shipped in `f0c4123`: microphone, local files, test tones,
   logarithmic spectrum, waveform, waterfall, measurements, freeze, and PNG export.
   Docker checks and CI passed; 95 live pages/assets matched the release.
@@ -58,9 +58,9 @@ proposed experiments below are ideas, not claims that a source has been ported.
   | --- | --- |
   | **physicsandbox.com** — confirmed by the user | Revisit its available experiments; compare its double pendulum with ours before proposing a duplicate. |
   | Physics Hub / `OpenPsiMu/ThePhysicsHub` | Evaluate coupled/elastic pendulums and string-wave ideas; confirm current source terms. |
-  | myPhysicsLab | Compare coupled oscillators, spring systems, brachistochrone, inverted pendulum, and trammel mechanisms with the existing catalog. |
+  | myPhysicsLab | Coupled oscillators and Brachistochrone race shipped as original implementations; compare inverted pendulums and trammel mechanisms next. |
   | PhET (the earlier “fet” reference) | Identify specific simulations and eligible source versions; choose original implementations where appropriate. |
-  | oPhysics | Pick concrete wave, optics, or mechanics ideas and identify their equations and provenance. |
+  | oPhysics | Standing-wave resonance shipped as an original implementation; shortlist optics or other distinct mechanics next. |
   | Algodoo | Scope a small browser physics sandbox or mechanism experiment from the reference. |
   | phyphox | Assess microphone and phone-sensor experiments, including browser availability and permission UX. |
   | Universe Sandbox | Scope gravitational interactions beyond the current independent planets orbiting a fixed central star. |
@@ -94,8 +94,10 @@ checked items have shipped; unchecked designs remain candidates.
   coupling/damping/stiffness controls, three releases, exact normal modes,
   displacement curves, and energy exchange. Optional audible mapping remains
   a future sound experiment under FS-010; this experiment produces no audio.
-- [ ] **FS-007 — Standing waves and resonance.** An adjustable string or membrane
-  with modes, nodes, drive frequency, and damping; a natural extension of sound.
+- [x] **FS-007 — Standing waves and resonance.** Shipped a fixed-end string
+  mode, nodes/envelope, exact driven gain/phase, response graph, damping, wave
+  speed, and readable slow playback at high frequencies. This single-mode
+  model has a matched spatial drive; arbitrary plucking/audio remain future work.
 - [x] **FS-008 — Chladni-style nodal patterns.** Shipped square cosine modes,
   adjustable mix/population, vector nodal contours, seeded grain relaxation,
   and local stirring. The explanation distinguishes idealized modes and
@@ -112,7 +114,7 @@ checked items have shipped; unchecked designs remain candidates.
   geometric territory-capture game. Orbit Breach is already implemented;
   these are proposed follow-ups.
 
-## Reference work shipped in this batch
+## Reference work shipped
 
 - **Coupled oscillators:** spring experiments motivated by myPhysicsLab's
   [Double Spring](https://www.myphysicslab.com/springs/double-spring-en.html),
@@ -122,7 +124,15 @@ checked items have shipped; unchecked designs remain candidates.
 - **Chladni study:** the cosine-mode model and its limits follow the discussion
   in Linqi Shao's [Waterloo report](https://uwaterloo.ca/computational-mathematics/sites/default/files/uploads/documents/linqi_shao_report_pdf_1.pdf).
   This is an original mathematical visualization, not a source-code port.
-- Both use original MIT-licensed JavaScript, with numerical and controller
+- **Standing-wave resonance:** [oPhysics string modes](https://ophysics.com/waves6.html)
+  and [PhET's Wave on a String](https://phet.colorado.edu/en/simulations/wave-on-a-string)
+  motivate a distinct, exact selected-mode gain/phase visualization.
+- **Brachistochrone race:** [myPhysicsLab's reference](https://www.myphysicslab.com/roller/brachistochrone-en.html)
+  motivates an original three-track comparison with adjustable endpoints.
+- [x] **FS-017 — Brachistochrone race.** Shipped cycloid, straight-line and
+  parabola tracks, common gravity, exact/energy-derived timing, endpoint drags,
+  playback controls and numerical quadrature checks.
+- These use original MIT-licensed JavaScript, with numerical and controller
   checks and actual-renderer thumbnails. Real-device play/visual checks for
   this batch remain part of FS-011.
 

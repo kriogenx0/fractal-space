@@ -78,7 +78,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 69 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 71 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -314,7 +314,7 @@ polygon coordinates; the 240 Hz simulation bounds work during long frames.
 
 ## Nodal patterns and coupled motion
 
-The collection includes 25 shared mathematical experiments. Chladni study
+The collection includes 27 shared mathematical experiments. Chladni study
 (`math.html?work=chladni-study`) mixes cosine modes on a square, with seeded
 grains relaxed toward their zero set and a vector contour view. Drag to stir,
 use arrows for integer mode indices, Space to switch views, and R for new
@@ -331,3 +331,23 @@ mass 1 to release; R replays. Neither experiment produces audio. Both retain
 paused/reduced-motion controls, theme support and PNG export. Equations and
 reference credits are in `dist/math-notes.txt`; the implementation is original
 MIT-licensed code. `node scripts/check-math.mjs --write` regenerates previews.
+
+### String resonance and fastest descent
+
+Standing-wave resonance (`math.html?work=standing-resonance`) shows a selected
+fixed-end sine mode, its nodes/envelope, and a logarithmic gain curve. Harmonic,
+drive ratio, damping ratio, and wave speed control an exact steady response.
+Drag the graph to tune; arrows select harmonic/drive; Space advances the mode;
+R resets phase. Large display amplitudes compress smoothly while the gain
+readout stays exact. High-frequency motion automatically plays more slowly.
+The model assumes a spatially matched drive and does not produce audio.
+
+Brachistochrone race (`math.html?work=brachistochrone-race`) compares three
+frictionless tracks between shared endpoints: cycloid, straight line, and a
+parabola. Geometry and gravity restart the race; playback speed preserves
+progress. Drag the finish point in a view held steady until release; arrows
+adjust the endpoint; Space/R replays. Exact cycloid/line timing and a converged
+parabola time table come from energy conservation. The full cycloid dip is
+framed even when the track climbs back to the finish. These original MIT
+implementations cite oPhysics, PhET, and myPhysicsLab in the model notes.
+Both support paused/reduced-motion controls and PNG frame capture.

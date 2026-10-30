@@ -162,3 +162,26 @@ for (const [width, height] of [[1000, 625], [390, 844]]) {
   spring.key('r'); spring.frame(); assert.equal(spring.state().scene.data.time, 0); assert.equal(s.d, -.4); assert(spring.state().paused);
 }
 console.log('PASS: nodal/spring mobile and desktop controls, integer mode keys, stirring/cancel, cancellation, release presets, paused edits/replay, energy readouts and PNG export.');
+
+for (const [width, height] of [[1000, 625], [390, 844]]) {
+  const wave = player('standing-resonance', true, width, height), s = wave.state().state;
+  assert.equal(wave.elements.measurement.hidden, false); assert(wave.elements.measurement.textContent.includes('Lag 90.0°'));
+  wave.key('ArrowRight'); wave.key('ArrowUp'); wave.frame(); assert.equal(s.a, 4); assert(Math.abs(s.b - 1.01) < 1e-10);
+  const chart = math.resonanceLayout(width, height).chart, p = wave.pointer(chart.x + chart.width * (1.5 - .1) / 2.9, chart.y);
+  wave.canvas.onpointerdown(p); wave.canvas.onpointercancel(p); wave.frame(); assert.equal(s.b, 1.5); assert.equal(wave.elements['value-b'].textContent, '1.50'); assert.equal(wave.state().scene.data.time, 0);
+  const ratio = s.b; wave.canvas.onpointermove(wave.pointer(0, 0)); assert.equal(s.b, ratio, 'Canceled tuning stops changing the ratio');
+  wave.input('a', 12); wave.input('b', 3); wave.input('d', 4); wave.frame(); assert(wave.state().scene.data.playback < .05, 'High-frequency motion slows to avoid unreadable animation');
+  wave.key(' '); wave.frame(); assert.equal(s.a, 1); wave.key('p'); wave.frame(); assert(wave.state().scene.data.time > 0); wave.key('p'); wave.key('r'); wave.frame(); assert.equal(wave.state().scene.data.time, 0); assert(wave.state().paused); wave.elements.save.onclick(); assert(wave.saved());
+  const race = player('brachistochrone-race', true, width, height), state = race.state().state, initial = race.state().scene.data;
+  assert(race.elements.measurement.textContent.includes('1 Cycloid')); assert.equal(race.elements.shuffle.textContent, 'Replay race ↻');
+  const layout = math.raceLayout(width, height, initial), point = race.pointer(layout.x + layout.scale * 2.4, layout.y + layout.scale * 1.5);
+  race.canvas.onpointerdown(point); race.frame(); assert.equal(state.a, 2.4); assert.equal(state.b, 1.5); assert.equal(race.state().scene.data.time, 0);
+  race.canvas.onpointermove(race.pointer(layout.x + layout.scale * 2.6, layout.y + layout.scale * 1.7)); race.frame(); assert.equal(state.a, 2.6); assert.equal(state.b, 1.7, 'Dragging retains the initial view scale');
+  race.canvas.onpointercancel(point); const finish = [state.a, state.b]; race.canvas.onpointermove(race.pointer(0, 0)); assert.deepEqual([state.a, state.b], finish);
+  race.key('ArrowRight'); race.key('ArrowDown'); race.frame(); assert(Math.abs(state.a - 2.7) < 1e-10); assert(Math.abs(state.b - 1.75) < 1e-10);
+  race.key('p'); for (let i = 0; i < 8; i++) race.frame(); race.key('p'); const time = race.state().scene.data.time, data = race.state().scene.data; assert(time > 0);
+  race.input('d', 2); race.frame(); assert.equal(race.state().scene.data, data); assert.equal(race.state().scene.data.time, time, 'Playback edits retain race progress');
+  race.input('c', 40); race.frame(); assert.equal(race.state().scene.data.time, 0, 'Changing gravity starts a fresh physical race'); race.key(' '); race.frame(); assert.equal(race.state().scene.data.time, 0); race.elements.save.onclick(); assert(race.saved());
+  race.key('p'); for (let i = 0; i < 80; i++) race.frame(); assert.equal(race.state().scene.data.time, Math.max(...race.state().scene.data.finish)); assert(race.elements.status.textContent.includes('finished')); race.key('p'); race.key('r'); race.frame(); assert.equal(race.state().scene.data.time, 0);
+}
+console.log('PASS: resonance/race desktop/mobile tuning, integer harmonics, phase replay, adaptive playback, fixed-view endpoint drags, cancellation, gravity/replay, paused controls, finish hold and PNG export.');

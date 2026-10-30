@@ -195,3 +195,8 @@ Chladni study and Coupled oscillators in dist/wave-studies.js are original
 MIT-licensed JavaScript implementations by Alex Vaos. Mathematical references
 and model differences are documented in dist/math-notes.txt; no reference-site
 source code or assets are bundled. The Levitated GPL exceptions are unchanged.
+
+Standing-wave resonance and Brachistochrone race in dist/resonance-race.js
+are original MIT-licensed JavaScript implementations by Alex Vaos. oPhysics,
+PhET and myPhysicsLab references and model differences are documented in
+dist/math-notes.txt. No source-site code, graphics or assets are bundled.

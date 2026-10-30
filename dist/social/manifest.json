@@ -9,6 +9,20 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "standing-resonance",
+      "source": "thumbnails/standing-resonance.svg",
+      "sourceSHA256": "9eb768e0176888aa18696869529c8ee5a33bf9f0faceebe104a037973fd13f66",
+      "image": "social/standing-resonance.jpg",
+      "imageSHA256": "76cbb98a7891115a3c7c4a7d30255cb340e8ce3a478f110d5b8553d2477955dd"
+    },
+    {
+      "slug": "brachistochrone-race",
+      "source": "thumbnails/brachistochrone-race.svg",
+      "sourceSHA256": "82fd747231c959dfaea2731cdba5c6f874b2d567aa3aff365e1c8d6ff2788309",
+      "image": "social/brachistochrone-race.jpg",
+      "imageSHA256": "f12c69d911c04f27e89dad5c7aca57f4cd3a8b2eff6bfcbc686b9254328cce4e"
+    },
+    {
       "slug": "chladni-study",
       "source": "thumbnails/chladni-study.svg",
       "sourceSHA256": "cb32697b67496e750e9f0a262d147b48b12c3b420147f9dc31c54f0a3d7efc58",

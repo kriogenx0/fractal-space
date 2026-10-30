@@ -23,6 +23,8 @@ function catalog(file, name = 'catalog') {
 }
 const directSlugs = { spectrum: 'spectrum-analyzer', 'orbit-breach': 'orbit-breach', tandava: 'tandava-parallax' };
 const editorial = {
+  'standing-resonance': 'Tune an interactive standing wave. Explore string harmonics, stationary nodes, damping, phase lag, and a live resonance-response curve.',
+  'brachistochrone-race': 'Race a cycloid, a straight line, and a parabola between shared endpoints. Change gravity and geometry to explore the mathematics of fastest descent.',
   'chladni-study': 'Explore idealized Chladni nodal patterns. Mix square cosine modes, stir grains toward their nodal lines, and switch between sand and crisp contours.',
   'coupled-oscillators': 'Explore two coupled oscillators. Adjust spring coupling, damping, stiffness, and release offset to reveal beats, normal modes, and energy exchange.',
   'orbit-breach': 'Play Orbit Breach, a polygon survival game. Steer around the core, dodge incoming walls, choose five-, six-, or eight-sided arenas, and beat your local best time.',

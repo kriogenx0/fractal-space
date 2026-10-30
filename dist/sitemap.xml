@@ -2,6 +2,8 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://fractalspace.org/</loc></url>
   <url><loc>https://fractalspace.org/fractal.html?work=mandelbulb</loc></url>
+  <url><loc>https://fractalspace.org/math.html?work=standing-resonance</loc></url>
+  <url><loc>https://fractalspace.org/math.html?work=brachistochrone-race</loc></url>
   <url><loc>https://fractalspace.org/math.html?work=chladni-study</loc></url>
   <url><loc>https://fractalspace.org/math.html?work=coupled-oscillators</loc></url>
   <url><loc>https://fractalspace.org/orbit-breach.html</loc></url>

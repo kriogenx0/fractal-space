@@ -20,3 +20,6 @@
 #art[data-mode="liquid"],#art[data-mode="liquid"]:active{cursor:none}
 
 #art[data-mode="sand"],#art[data-mode="coupled"]{cursor:crosshair}
+
+#art[data-mode="resonance"],#art[data-mode="race"]{cursor:crosshair}
+#art[data-mode="resonance"]~.hud .work-title h1,#art[data-mode="race"]~.hud .work-title h1{font-size:clamp(30px,4vw,56px)}
