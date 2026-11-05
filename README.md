@@ -78,7 +78,7 @@ The existing `.openai/hosting.json` remains available for Sites hosting. Docker/
 
 ## New explorations
 
-The public index now includes 72 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
+The public index now includes 73 artworks. Hyperspace bloom projects a rotating 4-D hypercube; Gravity is a suggestion bends analytic particle streams around a movable singularity; Infinite descent builds a recursive polygon tunnel. All three use Canvas 2D, support touch and keyboard input, respect reduced motion, and offer PNG frame capture. Their shared renderer lives in `dist/wild-scenes.js`.
 
 To regenerate the four Canvas previews after changing their geometry, run `node scripts/render-wild.mjs --write`. The same renderer checks run in `make test-fast` and CI.
 
@@ -375,3 +375,16 @@ an uninterrupted field, and Save frame exports PNG. The fixed camera keeps
 brushing separate from orbit gestures. The planting is bounded to 2200 blades
 when opened in portrait and 3600 in landscape, retained across resizing.
 This is an artistic elastic/wind model, without aerodynamic calibration.
+
+### Glyph rain
+
+`wild.html?work=glyph-rain` is an original falling-script artwork. Columns of
+procedurally invented glyphs fall in two depths, each column carrying two
+drops with bright heads and fading trails that mutate as they fall. Moving the
+cursor (or touching) parts nearby columns and lights the glyphs under the lens
+in a second color; arrow keys move the lens, dragging slants the rain, and
+scroll or + − changes glyph size. Space cycles four scripts (stem runes,
+circuit marks, pinhole code, shard angles); R invents a new seeded alphabet;
+Color cycles five palettes. Fall speed and Columns are adjustable. Every glyph
+is a vector stroke pattern on a 3 × 4 grid, not a font character, so the
+piece draws identically everywhere and its preview is recorded as SVG.

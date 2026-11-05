@@ -1,9 +1,9 @@
 import { catalog, createScene } from './wild-scenes.js';
 const $ = q => document.querySelector(q);
 const slugs = Object.keys(catalog), requested = new URLSearchParams(location.search).get('work');
-const slug = slugs.includes(requested) ? requested : slugs[0], work = catalog[slug], grass = slug === 'grass-wind';
+const slug = slugs.includes(requested) ? requested : slugs[0], work = catalog[slug], grass = slug === 'grass-wind', glyph = slug === 'glyph-rain';
 const canvas = $('#art'), reduced = matchMedia('(prefers-reduced-motion: reduce)').matches;
-const state = { time: reduced ? 8 : 0, a: work.a[4], b: work.b[4], pointer: [0, 0], yaw: .3, pitch: .38, zoom: 1, palette: 0, seed: 1, direction: 1, travel: 0, alternate: false, paused: reduced };
+const state = { time: reduced ? 8 : 0, a: work.a[4], b: work.b[4], pointer: [0, 0], yaw: .3, pitch: .38, zoom: 1, palette: 0, seed: 1, direction: 1, travel: 0, alternate: false, paused: reduced, script: 0 };
 let paused = reduced, dirty = true, visible = !document.hidden, last = performance.now(), lastDraw = 0, drag = null, pinch = 0;
 const touches = new Map(), held = new Set();
 const clamp = (n, a, b) => Math.max(a, Math.min(b, n));
@@ -11,6 +11,7 @@ $('#title').textContent = work.name; $('#category').textContent = work.category;
 $('#edition').textContent = `FRACTAL SPACE / ${work.n}`; $('#material').textContent = 'LIVE CANVAS / EXPLORATIONS'; $('#status').textContent = 'ANOTHER WAY TO SEE THE WORLD.';
 $('#gesture').textContent = work.gesture; $('#help-text').textContent = work.help; $('#special').textContent = work.special;
 if (grass) { $('#shuffle').textContent = 'New meadow ↻'; $('#shuffle').setAttribute('title', 'Plant another seeded meadow (R)'); canvas.setAttribute('data-mode', 'grass'); }
+if (glyph) { $('#shuffle').textContent = 'New alphabet ↻'; $('#shuffle').setAttribute('title', 'Invent another seeded alphabet (R)'); $('#special').setAttribute('aria-label', 'Change the script (Space)'); }
 if ($('#zoom-help')) $('#zoom-help').hidden = grass;
 $('#next').href = slugs.indexOf(slug) === slugs.length - 1 ? 'tandava.html' : `wild.html?work=${slugs[slugs.indexOf(slug) + 1]}`;
 document.title = `${work.name} — Fractal Space`; document.documentElement.style.setProperty('--accent', work.accent);
@@ -23,8 +24,8 @@ for (const [key, range] of [['a', work.a], ['b', work.b]]) {
 }
 function pauseUI() { state.paused = paused; $('#pause').textContent = paused ? '▶' : 'Ⅱ'; $('#pause').setAttribute('aria-label', paused ? 'Resume animation' : 'Pause animation'); }
 function togglePause() { paused = !paused; pauseUI(); dirty = true; } pauseUI();
-function special() { if (grass) { scene?.gust(state); dirty = true; return; } if (slug === 'dream-strata') state.alternate = !state.alternate; else state.direction *= -1; dirty = true; $('#special').setAttribute('aria-pressed', String(slug === 'dream-strata' ? state.alternate : state.direction < 0)); }
-function vary() { if (grass) { clear(); state.seed++; state.time = 0; dirty = true; return; } state.seed++; state.yaw = Math.sin(state.seed * 2.1) * .7; state.palette = (state.palette + 1) % 5; state.time += 2.7; dirty = true; }
+function special() { if (grass) { scene?.gust(state); dirty = true; return; } if (glyph) { state.script = (state.script + 1) % 4; dirty = true; return; } if (slug === 'dream-strata') state.alternate = !state.alternate; else state.direction *= -1; dirty = true; $('#special').setAttribute('aria-pressed', String(slug === 'dream-strata' ? state.alternate : state.direction < 0)); }
+function vary() { if (grass) { clear(); state.seed++; state.time = 0; dirty = true; return; } if (glyph) { state.seed++; dirty = true; return; } state.seed++; state.yaw = Math.sin(state.seed * 2.1) * .7; state.palette = (state.palette + 1) % 5; state.time += 2.7; dirty = true; }
 $('#pause').onclick = togglePause; $('#special').onclick = special; $('#shuffle').onclick = vary;
 $('#palette').onclick = () => { state.palette = (state.palette + 1) % 5; dirty = true; };
 function hud(show) { $('#hud').hidden = !show; $('#show').hidden = show; }
@@ -54,7 +55,7 @@ $('#save').onclick = () => { scene?.draw(state); canvas.toBlob(blob => { if (!bl
 function frame(now) {
   requestAnimationFrame(frame); const dt = Math.min(.045, (now - last) / 1000); last = now;
   if (!visible || !scene) return;
-  if (!$('#help-dialog').open) { const dx = +held.has('ArrowRight') - +held.has('ArrowLeft'), dy = +held.has('ArrowDown') - +held.has('ArrowUp'); if (dx || dy) { if (grass || ['dream-strata', 'infinite-descent', 'gravity-well'].includes(slug)) { state.pointer[0] = clamp(state.pointer[0] + dx * dt, -1, 1); state.pointer[1] = clamp(state.pointer[1] + dy * dt, -1, 1); if (grass) scene.pointer(state, ...state.pointer); } else { state.yaw += dx * dt; state.pitch = clamp(state.pitch + dy * dt, -1.1, 1.1); } dirty = true; } }
+  if (!$('#help-dialog').open) { const dx = +held.has('ArrowRight') - +held.has('ArrowLeft'), dy = +held.has('ArrowDown') - +held.has('ArrowUp'); if (dx || dy) { if (grass || glyph || ['dream-strata', 'infinite-descent', 'gravity-well'].includes(slug)) { state.pointer[0] = clamp(state.pointer[0] + dx * dt, -1, 1); state.pointer[1] = clamp(state.pointer[1] + dy * dt, -1, 1); if (grass) scene.pointer(state, ...state.pointer); } else { state.yaw += dx * dt; state.pitch = clamp(state.pitch + dy * dt, -1.1, 1.1); } dirty = true; } }
   if (!paused && !$('#help-dialog').open) { state.time += dt; scene.step?.(state, dt); dirty = true; }
   if (dirty && now - lastDraw >= 1000 / 30) { const status = scene.draw(state); if (status) $('#status').textContent = status; dirty = false; lastDraw = now; }
 }

@@ -9,6 +9,13 @@
       "imageSHA256": "6bf2c4d7275805feaa2441e74a8dbcf15c17258ac0ce2e79b61b3a387dc522a5"
     },
     {
+      "slug": "glyph-rain",
+      "source": "thumbnails/glyph-rain.svg",
+      "sourceSHA256": "1301a2396c34f261903ab91884d85f82ba531a54a343b0f26f374ce1eb602cb6",
+      "image": "social/glyph-rain.jpg",
+      "imageSHA256": "8a833cfd5d7c5d41df6fa647e7d540bf77c4654ba55bedf31a95e03b3a27d99d"
+    },
+    {
       "slug": "grass-wind",
       "source": "thumbnails/grass-wind.svg",
       "sourceSHA256": "b71011042717ebab7fdbf84baff80a18054e41abe575e2e94935908a44b43456",

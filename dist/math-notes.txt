@@ -581,3 +581,16 @@ Paused brushing, parameter edits and manual gust previews recompute a static
 pose without advancing time. Blades bend and lower heuristically; this is
 an artistic elastic animation, not an aerodynamic or vegetation solver.
 No external images, textures, source code or libraries are used at runtime.
+
+Glyph rain (original MIT artwork): two depth layers of columns, each with
+two drops of seeded speed (0.55–1.5×), trail length and gap. A drop's head
+row is (phase · period + fall · speed) mod period; trail cells fade by
+(1 − distance / length)^1.4 into six brightness buckets, drawn as one path
+each. Fall advances at 9 rows per second times Fall speed; pause freezes it.
+Cell glyphs re-roll from an integer hash of column, row and quantized fall,
+so the script mutates deterministically. Each of the four scripts builds 48
+unique glyphs from strokes and dots on a 3 × 4 node grid (stem runes,
+orthogonal circuit traces, punch-dot code, diagonal shards); R reseeds the
+alphabet and column pattern. The cursor lens displaces glyphs horizontally
+by (1 − (d/r)²)² and recolors near-layer glyphs inside it. Dragging shears
+the columns; zoom changes the column count. No fonts or images are used.
