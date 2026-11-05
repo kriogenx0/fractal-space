@@ -103,3 +103,5 @@ await import('./check-resonance-race.mjs');
 await import('./check-experiment-info.mjs');
 
 await import('./check-grass.mjs');
+
+await import('./check-glyph-rain.mjs');

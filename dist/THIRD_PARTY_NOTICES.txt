@@ -204,3 +204,7 @@ dist/math-notes.txt. No source-site code, graphics or assets are bundled.
 Grass / wind in dist/grass-field.js is an original MIT-licensed artwork and
 Canvas renderer by Alex Vaos. Its seeded geometry, elastic animation, wind
 fields and procedural previews contain no third-party source or assets.
+
+Glyph rain in dist/glyph-rain.js is an original MIT-licensed artwork and
+Canvas renderer by Alex Vaos. Its glyphs are procedurally generated vector
+stroke patterns; it bundles no fonts, third-party source or assets.
