@@ -34,3 +34,8 @@
 }
 @keyframes experiment-hint-fade{to{opacity:0;visibility:hidden}}
 @media(prefers-reduced-motion:reduce){.canvas-page.has-experiment-info .gesture{animation-duration:.01s}}
+.panel select.drive{width:100%;margin-top:2px;padding:3px 4px;font:inherit;font-size:10px;letter-spacing:0;color:inherit;background:transparent;border:1px solid var(--ui-line,#ffffff33);border-radius:2px;cursor:pointer}
+.panel select.drive option{color:#111;background:#fff}
+.panel input[type=range]:disabled{opacity:.45;cursor:default}
+.panel .lens-toggle{justify-content:flex-start;align-items:center;gap:8px;cursor:pointer}
+.panel .lens-toggle input{accent-color:var(--ui-accent,var(--accent));margin:0}
