@@ -3,7 +3,7 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { runInNewContext } from 'node:vm';
 import { wild, recorder } from './render-wild.mjs';
-const { glyphAlphabet, glyphScripts, rainLayout, rainColumn, headRow, RAIN_RATE, createScene } = wild;
+const { glyphAlphabet, glyphScripts, rainLayout, rainColumn, headRow, RAIN_RATE, createScene, driveValue, createLoudness } = wild;
 
 // Alphabets: seeded, unique, bounded to the unit box, and distinct per script.
 assert.equal(glyphScripts.length, 4);
@@ -33,11 +33,21 @@ assert.deepEqual(rainColumn(1, 1, 5, 40), rainColumn(1, 1, 5, 40));
 const base = { time: 8, a: 1, b: 48, pointer: [.1, -.1], yaw: .3, pitch: .38, zoom: 1, palette: 0, seed: 1, script: 0 };
 const svg = state => { const r = recorder(1000, 625), scene = createScene(r.canvas, 'glyph-rain'); const status = scene.draw(state); return { svg: r.svg(), status, scene, calls: r.count() }; };
 assert.equal(svg(base).svg, svg(base).svg, 'Identical state draws identically');
-for (const change of [{ script: 1 }, { seed: 2 }, { palette: 3 }, { pointer: [-.8, .6] }, { yaw: 1.2 }, { zoom: 2 }]) assert.notEqual(svg({ ...base, ...change }).svg, svg(base).svg, `${Object.keys(change)} changes the image`);
+for (const change of [{ script: 1 }, { seed: 2 }, { palette: 3 }, { pointer: [-.8, .6] }, { yaw: 1.2 }, { zoom: 2 }, { lens: false }, { lensSize: .5 }]) assert.notEqual(svg({ ...base, ...change }).svg, svg(base).svg, `${Object.keys(change)} changes the image`);
 assert.match(svg(base).status, /^\d+ columns · Stem runes · Tidepool · \d+ glyphs$/);
 assert.match(svg({ ...base, script: 2, palette: 1 }).status, /Pinhole code · Ember/);
 { const { scene } = svg(base), start = scene.fall; scene.step(base, .05); assert(Math.abs(scene.fall - start - .05 * RAIN_RATE) < 1e-9); scene.step({ ...base, a: 0 }, 1); assert(Math.abs(scene.fall - start - .05 * RAIN_RATE) < 1e-9, 'Zero speed holds still'); }
 { const heavy = svg({ ...base, b: 120, zoom: .4, a: 4, time: 1e4 }); assert(heavy.calls < 400000, 'Densest setting stays within a bounded draw budget'); }
+
+// Lens defaults keep existing previews; a hidden lens never displaces glyphs, whatever its size.
+assert.equal(svg({ ...base, lens: true, lensSize: .2 }).svg, svg(base).svg);
+assert.equal(svg({ ...base, lens: false, lensSize: .6 }).svg, svg({ ...base, lens: false, lensSize: .1 }).svg);
+// Input mapping and loudness.
+const sig = { x: .25, y: 1, audio: .5 };
+assert.equal(driveValue('slider', 0, 4, sig, 1.3), 1.3); assert.equal(driveValue('mouse-x', 0, 4, sig, 1.3), 1); assert.equal(driveValue('mouse-y', .05, .6, sig, .2), .6);
+assert.equal(driveValue('audio', 12, 120, sig, 48, 1), 66, 'Stepped parameters snap'); assert.equal(driveValue('audio', 0, 4, { ...sig, audio: null }, 2), 2, 'No audio keeps the current value');
+assert.equal(driveValue('mouse-x', 0, 4, { x: 3 }, 0), 4, 'Signals are clamped');
+{ const loud = createLoudness(); for (let i = 0; i < 60; i++) loud.push(0); assert(loud.level < .01); for (let i = 0; i < 30; i++) loud.push(.2); assert(loud.level > .9, 'Loud input rises quickly'); for (let i = 0; i < 30; i++) loud.push(.002); assert(loud.level < .2, 'Silence releases'); for (let i = 0; i < 600; i++) loud.push(.015); assert(loud.level > .5, 'Auto-gain adapts to a quiet microphone'); }
 
 // Player integration: keyboard, buttons, pause and reduced motion.
 const source = readFileSync('dist/wild.js', 'utf8').replace(/^import .*$/gm, '') + '\nglobalThis.inspect=()=>({state,scene,paused});';
