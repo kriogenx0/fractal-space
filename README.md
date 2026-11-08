@@ -388,3 +388,40 @@ circuit marks, pinhole code, shard angles); R invents a new seeded alphabet;
 Color cycles five palettes. Fall speed and Columns are adjustable. Every glyph
 is a vector stroke pattern on a 3 × 4 grid, not a font character, so the
 piece draws identically everywhere and its preview is recorded as SVG.
+
+## Screensaver
+
+`dist/screensaver/` (served at `/screensaver/`) turns the index into a screensaver. It loads a new
+experiment every minute, on the minute, crossfading between them. During each
+minute, the elapsed seconds 0 → 60 sweep one of that experiment's sliders
+(picked at random) from its minimum to its maximum. Controls, captions and the
+cursor are hidden; a short caption names the work and the slider after each
+switch. Every `*.html?work=` card on the index is included automatically;
+Orbit Breach, Spectrum and Tandava are left out because they need play, a
+microphone or scrolling.
+
+Options: `?seconds=60` (10–3600), `?caption=fade|always|off`,
+`?param=random|first|param-b`, and `?work=math/torus,fractal/mandelbulb` to
+restrict the playlist. The page is `noindex` and is not linked from the index.
+
+### macOS
+
+`macos/` holds a native `FractalSpace.saver`: a `ScreenSaverView` with a
+`WKWebView` that serves a bundled copy of `dist/` through a custom URL scheme,
+so it works offline. Build it on a Mac with `bash macos/build.sh`, or download
+the `FractalSpace.saver` artifact from the **macOS screensaver** GitHub
+Actions run. Unzip it and double-click `FractalSpace.saver` to install, then
+choose it in System Settings → Screen Saver. The bundle is ad-hoc signed, not
+notarized: if macOS blocks it, open System Settings → Privacy & Security and
+choose **Open Anyway**, or run
+`xattr -dr com.apple.quarantine ~/Library/Screen\ Savers/FractalSpace.saver`.
+
+To play the live site instead of the bundled copy:
+
+```sh
+defaults -currentHost write org.fractalspace.screensaver URL "https://fractalspace.org/screensaver/"
+```
+
+Delete that key to return to the bundled copy. No custom bundle is needed for
+a quick try: [WebViewScreenSaver](https://github.com/liquidx/webviewscreensaver)
+pointed at `https://fractalspace.org/screensaver/` behaves the same.

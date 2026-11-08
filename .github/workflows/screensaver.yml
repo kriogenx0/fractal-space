@@ -1,0 +1,29 @@
+name: macOS screensaver
+
+on:
+  push:
+    branches: [main]
+    paths: ['macos/**', 'dist/**', '.github/workflows/screensaver.yml']
+  pull_request:
+    paths: ['macos/**', 'dist/screensaver/**', '.github/workflows/screensaver.yml']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: macos-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          persist-credentials: false
+      - name: Build FractalSpace.saver
+        run: bash macos/build.sh
+      - name: Package
+        run: ditto -c -k --keepParent macos/build/FractalSpace.saver FractalSpace.saver.zip
+      - uses: actions/upload-artifact@v4
+        with:
+          name: FractalSpace.saver
+          path: FractalSpace.saver.zip
