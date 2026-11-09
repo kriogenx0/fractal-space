@@ -10,9 +10,15 @@ iframe.on{opacity:1}
 #caption progress{display:block;width:180px;height:2px;margin-top:10px;appearance:none;border:0;background:rgba(255,255,255,.2)}
 #caption progress::-webkit-progress-bar{background:rgba(255,255,255,.2)}
 #caption progress::-webkit-progress-value{background:rgba(255,255,255,.85)}
+#loader{position:fixed;inset:0;z-index:3;display:grid;place-content:center;justify-items:center;gap:18px;color:rgba(255,255,255,.7);font:500 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.14em;text-transform:uppercase;transition:opacity 1s ease;pointer-events:none}
+#loader i{width:34px;height:34px;border-radius:50%;border:2px solid rgba(255,255,255,.18);border-top-color:rgba(255,255,255,.85);animation:spin 1s linear infinite}
+#loader.done{opacity:0}
+@keyframes spin{to{transform:rotate(360deg)}}
+@media (prefers-reduced-motion:reduce){#loader i{animation-duration:3s}}
 #caption progress::-moz-progress-bar{background:rgba(255,255,255,.85)}
 </style></head><body>
 <iframe id="frame-a" title="Screensaver artwork" tabindex="-1"></iframe><iframe id="frame-b" title="Screensaver artwork" tabindex="-1"></iframe>
+<div id="loader" role="status"><i aria-hidden="true"></i><span>Loading Fractal Space…</span></div>
 <div id="caption" aria-live="polite"><b id="caption-title"></b><span id="caption-param"></span><progress id="caption-progress" max="1" value="0"></progress></div>
 <script type="module" src="screensaver.js"></script>
 </body></html>

@@ -21,6 +21,14 @@ jobs:
           persist-credentials: false
       - name: Build FractalSpace.saver
         run: bash macos/build.sh
+      - name: Smoke test the built saver
+        run: swift macos/smoke.swift macos/build/FractalSpace.saver saver-snapshot.png
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: saver-snapshot
+          path: saver-snapshot.png
+          if-no-files-found: ignore
       - name: Package
         run: ditto -c -k --keepParent macos/build/FractalSpace.saver FractalSpace.saver.zip
       - uses: actions/upload-artifact@v4
