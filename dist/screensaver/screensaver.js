@@ -111,6 +111,7 @@ function load(slot) {
       loading = null;
       drive(state, phaseOf(Date.now()), true);
       frame.classList.add('on');
+      $('#loader').classList.add('done');
       caption(state);
       if (previous) {
         previous.frame.classList.remove('on');
