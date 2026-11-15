@@ -22,3 +22,6 @@ services:
       timeout: 3s
       retries: 3
       start_period: 5s
+    labels:
+      # HSTS: 1 week, no includeSubDomains/preload. Coolify attaches middlewares defined here to its routers for the domain.
+      - traefik.http.middlewares.hsts-fractalspace.headers.stsseconds=604800
