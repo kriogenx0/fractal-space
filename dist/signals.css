@@ -1,0 +1,36 @@
+/* MIT License — Copyright (c) 2026 Alex Vaos. See LICENSE.txt. */
+/* Global parameters panel (signals.js). Uses the shared theme tokens. */
+.fs-signals{--fs-bg:var(--ui-overlay,#f4f3edf5);--fs-ink:var(--ui-ink,#252620);--fs-muted:var(--ui-muted,#565f50);--fs-line:var(--ui-line,#c7ccbf);--fs-surface:var(--ui-surface,#e7ebdf);--fs-accent:var(--ui-accent,#a23919);position:fixed;left:max(16px,env(safe-area-inset-left));bottom:max(16px,env(safe-area-inset-bottom));z-index:60;font:12px/1.4 system-ui,sans-serif;color:var(--fs-ink);pointer-events:none}
+.fs-signals>*{pointer-events:auto}
+.fs-signals button,.fs-signals select{font:inherit;color:inherit}
+.fs-signals label{display:block;margin:0;padding:0;gap:0;font-size:inherit}
+.fs-signals .fs-signals-map input[type=range]{width:100%;height:auto;margin:0}
+.fs-signals-toggle{display:inline-flex;align-items:center;gap:6px;min-height:36px;padding:6px 12px;border:1px solid var(--fs-line);border-radius:999px;background:var(--fs-bg);cursor:pointer;backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);letter-spacing:.04em}
+.fs-signals.open .fs-signals-toggle{display:none}
+.fs-signals-panel{box-sizing:border-box;width:min(380px,calc(100vw - 32px));max-height:min(78vh,640px);overflow:auto;padding:14px;border:1px solid var(--fs-line);border-radius:10px;background:var(--fs-bg);box-shadow:0 12px 40px #0004;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px)}
+.fs-signals-panel[hidden]{display:none}
+.fs-signals-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;font-size:13px}
+.fs-signals-close{border:0;background:none;font-size:20px!important;line-height:1;cursor:pointer;padding:0 4px}
+.fs-signals h3{margin:14px 0 6px;font-size:11px;letter-spacing:.08em;text-transform:uppercase;font-weight:600}
+.fs-signals h3 small{font-weight:400;color:var(--fs-muted);text-transform:none;letter-spacing:0;margin-left:4px}
+.fs-signals-sources,.fs-signals-transport,.fs-signals-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.fs-signals-transport{margin-top:6px}
+.fs-signals-sources button,.fs-signals-transport button,.fs-signals-actions button{min-height:30px;padding:4px 10px;border:1px solid var(--fs-line);border-radius:4px;background:var(--fs-surface);cursor:pointer}
+.fs-signals button:disabled{opacity:.45;cursor:default}
+.fs-signals-demo{border-color:var(--fs-accent)!important}
+.fs-signals-demo small{color:var(--fs-muted);margin-left:4px}
+.fs-signals-status{color:var(--fs-muted);flex:1 1 140px;min-width:0}
+.fs-signals ol{list-style:none;margin:0;padding:0;display:grid;gap:6px}
+.fs-signals-globals li{display:grid;grid-template-columns:26px 1fr 80px;gap:8px;align-items:center}
+.fs-signals-globals b{font-weight:600;color:var(--fs-accent)}
+.fs-signals select{width:100%;min-height:28px;padding:2px 4px;border:1px solid var(--fs-line);border-radius:4px;background:var(--fs-surface)}
+.fs-signals .fs-signals-meter{display:block;width:100%;height:6px;margin:0;border-radius:3px;background:var(--fs-surface);overflow:hidden}
+.fs-signals .fs-signals-meter>span{display:block;width:100%;height:100%;margin:0;border-radius:0;background:var(--fs-accent);transform-origin:left;transform:scaleX(0)}
+.fs-signals-map li{display:grid;grid-template-columns:1fr 14px 52px 70px 22px;gap:6px;align-items:center}
+.fs-signals-arrow{color:var(--fs-muted);text-align:center}
+.fs-signals-map input[type=range]{width:100%;margin:0;accent-color:var(--fs-accent)}
+.fs-signals-remove{border:0;background:none;cursor:pointer;font-size:16px!important;line-height:1;color:var(--fs-muted)!important}
+.fs-signals-actions{margin-top:8px}
+.fs-signals-note{margin:10px 0 0;color:var(--fs-muted);font-size:11px}
+.fs-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+@media (max-width:520px){.fs-signals-map li{grid-template-columns:1fr 14px 60px}.fs-signals-map li label:nth-of-type(3){grid-column:1/3}.fs-signals-remove{justify-self:end}}
