@@ -11,7 +11,7 @@
    plays or moves until the visitor starts a song or picks a live input. */
 (() => {
   'use strict';
-  const DEMO = { src: 'audio/go-away-robot-forgot-me-not.mp3', title: 'Forgot Me Not', artist: 'Go Away Robot' };
+  const DEMO = { src: 'audio/go-away-robot-christmas-batman.mp3', title: 'Christmas Batman', artist: 'Go Away Robot' };
   const BANDS = [
     { key: 'bass', name: 'Bass', lo: 20, hi: 250 },
     { key: 'mids', name: 'Mids', lo: 250, hi: 2000 },

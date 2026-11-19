@@ -11,7 +11,7 @@ third-party material or remove existing notices.
 
 Bundled music — not covered by the MIT grant
 --------------------------------------------
-dist/audio/go-away-robot-forgot-me-not.mp3 is “Forgot Me Not” from the
+dist/audio/go-away-robot-christmas-batman.mp3 is “Christmas Batman” from the
 Go Away Robot EP (2015), © Go Away Robot (https://goawayrobot.com), all
 rights reserved. It is included only as the demo song for the site's
 global parameters panel and is not licensed for reuse.
